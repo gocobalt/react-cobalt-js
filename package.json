@@ -1,7 +1,7 @@
 {
-  "name": "react-cobalt-js",
-  "version": "1.0.0",
-  "description": "Cobalt frontend SDK",
+  "name": "@cobaltio/react-cobalt-js",
+  "version": "0.0.1",
+  "description": "React components for Cobalt frontend SDK",
   "author": "iamtraction",
   "license": "MIT",
   "repository": "Breakout-Embed/cobalt.js",
