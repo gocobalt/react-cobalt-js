@@ -4,7 +4,7 @@
   "description": "React components for Cobalt frontend SDK",
   "author": "iamtraction",
   "license": "MIT",
-  "repository": "Breakout-Embed/cobalt.js",
+  "repository": "Breakout-Embed/react-cobalt-js",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
