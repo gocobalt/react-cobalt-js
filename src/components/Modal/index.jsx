@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Cobalt from "cobalt.js";
+import Cobalt from "@cobaltio/cobalt-js";
 
 const cobalt = new Cobalt({ baseUrl: "https://embedapi.gocobalt.io" });
 
