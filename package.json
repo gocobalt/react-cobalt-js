@@ -8,6 +8,10 @@
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "engines": {
     "node": ">=10"
   },
@@ -24,7 +28,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "cobalt.js": "Breakout-Embed/cobalt-js",
+    "cobalt.js": "@cobaltio/cobalt-js",
     "react": ">=16.8.0"
   },
   "devDependencies": {
