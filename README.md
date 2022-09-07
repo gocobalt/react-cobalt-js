@@ -2,27 +2,25 @@
 
 > Cobalt frontend SDK
 
-[![NPM](https://img.shields.io/npm/v/react-cobalt-js.svg)](https://www.npmjs.com/package/react-cobalt-js) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@cobaltio/react-cobalt-js.svg)](https://www.npmjs.com/package/@cobaltio/react-cobalt-js) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save react-cobalt-js
+npm install --save @cobaltio/react-cobalt-js
 ```
 
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
+import { Modal } from "@cobaltio/react-cobalt-js";
 
-import MyComponent from 'react-cobalt-js'
-import 'react-cobalt-js/dist/index.css'
+// ...
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
-  }
-}
+<Modal
+    templateId={ "COBALT_WORKFLOW_TEMPLATE_ID" }
+    sessionToken={ "COBALT_SESSION_TOKEN" }
+/>
 ```
 
 ## License
