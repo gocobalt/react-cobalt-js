@@ -16,14 +16,14 @@ class Modal extends React.Component {
     }
 
     saveNode = () => {
-        cobalt.saveNode(this.state.selectedNode, this.state.inputData)
+        cobalt.saveNode(state.workflow?.workflow_id, this.state.selectedNode, this.state.inputData)
         .then(console.log)
         .catch(console.error);
     };
 
     componentDidMount() {
-        cobalt.token = this.props.templateToken;
-        cobalt.installTemplate()
+        cobalt.token = this.props.sessionToken;
+        cobalt.installTemplate(this.props.templateId)
         .then(data => this.setState({ workflow: data }))
         .catch(console.error);
     }
@@ -119,7 +119,7 @@ class Modal extends React.Component {
 
 Modal.propTypes = {
     templateId: PropTypes.string,
-    templateToken: PropTypes.string,
+    sessionToken: PropTypes.string,
     onClose: PropTypes.func,
 };
 
