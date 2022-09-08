@@ -42,16 +42,18 @@ class Modal extends React.Component {
                 <div style={ styles.container } onClick={ e => e.stopPropagation() }>
                     <div style={{
                         ...styles.section,
-                        backgroundColor: "rgba(0, 0, 0, .05)",
+                        padding: 24,
+                        borderRight: "1px solid #dfe3e8",
                     }}>
                         <div style={ styles.sidebarHeader }>
-                            <h3>{ this.state.workflow?.workflow_name }</h3>
-                            <p>{ this.state.workflow?.workflow_description }</p>
+                            <div style={ styles.sidebarHeaderTitle }>{ this.state.workflow?.workflow_name || "Workflow" }</div>
+                            <div style={{ color: "#919eab" }}>{ this.state.workflow?.workflow_description || "Connect accounts and configure the workflow." }</div>
                         </div>
                         <div style={ styles.sidebarContent }>
                             {
                                 this.state.workflow?.configure?.map(node =>
                                     <div
+                                        key={ node.node_id }
                                         style={{
                                             ...styles.sidebarItem,
                                             ...(this.state.selectedNode === node.node_id ? styles.sidebarItemSelected : {}),
@@ -84,10 +86,10 @@ class Modal extends React.Component {
                                 </div>
                             )
                         }
-                        <div>
+                        <div key={ this.state.selectedNode } style={ styles.contentBody }>
                             {
                                 this.state.workflow?.configure?.find(n => n.node_id === this.state.selectedNode)?.fields?.map(field =>
-                                    <div>
+                                    <div key={ field.name }>
                                         <div style={ styles.inputLabel }>{ field.name }</div>
                                         <input
                                             type={ field.type }
@@ -103,9 +105,9 @@ class Modal extends React.Component {
                         </div>
                         {
                             this.state.selectedNode && (
-                                <div style={ styles.footer }>
+                                <div style={ styles.contentFooter }>
                                     <button style={ styles.button } onClick={ this.saveNode }>
-                                        Next
+                                        Save
                                     </button>
                                 </div>
                             )
@@ -136,26 +138,37 @@ const styles = {
         top: 0,
         left: 0,
         zIndex: 2000,
+        overflow: "auto",
     },
     container: {
         display: "flex",
         flexDirection: "row",
-        // minWidth: 300,
+        width: "100%",
+        height: "100%",
+        maxWidth: 900,
+        maxHeight: 700,
         borderRadius: 15,
         backgroundColor: "white",
         color: "black",
         boxShadow: "8px 24px 24px 12px rgba(0, 0, 0, .1)",
     },
     section: {
-        flex: 1,
-        padding: 40,
-    },
-    sidebarHeader: {
-        marginBottom: 20,
-    },
-    sidebarContent: {
         display: "flex",
         flexDirection: "column",
+        flex: 1,
+    },
+    sidebarHeader: {
+        marginBottom: 40,
+    },
+    sidebarHeaderTitle: {
+        fontSize: 24,
+        fontWeight: "bold",
+    },
+    sidebarContent: {
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        overflowY: "auto",
     },
     sidebarItem: {
         display: "flex",
@@ -163,8 +176,8 @@ const styles = {
         marginBottom: 10,
         padding: 5,
         cursor: "pointer",
-        border: "1px solid rgba(0, 0, 0, .05)",
-        borderRadius: 8,
+        border: "1px solid #dfe3e8",
+        borderRadius: 5,
     },
     sidebarItemIcon: {
         borderRadius: 8,
@@ -176,7 +189,19 @@ const styles = {
     contentHeader: {
         display: "flex",
         alignItems: "center",
-        marginBottom: 20,
+        padding: "24px 24px 16px",
+        borderBottom: "1px solid #dfe3e8",
+    },
+    contentBody: {
+        flex: 1,
+        padding: "16px 24px",
+        overflowY: "auto",
+    },
+    contentFooter: {
+        display: "flex",
+        justifyContent: "flex-end",
+        padding: "16px 24px 24px",
+        borderTop: "1px solid #dfe3e8",
     },
     inputLabel: {
         marginBottom: 5,
@@ -184,20 +209,18 @@ const styles = {
     inputText: {
         width: "100%",
         marginBottom: 15,
-        padding: "10px 15px",
-        border: "1px solid rgba(0, 0, 0, .1)",
+        padding: "10px",
+        border: "1px solid #dfe3e8",
         borderRadius: 8,
-    },
-    footer: {
-        display: "flex",
-        justifyContent: "flex-end",
-        marginTop: 20,
     },
     button: {
-        padding: "10px 15px",
-        backgroundColor: "rgba(0, 0, 0, .1)",
-        border: "none",
+        padding: "10px 20px",
+        backgroundColor: "transparent",
+        border: "2px solid #6129ff",
         borderRadius: 8,
+        color: "#6129ff",
+        fontWeight: "bold",
+        textTransform: "capitalize",
         cursor: "pointer",
     },
 };
