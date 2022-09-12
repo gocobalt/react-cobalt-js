@@ -1,5 +1,5 @@
-import Cobalt from "./components/Cobalt";
 import Modal from "./components/Modal";
+import Installer from "./components/Installer";
 import { Context, Provider } from "./components/Provider";
 
-export { Cobalt, Context, Modal, Provider };
+export { Context, Installer, Modal, Provider };
