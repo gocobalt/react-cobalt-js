@@ -16,11 +16,31 @@ const Header = () => {
     return (
         <div style={{
             display: selectedItem ? "none" : "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 20,
-            borderBottom: "1px solid lightgray",
+            flexDirection: "column",
+            alignItems: "flex-start",
         }}>
+            <div style={{
+                width: "100%",
+                padding: 20,
+                borderBottom: "1px solid lightgray",
+            }}>
+                <div style={{ fontSize: 18, fontWeight: "bold" }}>
+                    { workflow?.name }
+                </div>
+                <div style={{ fontSize: 14, color: "gray" }}>
+                    { workflow?.description }
+                </div>
+            </div>
+
+            <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "10px 15px 0px",
+                padding: 10,
+                borderRadius: 8,
+                backgroundColor: "rgba(0, 0, 0, .04)",
+            }}>
             {
                 Object.values(STEPS).map((t, i) =>
                     <div
@@ -33,7 +53,7 @@ const Header = () => {
                         <span
                             onClick={ () => selectStep(t) }
                             style={{
-                                fontSize: 18,
+                                fontSize: 16,
                                 fontWeight: "bold",
                                 opacity: step === t ? 1 : .5,
                                 cursor: "pointer",
@@ -49,9 +69,7 @@ const Header = () => {
                                     justifyContent: "center",
                                     width: 25,
                                     height: 25,
-                                    margin: "0 15px",
-                                    borderRadius: "50%",
-                                    backgroundColor: "lightgray",
+                                    margin: "0 5px",
                                     color: "gray",
                                     fontSize: 16,
                                 }}>&#10095;</span>
@@ -60,6 +78,7 @@ const Header = () => {
                     </div>
                 )
             }
+            </div>
         </div>
     );
 };

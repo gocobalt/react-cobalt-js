@@ -37,6 +37,7 @@ const Content = ({ workflow }) => {
                                     width: 25,
                                     height: 25,
                                     border: "none",
+                                    backgroundColor: "rgba(0, 0, 0, .05)",
                                     borderRadius: "50%",
                                     color: "gray",
                                     fontSize: 16,
