@@ -5,7 +5,7 @@ import { Context as InstallerContext } from "../Provider";
 
 const Footer = ({ disabled }) => {
     const { cobalt } = useContext(SessionContext);
-    const { setStep, STEPS, workflow, selectedItem, inputData } = useContext(InstallerContext);
+    const { setStep, STEPS, workflow, selectedItem, setSelectedItem, inputData } = useContext(InstallerContext);
 
     const connectApp = () => {
         cobalt.getAppAuthStatus(selectedItem)
@@ -15,6 +15,7 @@ const Footer = ({ disabled }) => {
                 console.log(selectedItem, "ALREADY CONNECTED", connected);
                 // this.state.connectWindow?.close();
                 // this.setState({ connectWindow: null });
+                setSelectedItem(null);
             } else {
                 cobalt.getAppAuthUrl(selectedItem)
                 .then(authUrl => {
@@ -28,8 +29,11 @@ const Footer = ({ disabled }) => {
     };
 
     const saveNode = () => {
+        // TODO: handle error
         cobalt.saveNode(workflow?.workflow_id, selectedItem, inputData)
-        .then(console.log)
+        .then(() => {
+            setSelectedItem(null);
+        })
         .catch(console.error);
     };
 
