@@ -8,7 +8,7 @@ const Content = ({ workflow }) => {
     useEffect(() => {
         setWorkflow(workflow);
         if (workflow?.applications?.length === 1) {
-            setSelectedItem(workflow?.applications[0]);
+            setSelectedItem(workflow?.applications[0].app_type);
         }
     }, [ workflow ]);
 
@@ -46,8 +46,12 @@ const Content = ({ workflow }) => {
                                 &#10094;
                             </button>
                             <div>
-                                <div style={{ fontSize: 18, fontWeight: "bold" }}>{ workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || selectedItem }</div>
-                                <div style={{ fontSize: 14, color: "gray" }}>{ workflow?.configure?.find(n => n.node_id === selectedItem)?.node_description }</div>
+                                <div style={{ fontSize: 18, fontWeight: "bold" }}>
+                                    { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || workflow?.applications?.find(a => a.app_type === selectedItem)?.name }
+                                </div>
+                                <div style={{ fontSize: 14, color: "gray" }}>
+                                    { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_description }
+                                </div>
                             </div>
                         </div>
                     )
@@ -64,6 +68,9 @@ const Content = ({ workflow }) => {
                 {
                     selectedItem
                     ?   <div>
+                            <div style={{ fontSize: 14, color: "gray" }}>
+                                { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
+                            </div>
                             {
                                 workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.map(field =>
                                     <div key={ field.name }>
@@ -101,7 +108,7 @@ const Content = ({ workflow }) => {
                     :   step === STEPS.CONNECT
                         ?   workflow?.applications?.map(item =>
                                 <div
-                                    key={ item }
+                                    key={ item.app_type }
                                     style={{
                                         display: "flex",
                                         alignItems: "center",
@@ -118,14 +125,14 @@ const Content = ({ workflow }) => {
                                         gap: 10,
                                     }}>
                                         <img
-                                            src={ item }
+                                            src={ item.icon }
                                             width={ 30 }
                                             height={ 30 }
                                             style={{
                                                 borderRadius: 8,
                                             }}
                                         />
-                                        <div>{ item }</div>
+                                        <div>{ item.name }</div>
                                     </div>
                                     <button
                                         style={{
@@ -139,7 +146,7 @@ const Content = ({ workflow }) => {
                                         }}
                                         onClick={ () => {
                                             setInputData({});
-                                            setSelectedItem(item);
+                                            setSelectedItem(item.app_type);
                                         }}
                                     >
                                         Connect
