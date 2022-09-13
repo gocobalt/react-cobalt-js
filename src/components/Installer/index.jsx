@@ -10,9 +10,11 @@ import Header from "./Header";
 const Installer = ({ templateId, style }) => {
     const { cobalt, sessionToken } = useContext(SessionContext);
     const [ workflow, setWorkflow ] = useState(null);
+    const [ loading, setLoading ] = useState(false);
     const [ error, setError ] = useState(null);
 
     useEffect(() => {
+        setLoading(true);
         cobalt.token = sessionToken;
 
         cobalt.installTemplate(templateId)
@@ -23,11 +25,33 @@ const Installer = ({ templateId, style }) => {
                 title: "Install Error",
                 message: "Error when trying to install the workflow. Please try again.",
             });
+        })
+        .finally(() => {
+            setLoading(false);
         });
     }, [ sessionToken ]);
 
     if (error) {
         return <ErrorComponent title={ error.title } message={ error.message } />;
+    }
+
+    if (loading) {
+        return (
+            <div style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 25,
+            }}>
+                <img
+                    src="https://i.imgur.com/nEm368w.gif"
+                    width={ 50 }
+                    height={ 50 }
+                />
+            </div>
+        );
     }
 
     return (
