@@ -134,23 +134,32 @@ const Content = ({ workflow }) => {
                                         />
                                         <div>{ item.name }</div>
                                     </div>
-                                    <button
-                                        style={{
-                                            padding: "5px 10px",
-                                            border: "none",
-                                            borderRadius: 8,
-                                            color: "black",
-                                            fontWeight: 600,
-                                            fontSize: 14,
-                                            cursor: "pointer",
-                                        }}
-                                        onClick={ () => {
-                                            setInputData({});
-                                            setSelectedItem(item.app_type);
-                                        }}
-                                    >
-                                        Connect
-                                    </button>
+                                    {
+                                        item.configured
+                                        ?   <img
+                                                src={ "https://img.icons8.com/color/48/000000/checked--v1.png" }
+                                                width={ 20 }
+                                                height={ 20 }
+                                                title="Connected"
+                                            />
+                                        :   <button
+                                                style={{
+                                                    padding: "5px 10px",
+                                                    border: "none",
+                                                    borderRadius: 8,
+                                                    color: "black",
+                                                    fontWeight: 600,
+                                                    fontSize: 14,
+                                                    cursor: "pointer",
+                                                }}
+                                                onClick={ () => {
+                                                    setInputData({});
+                                                    setSelectedItem(item.app_type);
+                                                }}
+                                            >
+                                                Connect
+                                            </button>
+                                    }
                                 </div>
                             )
                         :   step === STEPS.CONFIGURE
