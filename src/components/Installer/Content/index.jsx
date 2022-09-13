@@ -110,7 +110,6 @@ const Content = ({ workflow }) => {
                                         padding: 10,
                                         border: "1px solid lightgray",
                                         borderRadius: 8,
-                                        boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)",
                                     }}
                                 >
                                     <div style={{
@@ -120,8 +119,8 @@ const Content = ({ workflow }) => {
                                     }}>
                                         <img
                                             src={ item }
-                                            width={ 35 }
-                                            height={ 35 }
+                                            width={ 30 }
+                                            height={ 30 }
                                             style={{
                                                 borderRadius: 8,
                                             }}
@@ -159,7 +158,6 @@ const Content = ({ workflow }) => {
                                             padding: 10,
                                             border: "1px solid lightgray",
                                             borderRadius: 8,
-                                            boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.2), 0 12px 24px -4px rgba(0, 0, 0, 0.12)",
                                         }}
                                     >
                                         <div style={{
@@ -169,8 +167,8 @@ const Content = ({ workflow }) => {
                                         }}>
                                             <img
                                                 src={ item.node_icon }
-                                                width={ 35 }
-                                                height={ 35 }
+                                                width={ 30 }
+                                                height={ 30 }
                                                 style={{
                                                     borderRadius: 8,
                                                 }}
