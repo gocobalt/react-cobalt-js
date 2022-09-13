@@ -25,7 +25,7 @@ const Content = ({ workflow }) => {
                             display: "flex",
                             alignItems: "center",
                             gap: 15,
-                            padding: 10,
+                            padding: 20,
                             borderBottom: "1px solid lightgray",
                         }}>
                             <button
