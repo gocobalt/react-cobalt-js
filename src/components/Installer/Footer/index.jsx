@@ -43,17 +43,17 @@ const Footer = ({ disabled }) => {
             borderTop: "1px solid lightgray",
         }}>
             <button
-                disabled={ disabled }
+                disabled={ !selectedItem && disabled }
                 onClick={ selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? saveNode : connectApp : () => setStep(STEPS.CONFIGURE) }
                 style={{
                     width: "100%",
                     padding: 15,
                     border: "none",
                     borderRadius: 8,
-                    color: disabled ? "lightgray" : "black",
+                    color: !selectedItem && disabled ? "lightgray" : "black",
                     fontWeight: "bold",
                     fontSize: 16,
-                    cursor: disabled ? "not-allowed" : "pointer",
+                    cursor: !selectedItem && disabled ? "not-allowed" : "pointer",
                 }}
             >
                 { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : "Authorize" : "Proceed" }

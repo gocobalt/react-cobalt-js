@@ -44,7 +44,7 @@ const Installer = ({ templateId, style }) => {
                 <Header />
                 <Content workflow={ workflow } />
                 <Footer
-                    disabled={ false }
+                    disabled={ workflow?.applications?.some(app => !app.configured) }
                 />
             </div>
         </Provider>
