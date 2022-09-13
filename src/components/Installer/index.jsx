@@ -36,6 +36,7 @@ const Installer = ({ templateId, style }) => {
                 display: "flex",
                 flexDirection: "column",
                 minWidth: 360,
+                maxWidth: 360,
                 minHeight: 420,
                 maxHeight: 750,
                 ...style,
