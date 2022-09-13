@@ -58,6 +58,7 @@ const Footer = ({ disabled }) => {
             >
                 { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : "Authorize" : "Proceed" }
             </button>
+            <div style={{ marginTop: 10, textAlign: "center", fontSize: 12, opacity: .5 }}>Powered by <a href="https://gocobalt.io" target="_blank">Cobalt</a></div>
         </div>
     )
 };
