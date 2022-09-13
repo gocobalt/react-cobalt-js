@@ -7,6 +7,9 @@ const Content = ({ workflow }) => {
 
     useEffect(() => {
         setWorkflow(workflow);
+        if (workflow?.applications?.length === 1) {
+            setSelectedItem(workflow?.applications[0]);
+        }
     }, [ workflow ]);
 
     return (

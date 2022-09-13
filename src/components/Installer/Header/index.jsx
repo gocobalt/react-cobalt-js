@@ -3,7 +3,15 @@ import React, { useContext } from "react";
 import { Context } from "../Provider";
 
 const Header = () => {
-    const { step, setStep, STEPS } = useContext(Context);
+    const { step, setStep, STEPS, workflow, setSelectedItem } = useContext(Context);
+
+    const selectStep = (step) => {
+        setStep(step);
+
+        if (step === STEPS.CONNECT && workflow?.applications?.length === 1) setSelectedItem(workflow?.applications[0]);
+        else if (step === STEPS.CONFIGURE && workflow?.configure?.length === 1) setSelectedItem(workflow?.configure[0].node_id);
+        else setSelectedItem(null);
+    };
 
     return (
         <div style={{
@@ -23,7 +31,7 @@ const Header = () => {
                         }}
                     >
                         <span
-                            onClick={ () => setStep(t) }
+                            onClick={ () => selectStep(t) }
                             style={{
                                 fontSize: 18,
                                 fontWeight: "bold",
