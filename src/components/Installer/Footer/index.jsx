@@ -5,22 +5,47 @@ import { Context as InstallerContext } from "../Provider";
 
 const Footer = ({ disabled }) => {
     const { cobalt } = useContext(SessionContext);
-    const { setStep, STEPS, workflow, selectedItem, setSelectedItem, inputData } = useContext(InstallerContext);
+    const { setStep, STEPS, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow } = useContext(InstallerContext);
+
+    const setConnected = (appType) => {
+        const appIndex = workflow?.applications?.findIndex(a => a.app_type === appType);
+        if (appIndex > -1) {
+            const newApp = { ...workflow.applications[appIndex] };
+            newApp.configured = true;
+
+            const newApps = [ ...workflow.applications ];
+            newApps.splice(appIndex, 1, newApp);
+
+            setWorkflow({ ...workflow, applications: newApps });
+        }
+    };
 
     const connectApp = () => {
         cobalt.getAppAuthStatus(selectedItem)
         .then(connected => {
             if (connected === true) {
-                // TODO: set connected status
-                console.log(selectedItem, "ALREADY CONNECTED", connected);
-                // this.state.connectWindow?.close();
-                // this.setState({ connectWindow: null });
+                setConnected(selectedItem);
+
+                connectWindow?.close();
+                setConnectWindow(null);
+
                 setSelectedItem(null);
             } else {
                 cobalt.getAppAuthUrl(selectedItem)
                 .then(authUrl => {
                     const connectWindow = window.open(authUrl);
-                    // this.setState({ connectWindow });
+                    setConnectWindow(connectWindow);
+
+                    // keep checking connection status
+                    setInterval(() => {
+                        cobalt.getAppAuthStatus(selectedItem)
+                        .then(connected => {
+                            if (connected === true) {
+                                setConnected(selectedItem);
+                            }
+                        })
+                        .catch(console.error);
+                    }, 3e3);
                 })
                 .catch(console.error);
             }
