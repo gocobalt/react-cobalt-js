@@ -13,6 +13,15 @@ export const Provider = ({ children }) => {
     const [ selectedItem, setSelectedItem ] = useState(null);
     const [ inputData, setInputData ] = useState({});
     const [ connectWindow, setConnectWindow ] = useState(null);
+    const [ connectTimer, setConnectTimer ] = useState(null);
+
+    const selectItem = (item) => {
+        setSelectedItem(item);
+        if (connectTimer) {
+            clearInterval(connectTimer);
+            setConnectTimer(null);
+        }
+    }
 
     return (
         <Context.Provider value={{
@@ -22,11 +31,13 @@ export const Provider = ({ children }) => {
             workflow,
             setWorkflow,
             selectedItem,
-            setSelectedItem,
+            setSelectedItem: selectItem,
             inputData,
             setInputData,
             connectWindow,
             setConnectWindow,
+            connectTimer,
+            setConnectTimer,
         }}>
             { children }
         </Context.Provider>
