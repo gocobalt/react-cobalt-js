@@ -12,6 +12,7 @@ export const Provider = ({ children }) => {
     const [ workflow, setWorkflow ] = useState(null);
     const [ selectedItem, setSelectedItem ] = useState(null);
     const [ inputData, setInputData ] = useState({});
+    const [ connectWindow, setConnectWindow ] = useState(null);
 
     return (
         <Context.Provider value={{
@@ -24,6 +25,8 @@ export const Provider = ({ children }) => {
             setSelectedItem,
             inputData,
             setInputData,
+            connectWindow,
+            setConnectWindow,
         }}>
             { children }
         </Context.Provider>
