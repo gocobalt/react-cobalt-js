@@ -81,7 +81,7 @@ const Footer = ({ disabled }) => {
                     cursor: !selectedItem && disabled ? "not-allowed" : "pointer",
                 }}
             >
-                { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : "Authorize" : "Proceed" }
+                { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : workflow?.applications?.find(a => a.app_type === selectedItem)?.configured ? "Authorized" : "Authorize" : "Proceed" }
             </button>
             <div style={{ marginTop: 5, textAlign: "center", fontSize: 12, opacity: .5 }}>Powered by <a href="https://gocobalt.io" target="_blank">Cobalt</a></div>
         </div>
