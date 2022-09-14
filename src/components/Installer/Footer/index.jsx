@@ -37,15 +37,20 @@ const Footer = ({ disabled }) => {
                     setConnectWindow(connectWindow);
 
                     // keep checking connection status
-                    setInterval(() => {
-                        cobalt.getAppAuthStatus(selectedItem)
-                        .then(connected => {
-                            if (connected === true) {
-                                setConnected(selectedItem);
-                            }
-                        })
-                        .catch(console.error);
-                    }, 3e3);
+                    const interval = setInterval(selectedApp => {
+                        if (selectedApp === selectedItem) {
+                            cobalt.getAppAuthStatus(selectedItem)
+                            .then(connected => {
+                                if (connected === true) {
+                                    setConnected(selectedItem);
+                                    clearInterval(interval);
+                                }
+                            })
+                            .catch(console.error);
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }, 3e3, selectedItem);
                 })
                 .catch(console.error);
             }
