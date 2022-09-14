@@ -3,10 +3,13 @@ import React, { useContext, useEffect } from "react";
 import { Context } from "../Provider";
 
 const Content = ({ workflow }) => {
-    const { step, STEPS, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
+    const { step, setStep, STEPS, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
     useEffect(() => {
         setWorkflow(workflow);
+        if (workflow?.applications?.length === 0) {
+            setStep(STEPS.CONFIGURE);
+        }
         if (workflow?.applications?.length === 1) {
             setSelectedItem(workflow?.applications[0].app_type);
         }
