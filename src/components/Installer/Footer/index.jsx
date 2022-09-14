@@ -38,6 +38,7 @@ const Footer = ({ disabled }) => {
 
                     // keep checking connection status
                     const interval = setInterval(selectedApp => {
+                        console.log(selectedApp, selectedItem)
                         if (selectedApp === selectedItem) {
                             cobalt.getAppAuthStatus(selectedItem)
                             .then(connected => {
