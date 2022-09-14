@@ -5,7 +5,7 @@ import { Context as InstallerContext } from "../Provider";
 
 const Footer = ({ disabled }) => {
     const { cobalt } = useContext(SessionContext);
-    const { setStep, STEPS, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow } = useContext(InstallerContext);
+    const { setStep, STEPS, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
     const setConnected = (appType) => {
         const appIndex = workflow?.applications?.findIndex(a => a.app_type === appType);
@@ -50,6 +50,8 @@ const Footer = ({ disabled }) => {
                             clearInterval(interval);
                         });
                     }, 3e3);
+
+                    setConnectTimer(interval);
                 })
                 .catch(console.error);
             }
