@@ -28,8 +28,9 @@ const Content = ({ workflow }) => {
                             display: "flex",
                             alignItems: "center",
                             gap: 15,
-                            padding: 20,
-                            borderBottom: "1px solid lightgray",
+                            marginBottom: 30,
+                            paddingBottom: 30,
+                            borderBottom: "1px solid #dfe3e8",
                         }}>
                             <button
                                 onClick={ () => setSelectedItem(null) }
@@ -37,24 +38,24 @@ const Content = ({ workflow }) => {
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    width: 25,
-                                    height: 25,
+                                    width: 30,
+                                    height: 30,
                                     border: "none",
                                     backgroundColor: "rgba(0, 0, 0, .05)",
                                     borderRadius: "50%",
                                     color: "gray",
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     cursor: "pointer",
                                 }}
                             >
                                 &#10094;
                             </button>
                             <div>
-                                <div style={{ fontSize: 18, fontWeight: "bold" }}>
+                                <div style={{ fontSize: 32, fontWeight: "bold", color: "#212b36" }}>
                                     { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || workflow?.applications?.find(a => a.app_type === selectedItem)?.name }
                                 </div>
-                                <div style={{ fontSize: 14, color: "gray" }}>
-                                    { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_description }
+                                <div style={{ fontSize: 16, color: "#919eab" }}>
+                                    { workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && `Connect your ${ workflow?.applications?.find(a => a.app_type === selectedItem)?.name } account.` }
                                 </div>
                             </div>
                         </div>
@@ -66,30 +67,47 @@ const Content = ({ workflow }) => {
                 display: "flex",
                 flexDirection: "column",
                 gap: 15,
-                padding: 15,
                 overflowY: "auto",
             }}>
                 {
                     selectedItem
-                    ?   <div>
-                            <div style={{ fontSize: 14, color: "gray" }}>
-                                { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
-                            </div>
+                    ?   <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 15,
+                        }}>
+                            {
+                                workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && (
+                                    <div style={{
+                                        padding: 15,
+                                        backgroundColor: "rgba(33, 43, 54, .1)",
+                                        border: "1px solid #212b36",
+                                        borderRadius: 8,
+                                        color: "#212b36",
+                                        fontSize: 14,
+                                    }}>
+                                        { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
+                                    </div>
+                                )
+                            }
                             {
                                 workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.map(field =>
                                     <div key={ field.name }>
-                                        <div style={{ marginBottom: 5 }}>{ field.name }</div>
+                                        <div style={{ marginBottom: 5 }}>
+                                            <span>{ field.name }</span>
+                                            { !field.required && <span style={{ marginLeft: 5, color: "#919eab", fontSize: 12 }}>(optional)</span> }
+                                        </div>
                                         <input
-                                            type={ field.type }
+                                            type={ field.app_type }
                                             placeholder={ field.placeholder }
                                             required={ field.required }
                                             style={{
                                                 width: "100%",
-                                                marginBottom: 15,
-                                                padding: "10px",
-                                                border: "1px solid #dfe3e8",
+                                                marginBottom: field.multiple ? 2 : 0,
+                                                padding: 15,
+                                                border: "none",
+                                                backgroundColor: "#f9fafb",
                                                 borderRadius: 8,
-                                                marginBottom: field.multiple ? 2 : 15,
                                             }}
                                             value={ inputData[field.name]?.value }
                                             onChange={ e => setInputData({ ...inputData, [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
@@ -97,9 +115,8 @@ const Content = ({ workflow }) => {
                                         {
                                             field.multiple && (
                                                 <div style={{
-                                                    marginBottom: 15,
+                                                    color: "#919eab",
                                                     fontSize: 12,
-                                                    opacity: .4,
                                                 }}>
                                                     Accepts comma separated values.
                                                 </div>
@@ -118,15 +135,15 @@ const Content = ({ workflow }) => {
                                         alignItems: "center",
                                         justifyContent: "space-between",
                                         gap: 30,
-                                        padding: 10,
-                                        border: "1px solid lightgray",
+                                        padding: 15,
+                                        border: "1px solid #c4cdd5",
                                         borderRadius: 8,
                                     }}
                                 >
                                     <div style={{
                                         display: "flex",
                                         alignItems: "center",
-                                        gap: 10,
+                                        gap: 15,
                                     }}>
                                         <img
                                             src={ item.icon }
@@ -136,7 +153,7 @@ const Content = ({ workflow }) => {
                                                 borderRadius: 8,
                                             }}
                                         />
-                                        <div>{ item.name }</div>
+                                        <div style={{ fontSize: 20, fontWeight: 600 }}>{ item.name }</div>
                                     </div>
                                     {
                                         item.configured
@@ -151,6 +168,7 @@ const Content = ({ workflow }) => {
                                                     padding: "5px 10px",
                                                     border: "none",
                                                     borderRadius: 8,
+                                                    backgroundColor: "transparent",
                                                     color: "black",
                                                     fontWeight: 600,
                                                     fontSize: 14,
@@ -175,15 +193,15 @@ const Content = ({ workflow }) => {
                                             alignItems: "center",
                                             justifyContent: "space-between",
                                             gap: 30,
-                                            padding: 10,
-                                            border: "1px solid lightgray",
+                                            padding: 15,
+                                            border: "1px solid #c4cdd5",
                                             borderRadius: 8,
                                         }}
                                     >
                                         <div style={{
                                             display: "flex",
                                             alignItems: "center",
-                                            gap: 10,
+                                            gap: 15,
                                         }}>
                                             <img
                                                 src={ item.node_icon }
@@ -193,13 +211,14 @@ const Content = ({ workflow }) => {
                                                     borderRadius: 8,
                                                 }}
                                             />
-                                            <div>{ item.node_name }</div>
+                                            <div style={{ fontSize: 20, fontWeight: 600 }}>{ item.node_name }</div>
                                         </div>
                                         <button
                                             style={{
                                                 padding: "5px 10px",
                                                 border: "none",
                                                 borderRadius: 8,
+                                                backgroundColor: "transparent",
                                                 color: "black",
                                                 fontWeight: 600,
                                                 fontSize: 14,
