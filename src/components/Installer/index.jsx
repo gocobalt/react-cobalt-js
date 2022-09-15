@@ -59,10 +59,8 @@ const Installer = ({ templateId, style }) => {
             <div style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "100%",
-                maxWidth: 400,
-                height: "100%",
-                maxHeight: 750,
+                width: 470,
+                height: 750,
                 padding: 30,
                 ...style,
             }}>
