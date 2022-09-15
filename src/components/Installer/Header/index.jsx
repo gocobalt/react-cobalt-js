@@ -22,7 +22,7 @@ const Header = () => {
                 paddingBottom: 30,
                 borderBottom: "1px solid #dfe3e8",
             }}>
-                <div style={{ fontSize: 32, fontWeight: "bold" }}>
+                <div style={{ fontSize: 24, fontWeight: "bold" }}>
                     { workflow?.name }
                 </div>
                 <div style={{ fontSize: 14, color: "#919eab" }}>
@@ -35,7 +35,7 @@ const Header = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: 30,
-                padding: 15,
+                padding: "8px 15px",
                 borderRadius: 8,
                 backgroundColor: "#f9fafb",
             }}>
@@ -51,7 +51,7 @@ const Header = () => {
                         <span
                             onClick={ () => selectStep(i) }
                             style={{
-                                fontSize: 18,
+                                fontSize: 14,
                                 fontWeight: "bold",
                                 color: step === i ? "#212b36" : "#919eab",
                                 cursor: "pointer",

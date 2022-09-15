@@ -76,7 +76,7 @@ const Footer = ({ disabled }) => {
     return (
         <div style={{
             marginTop: 30,
-            paddingTop: 30,
+            paddingTop: 15,
             borderTop: "1px solid #dfe3e8",
         }}>
             <button
@@ -112,9 +112,9 @@ const Footer = ({ disabled }) => {
                 alignItems: "center",
                 justifyContent: "center",
                 gap: 10,
-                marginTop: 30,
+                marginTop: 8,
                 textAlign: "center",
-                fontSize: 16,
+                fontSize: 12,
             }}>
                 <img
                     src="https://app.gocobalt.io/favicon.png"

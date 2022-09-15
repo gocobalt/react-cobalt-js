@@ -47,7 +47,7 @@ const Content = ({ workflow }) => {
                             &#10094;
                         </button>
                         <div>
-                            <div style={{ fontSize: 32, fontWeight: "bold", color: "#212b36" }}>
+                            <div style={{ fontSize: 24, fontWeight: "bold", color: "#212b36" }}>
                                 { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || workflow?.applications?.find(a => a.app_type === selectedItem)?.name }
                             </div>
                             <div style={{ fontSize: 16, color: "#919eab" }}>
@@ -149,7 +149,7 @@ const Content = ({ workflow }) => {
                                                 borderRadius: 8,
                                             }}
                                         />
-                                        <div style={{ fontSize: 20, fontWeight: 600 }}>{ item.name }</div>
+                                        <div style={{ fontSize: 18, fontWeight: 600 }}>{ item.name }</div>
                                     </div>
                                     {
                                         item.configured
@@ -207,7 +207,7 @@ const Content = ({ workflow }) => {
                                                     borderRadius: 8,
                                                 }}
                                             />
-                                            <div style={{ fontSize: 20, fontWeight: 600 }}>{ item.node_name }</div>
+                                            <div style={{ fontSize: 18, fontWeight: 600 }}>{ item.node_name }</div>
                                         </div>
                                         <button
                                             style={{
