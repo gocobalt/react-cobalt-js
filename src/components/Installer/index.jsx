@@ -59,10 +59,11 @@ const Installer = ({ templateId, style }) => {
             <div style={{
                 display: "flex",
                 flexDirection: "column",
-                minWidth: 360,
-                maxWidth: 360,
-                minHeight: 420,
+                width: "100%",
+                maxWidth: 400,
+                height: "100%",
                 maxHeight: 750,
+                padding: 30,
                 ...style,
             }}>
                 <Header />
