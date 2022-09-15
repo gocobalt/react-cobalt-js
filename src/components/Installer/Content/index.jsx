@@ -10,9 +10,6 @@ const Content = ({ workflow }) => {
         if (workflow?.applications?.length === 0) {
             setStep(STEPS.CONFIGURE);
         }
-        if (workflow?.applications?.length === 1) {
-            setSelectedItem(workflow?.applications[0].app_type);
-        }
     }, [ workflow ]);
 
     return (
