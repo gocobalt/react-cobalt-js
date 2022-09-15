@@ -5,7 +5,7 @@ import { Context as InstallerContext } from "../Provider";
 
 const Footer = ({ disabled }) => {
     const { cobalt } = useContext(SessionContext);
-    const { setStep, STEPS, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
+    const { step, setStep, STEPS, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
     const setConnected = (appType) => {
         const appIndex = workflow?.applications?.findIndex(a => a.app_type === appType);
@@ -90,7 +90,17 @@ const Footer = ({ disabled }) => {
                     cursor: !selectedItem && disabled ? "not-allowed" : "pointer",
                 }}
             >
-                { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : workflow?.applications?.find(a => a.app_type === selectedItem)?.configured ? "Authorized" : "Authorize" : "Proceed" }
+                {
+                    selectedItem
+                    ?   workflow?.configure?.some(n => n.node_id === selectedItem)
+                        ?   "Save"
+                        :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
+                            ?   "Authorized"
+                            :   "Authorize"
+                    :   step === STEPS.CONFIGURE
+                        ?   "Activate"
+                        :   "Proceed"
+                }
             </button>
             <div style={{
                 display: "flex",
