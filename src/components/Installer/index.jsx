@@ -60,7 +60,7 @@ const Installer = ({ templateId, style }) => {
                 display: "flex",
                 flexDirection: "column",
                 width: 470,
-                height: 600,
+                maxHeight: 600,
                 padding: 30,
                 ...style,
             }}>
