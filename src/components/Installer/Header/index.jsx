@@ -40,27 +40,27 @@ const Header = () => {
                 backgroundColor: "#f9fafb",
             }}>
             {
-                Object.values(STEPS).map((t, i) =>
+                STEPS.map((s, i) =>
                     <div
-                        key={ t }
+                        key={ i }
                         style={{
                             display: "flex",
                             alignItems: "center",
                         }}
                     >
                         <span
-                            onClick={ () => selectStep(t) }
+                            onClick={ () => selectStep(i) }
                             style={{
                                 fontSize: 18,
                                 fontWeight: "bold",
-                                color: step === t ? "#212b36" : "#919eab",
+                                color: step === i ? "#212b36" : "#919eab",
                                 cursor: "pointer",
                             }}
                         >
-                            { t }
+                            { s.name }
                         </span>
                         {
-                            i !== Object.values(STEPS).length - 1 && (
+                            i !== STEPS.length - 1 && (
                                 <span style={{
                                     display: "flex",
                                     alignItems: "center",

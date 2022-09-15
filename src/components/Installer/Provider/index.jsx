@@ -1,14 +1,25 @@
 import React, { createContext, useState } from "react";
 
-const STEPS = {
-    CONNECT: "Connect",
-    CONFIGURE: "Configure",
+const STEPS = [
+    {
+        name: "Authenticate",
+        dataField: "applications",
+    },
+    {
+        name: "Configure",
+        dataField: "configure",
+    },
+];
+
+export const STEP_KEYS = {
+    AUTHENTICATE: 0,
+    CONFIGURE: 1,
 };
 
 export const Context = createContext();
 
 export const Provider = ({ children }) => {
-    const [ step, setStep ] = useState(STEPS.CONNECT);
+    const [ step, setStep ] = useState(0);
     const [ workflow, setWorkflow ] = useState(null);
     const [ selectedItem, setSelectedItem ] = useState(null);
     const [ inputData, setInputData ] = useState({});

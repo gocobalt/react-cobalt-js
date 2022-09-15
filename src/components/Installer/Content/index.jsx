@@ -1,14 +1,14 @@
 import React, { useContext, useEffect } from "react";
 
-import { Context } from "../Provider";
+import { Context, STEP_KEYS } from "../Provider";
 
 const Content = ({ workflow }) => {
-    const { step, setStep, STEPS, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
+    const { step, setStep, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
     useEffect(() => {
         setWorkflow(workflow);
         if (workflow?.applications?.length === 0) {
-            setStep(STEPS.CONFIGURE);
+            setStep(STEP_KEYS.CONFIGURE);
         }
     }, [ workflow ]);
 
@@ -123,7 +123,7 @@ const Content = ({ workflow }) => {
                                 )
                             }
                         </div>
-                    :   step === STEPS.CONNECT
+                    :   step === STEP_KEYS.AUTHENTICATE
                         ?   workflow?.applications?.map(item =>
                                 <div
                                     key={ item.app_type }
@@ -181,7 +181,7 @@ const Content = ({ workflow }) => {
                                     }
                                 </div>
                             )
-                        :   step === STEPS.CONFIGURE
+                        :   step === STEP_KEYS.CONFIGURE
                             ?   workflow?.configure?.map(item =>
                                     <div
                                         key={ item.node_id }

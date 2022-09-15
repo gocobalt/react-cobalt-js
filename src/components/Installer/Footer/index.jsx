@@ -68,6 +68,11 @@ const Footer = ({ disabled }) => {
         .catch(console.error);
     };
 
+    const activateWorkflow = () => {
+        // TODO: use activate workflow api when available
+        console.log("ACTIVATE");
+    };
+
     return (
         <div style={{
             marginTop: 30,
@@ -76,7 +81,7 @@ const Footer = ({ disabled }) => {
         }}>
             <button
                 disabled={ !selectedItem && disabled }
-                onClick={ selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? saveNode : connectApp : () => setStep(STEPS.CONFIGURE) }
+                onClick={ selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? saveNode : connectApp :  step + 1 < STEPS.length ? () => setStep(step + 1) : activateWorkflow }
                 style={{
                     width: "100%",
                     padding: 15,
@@ -97,9 +102,9 @@ const Footer = ({ disabled }) => {
                         :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
                             ?   "Authorized"
                             :   "Authorize"
-                    :   step === STEPS.CONFIGURE
-                        ?   "Activate"
-                        :   "Proceed"
+                    :   step + 1 < STEPS.length
+                        ?   "Proceed"
+                        :   "Activate"
                 }
             </button>
             <div style={{
