@@ -71,6 +71,7 @@ const Footer = ({ disabled }) => {
     return (
         <div style={{
             marginTop: 30,
+            paddingTop: 30,
             borderTop: "1px solid #dfe3e8",
         }}>
             <button
@@ -91,13 +92,23 @@ const Footer = ({ disabled }) => {
             >
                 { selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? "Save" : workflow?.applications?.find(a => a.app_type === selectedItem)?.configured ? "Authorized" : "Authorize" : "Proceed" }
             </button>
-            <div style={{ marginTop: 30, textAlign: "center", fontSize: 16, color: "#919eab" }}>
+            <div style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 10,
+                marginTop: 30,
+                textAlign: "center",
+                fontSize: 16,
+            }}>
                 <img
                     src="https://app.gocobalt.io/favicon.png"
                     width={ 16 }
                     height={ 16 }
                 />
-                Powered by <a href="https://gocobalt.io" target="_blank">Cobalt</a>
+                <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none", color: "#919eab" }}>
+                    Powered by Cobalt
+                </a>
             </div>
         </div>
     )
