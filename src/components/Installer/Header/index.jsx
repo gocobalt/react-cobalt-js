@@ -21,14 +21,14 @@ const Header = () => {
         }}>
             <div style={{
                 width: "100%",
-                padding: 20,
-                borderBottom: "1px solid lightgray",
+                marginBottom: 30,
+                borderBottom: "1px solid #dfe3e8",
             }}>
-                <div style={{ fontSize: 18, fontWeight: "bold" }}>
-                    { workflow?.name }
+                <div style={{ fontSize: 32, fontWeight: "bold" }}>
+                    Manage integrations
                 </div>
-                <div style={{ fontSize: 14, color: "gray" }}>
-                    { workflow?.description }
+                <div style={{ fontSize: 14, color: "#919eab" }}>
+                    Choose your integration &amp; proceed with authentication &amp; setup.
                 </div>
             </div>
 
@@ -36,10 +36,10 @@ const Header = () => {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                margin: "10px 15px 0px",
-                padding: 10,
+                marginTop: 30,
+                padding: 15,
                 borderRadius: 8,
-                backgroundColor: "rgba(0, 0, 0, .04)",
+                backgroundColor: "#f9fafb",
             }}>
             {
                 Object.values(STEPS).map((t, i) =>
@@ -55,7 +55,7 @@ const Header = () => {
                             style={{
                                 fontSize: 16,
                                 fontWeight: "bold",
-                                opacity: step === t ? 1 : .5,
+                                color: step === t ? "##212b36" : "#919eab",
                                 cursor: "pointer",
                             }}
                         >
@@ -70,7 +70,7 @@ const Header = () => {
                                     width: 25,
                                     height: 25,
                                     margin: "0 5px",
-                                    color: "gray",
+                                    color: "#637381",
                                     fontSize: 16,
                                 }}>&#10095;</span>
                             )
