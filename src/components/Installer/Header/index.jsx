@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Context } from "../Provider";
 
 const Header = () => {
-    const { step, setStep, STEPS, selectedItem, setSelectedItem } = useContext(Context);
+    const { step, setStep, STEPS, workflow, selectedItem, setSelectedItem } = useContext(Context);
 
     const selectStep = (step) => {
         setStep(step);
@@ -23,10 +23,10 @@ const Header = () => {
                 borderBottom: "1px solid #dfe3e8",
             }}>
                 <div style={{ fontSize: 32, fontWeight: "bold" }}>
-                    Manage integrations
+                    { workflow?.name }
                 </div>
                 <div style={{ fontSize: 14, color: "#919eab" }}>
-                    Choose your integration &amp; proceed with authentication &amp; setup.
+                    { workflow?.description }
                 </div>
             </div>
 
