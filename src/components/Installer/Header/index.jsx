@@ -3,14 +3,11 @@ import React, { useContext } from "react";
 import { Context } from "../Provider";
 
 const Header = () => {
-    const { step, setStep, STEPS, workflow, selectedItem, setSelectedItem } = useContext(Context);
+    const { step, setStep, STEPS, selectedItem, setSelectedItem } = useContext(Context);
 
     const selectStep = (step) => {
         setStep(step);
-
-        if (step === STEPS.CONNECT && workflow?.applications?.length === 1) setSelectedItem(workflow?.applications[0].app_type);
-        else if (step === STEPS.CONFIGURE && workflow?.configure?.length === 1) setSelectedItem(workflow?.configure[0].node_id);
-        else setSelectedItem(null);
+        setSelectedItem(null);
     };
 
     return (
