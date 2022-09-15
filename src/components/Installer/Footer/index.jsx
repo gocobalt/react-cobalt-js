@@ -75,7 +75,7 @@ const Footer = ({ disabled }) => {
 
     return (
         <div style={{
-            marginTop: 30,
+            marginTop: steps?.length ? 30 : 0,
             paddingTop: 15,
             borderTop: "1px solid #dfe3e8",
         }}>

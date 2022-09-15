@@ -13,7 +13,7 @@ const Content = ({ workflow }) => {
     return (
         <div style={{
             flex: 1,
-            display: "flex",
+            display: steps?.length ? "flex" : "none",
             flexDirection: "column",
         }}>
             {

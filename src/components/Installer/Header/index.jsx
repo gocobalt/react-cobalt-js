@@ -15,7 +15,7 @@ const Header = () => {
             display: selectedItem ? "none" : "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            marginBottom: 30,
+            marginBottom: steps?.length ? 30 : 0,
         }}>
             <div style={{
                 width: "100%",
@@ -31,7 +31,7 @@ const Header = () => {
             </div>
 
             <div style={{
-                display: "flex",
+                display: steps?.length ? "flex" : "none",
                 alignItems: "center",
                 justifyContent: "center",
                 marginTop: 30,
