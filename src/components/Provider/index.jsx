@@ -5,11 +5,12 @@ const cobalt = new Cobalt({ baseUrl: "https://embedapi.gocobalt.io" });
 
 export const Context = createContext();
 
-export const Provider = ({ children, sessionToken }) => {
+export const Provider = ({ children, sessionToken, theme }) => {
     return (
         <Context.Provider value={{
             cobalt,
             sessionToken,
+            theme: theme === "dark" ? "dark" : "light",
         }}>
             { children }
         </Context.Provider>
