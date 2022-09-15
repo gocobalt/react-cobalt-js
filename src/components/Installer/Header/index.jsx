@@ -18,10 +18,11 @@ const Header = () => {
             display: selectedItem ? "none" : "flex",
             flexDirection: "column",
             alignItems: "flex-start",
+            marginBottom: 30,
         }}>
             <div style={{
                 width: "100%",
-                marginBottom: 30,
+                paddingBottom: 30,
                 borderBottom: "1px solid #dfe3e8",
             }}>
                 <div style={{ fontSize: 32, fontWeight: "bold" }}>
@@ -53,9 +54,9 @@ const Header = () => {
                         <span
                             onClick={ () => selectStep(t) }
                             style={{
-                                fontSize: 16,
+                                fontSize: 18,
                                 fontWeight: "bold",
-                                color: step === t ? "##212b36" : "#919eab",
+                                color: step === t ? "#212b36" : "#919eab",
                                 cursor: "pointer",
                             }}
                         >
