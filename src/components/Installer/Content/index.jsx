@@ -18,47 +18,45 @@ const Content = ({ workflow }) => {
             display: "flex",
             flexDirection: "column",
         }}>
-            <div>
-                {
-                    selectedItem && (
-                        <div style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 15,
-                            marginBottom: 30,
-                            paddingBottom: 30,
-                            borderBottom: "1px solid #dfe3e8",
-                        }}>
-                            <button
-                                onClick={ () => setSelectedItem(null) }
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: 30,
-                                    height: 30,
-                                    border: "none",
-                                    backgroundColor: "rgba(0, 0, 0, .05)",
-                                    borderRadius: "50%",
-                                    color: "gray",
-                                    fontSize: 18,
-                                    cursor: "pointer",
-                                }}
-                            >
-                                &#10094;
-                            </button>
-                            <div>
-                                <div style={{ fontSize: 32, fontWeight: "bold", color: "#212b36" }}>
-                                    { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || workflow?.applications?.find(a => a.app_type === selectedItem)?.name }
-                                </div>
-                                <div style={{ fontSize: 16, color: "#919eab" }}>
-                                    { workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && `Connect your ${ workflow?.applications?.find(a => a.app_type === selectedItem)?.name } account.` }
-                                </div>
+            {
+                selectedItem && (
+                    <div style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 15,
+                        marginBottom: 30,
+                        paddingBottom: 30,
+                        borderBottom: "1px solid #dfe3e8",
+                    }}>
+                        <button
+                            onClick={ () => setSelectedItem(null) }
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: 30,
+                                height: 30,
+                                border: "none",
+                                backgroundColor: "rgba(0, 0, 0, .05)",
+                                borderRadius: "50%",
+                                color: "gray",
+                                fontSize: 18,
+                                cursor: "pointer",
+                            }}
+                        >
+                            &#10094;
+                        </button>
+                        <div>
+                            <div style={{ fontSize: 32, fontWeight: "bold", color: "#212b36" }}>
+                                { workflow?.configure?.find(n => n.node_id === selectedItem)?.node_name || workflow?.applications?.find(a => a.app_type === selectedItem)?.name }
+                            </div>
+                            <div style={{ fontSize: 16, color: "#919eab" }}>
+                                { workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && `Connect your ${ workflow?.applications?.find(a => a.app_type === selectedItem)?.name } account.` }
                             </div>
                         </div>
-                    )
-                }
-            </div>
+                    </div>
+                )
+            }
             <div style={{
                 flex: 1,
                 display: "flex",
@@ -67,6 +65,7 @@ const Content = ({ workflow }) => {
                 overflowY: "auto",
             }}>
                 {
+
                     selectedItem
                     ?   <div style={{
                             display: "flex",
