@@ -11,11 +11,6 @@ export const STEPS = [
     },
 ];
 
-export const STEP_KEYS = {
-    AUTHENTICATE: 0,
-    CONFIGURE: 1,
-};
-
 export const Context = createContext();
 
 export const Provider = ({ children }) => {
