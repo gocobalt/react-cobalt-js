@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 
-const STEPS = [
+export const STEPS = [
     {
         name: "Authenticate",
         dataField: "applications",
@@ -20,6 +20,7 @@ export const Context = createContext();
 
 export const Provider = ({ children }) => {
     const [ step, setStep ] = useState(0);
+    const [ steps, setSteps ] = useState(STEPS || []);
     const [ workflow, setWorkflow ] = useState(null);
     const [ selectedItem, setSelectedItem ] = useState(null);
     const [ inputData, setInputData ] = useState({});
@@ -38,6 +39,8 @@ export const Provider = ({ children }) => {
         <Context.Provider value={{
             step,
             setStep,
+            steps,
+            setSteps,
             STEPS,
             workflow,
             setWorkflow,

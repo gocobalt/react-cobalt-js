@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Context } from "../Provider";
 
 const Header = () => {
-    const { step, setStep, STEPS, workflow, selectedItem, setSelectedItem } = useContext(Context);
+    const { step, setStep, steps, workflow, selectedItem, setSelectedItem } = useContext(Context);
 
     const selectStep = (step) => {
         setStep(step);
@@ -40,7 +40,7 @@ const Header = () => {
                 backgroundColor: "#f9fafb",
             }}>
             {
-                STEPS.map((s, i) =>
+                steps.map((s, i) =>
                     <div
                         key={ i }
                         style={{
@@ -60,7 +60,7 @@ const Header = () => {
                             { s.name }
                         </span>
                         {
-                            i !== STEPS.length - 1 && (
+                            i !== steps.length - 1 && (
                                 <span style={{
                                     display: "flex",
                                     alignItems: "center",
