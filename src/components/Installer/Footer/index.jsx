@@ -42,6 +42,7 @@ const Footer = ({ disabled, onInstall }) => {
                         .then(connected => {
                             if (connected === true) {
                                 setConnected(selectedItem);
+                                connectWindow?.close();
                                 clearInterval(interval);
                             }
                         })
