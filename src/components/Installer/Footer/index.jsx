@@ -96,8 +96,8 @@ const Footer = ({ disabled, onInstall }) => {
                     ?   workflow?.configure?.some(n => n.node_id === selectedItem)
                         ?   saveNode
                         :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
-                            ?   connectApp
-                            :   removeApp
+                            ?   removeApp
+                            :   connectApp
                     :  step + 1 < steps.length
                         ?   () => setStep(step + 1)
                         :   activateWorkflow
