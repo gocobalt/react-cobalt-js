@@ -7,11 +7,11 @@ const Footer = ({ disabled, onInstall }) => {
     const { cobalt } = useContext(SessionContext);
     const { step, setStep, steps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
-    const setConnected = (appType) => {
+    const setConnected = (appType, status = true) => {
         const appIndex = workflow?.applications?.findIndex(a => a.app_type === appType);
         if (appIndex > -1) {
             const newApp = { ...workflow.applications[appIndex] };
-            newApp.configured = true;
+            newApp.configured = status;
 
             const newApps = [ ...workflow.applications ];
             newApps.splice(appIndex, 1, newApp);
@@ -60,6 +60,12 @@ const Footer = ({ disabled, onInstall }) => {
         .catch(console.error);
     };
 
+    const removeApp = () => {
+        cobalt.removeAppAuth(selectedItem)
+        .then(() => setConnected(selectedItem, false))
+        .catch(console.error);
+    };
+
     const saveNode = () => {
         // TODO: handle error
         cobalt.saveNode(workflow?.workflow_id, selectedItem, inputData)
@@ -85,7 +91,17 @@ const Footer = ({ disabled, onInstall }) => {
         }}>
             <button
                 disabled={ !selectedItem && disabled }
-                onClick={ selectedItem ? workflow?.configure?.some(n => n.node_id === selectedItem) ? saveNode : connectApp :  step + 1 < steps.length ? () => setStep(step + 1) : activateWorkflow }
+                onClick={
+                    selectedItem
+                    ?   workflow?.configure?.some(n => n.node_id === selectedItem)
+                        ?   saveNode
+                        :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
+                            ?   connectApp
+                            :   removeApp
+                    :  step + 1 < steps.length
+                        ?   () => setStep(step + 1)
+                        :   activateWorkflow
+                }
                 style={{
                     width: "100%",
                     padding: 15,
@@ -104,8 +120,8 @@ const Footer = ({ disabled, onInstall }) => {
                     ?   workflow?.configure?.some(n => n.node_id === selectedItem)
                         ?   "Save"
                         :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
-                            ?   "Authorized"
-                            :   "Authorize"
+                            ?   "Remove Account"
+                            :   "Connect Account"
                     :   step + 1 < steps.length
                         ?   "Proceed"
                         :   "Activate"
