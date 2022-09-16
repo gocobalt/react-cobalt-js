@@ -7,7 +7,7 @@ import ErrorComponent from "./Error";
 import Footer from "./Footer";
 import Header from "./Header";
 
-const Installer = ({ templateId, style }) => {
+const Installer = ({ templateId, onInstall = () => {}, style }) => {
     const { cobalt, sessionToken } = useContext(SessionContext);
     const [ workflow, setWorkflow ] = useState(null);
     const [ loading, setLoading ] = useState(false);
@@ -68,6 +68,7 @@ const Installer = ({ templateId, style }) => {
                 <Content workflow={ workflow } />
                 <Footer
                     disabled={ workflow?.applications?.some(app => !app.configured) }
+                    onInstall={ onInstall }
                 />
             </div>
         </Provider>

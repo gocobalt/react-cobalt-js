@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Context as SessionContext } from "../../Provider";
 import { Context as InstallerContext } from "../Provider";
 
-const Footer = ({ disabled }) => {
+const Footer = ({ disabled, onInstall }) => {
     const { cobalt } = useContext(SessionContext);
     const { step, setStep, steps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
@@ -71,6 +71,9 @@ const Footer = ({ disabled }) => {
     const activateWorkflow = () => {
         // TODO: use activate workflow api when available
         console.log("ACTIVATE");
+        if (onInstall instanceof Function) {
+            onInstall(workflow?._id);
+        };
     };
 
     return (
