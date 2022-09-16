@@ -120,12 +120,20 @@ const Footer = ({ disabled, onInstall }) => {
                 fontSize: 12,
             }}>
                 <img
-                    src="https://app.gocobalt.io/favicon.png"
+                    src={
+                        workflow?.applications?.some(a => a.app_type === selectedItem)
+                        ?   "https://img.icons8.com/plumpy/24/000000/info.png"
+                        :   "https://app.gocobalt.io/favicon.png"
+                    }
                     width={ 16 }
                     height={ 16 }
                 />
                 <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none", color: "#919eab" }}>
-                    Powered by Cobalt
+                    {
+                        workflow?.applications?.some(a => a.app_type === selectedItem)
+                        ?   "Your credentials are encrypted & secure."
+                        :   "Powered by Cobalt"
+                    }
                 </a>
             </div>
         </div>
