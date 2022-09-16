@@ -13,16 +13,7 @@ npm install --save @cobaltio/react-cobalt-js
 ## Usage
 
 ```jsx
-import { Modal } from "@cobaltio/react-cobalt-js";
-
-// ...
-
-<Modal
-    templateId={ "COBALT_WORKFLOW_TEMPLATE_ID" }
-    sessionToken={ "COBALT_SESSION_TOKEN" }
-/>
+import { Provider, Installer } from "@cobaltio/react-cobalt-js";
 ```
 
-## License
-
-MIT © [iamtraction](https://github.com/iamtraction)
+Check the [example code](/example/src/App.js) to see how to use it.
