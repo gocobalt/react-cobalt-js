@@ -72,15 +72,34 @@ const Content = ({ workflow }) => {
                         }}>
                             {
                                 workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && (
-                                    <div style={{
-                                        padding: 15,
-                                        backgroundColor: "rgba(33, 43, 54, .1)",
-                                        border: "1px solid #212b36",
-                                        borderRadius: 8,
-                                        color: "#212b36",
-                                        fontSize: 14,
-                                    }}>
-                                        { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
+                                    <div>
+                                        <div style={{
+                                            padding: 15,
+                                            backgroundColor: "rgba(33, 43, 54, .1)",
+                                            border: "1px solid #212b36",
+                                            borderRadius: 8,
+                                            color: "#212b36",
+                                            fontSize: 14,
+                                        }}>
+                                            { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
+                                        </div>
+
+                                        {
+                                            workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier && (
+                                                <input
+                                                    readOnly
+                                                    disabled
+                                                    value={ workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier }
+                                                    style={{
+                                                        width: "100%",
+                                                        padding: 15,
+                                                        border: "none",
+                                                        backgroundColor: "#f9fafb",
+                                                        borderRadius: 8,
+                                                    }}
+                                                />
+                                            )
+                                        }
                                     </div>
                                 )
                             }
@@ -124,6 +143,12 @@ const Content = ({ workflow }) => {
                         ?   workflow?.applications?.map(item =>
                                 <div
                                     key={ item.app_type }
+                                    onClick={ () => {
+                                        if (item.configured) {
+                                            setInputData({});
+                                            setSelectedItem(item.app_type);
+                                        }
+                                    }}
                                     style={{
                                         display: "flex",
                                         alignItems: "center",
@@ -132,6 +157,7 @@ const Content = ({ workflow }) => {
                                         padding: 15,
                                         border: "1px solid #c4cdd5",
                                         borderRadius: 8,
+                                        cursor: item.configured ? "pointer" : "default",
                                     }}
                                 >
                                     <div style={{
