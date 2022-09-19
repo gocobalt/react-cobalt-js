@@ -12,6 +12,7 @@ const Footer = ({ disabled, onInstall }) => {
         if (appIndex > -1) {
             const newApp = { ...workflow.applications[appIndex] };
             newApp.configured = status;
+            newApp.identifier = status ? "" : undefined;
 
             const newApps = [ ...workflow.applications ];
             newApps.splice(appIndex, 1, newApp);
