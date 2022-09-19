@@ -18,7 +18,6 @@ export const Provider = ({ children }) => {
     const [ steps, setSteps ] = useState(STEPS || []);
     const [ workflow, setWorkflow ] = useState(null);
     const [ selectedItem, setSelectedItem ] = useState(null);
-    const [ inputData, setInputData ] = useState({});
     const [ connectWindow, setConnectWindow ] = useState(null);
     const [ connectTimer, setConnectTimer ] = useState(null);
 
@@ -29,6 +28,24 @@ export const Provider = ({ children }) => {
             setConnectTimer(null);
         }
     }
+
+    const setInputData = (data) => {
+        const nodeIndex = workflow?.configure?.findIndex(n => n.node_id === selectedItem);
+
+        if (nodeIndex > -1) {
+            const newNode = Object.assign({}, workflow?.configure?.find(n => n.node_id === selectedItem));
+
+            newNode.input_data = {
+                ...newNode.input_data,
+                ...data,
+            };
+
+            const newWorkflow = Object.assign({}, workflow);
+            newWorkflow?.configure?.splice(nodeIndex, 1, newNode);
+
+            setWorkflow(newWorkflow);
+        }
+    };
 
     return (
         <Context.Provider value={{
@@ -41,7 +58,7 @@ export const Provider = ({ children }) => {
             setWorkflow,
             selectedItem,
             setSelectedItem: selectItem,
-            inputData,
+            inputData: workflow?.configure?.find(n => n.node_id === selectedItem)?.input_data,
             setInputData,
             connectWindow,
             setConnectWindow,
