@@ -81,7 +81,7 @@ const Content = ({ workflow }) => {
                                             color: "#212b36",
                                             fontSize: 14,
                                         }}>
-                                            { workflow?.applications?.find(a => a.app_type === selectedItem)?.description }
+                                            { workflow?.applications?.find(a => a.app_type === selectedItem)?.help }
                                         </div>
 
                                         {
