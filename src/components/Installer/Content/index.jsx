@@ -122,8 +122,8 @@ const Content = ({ workflow }) => {
                                                 backgroundColor: "#f9fafb",
                                                 borderRadius: 8,
                                             }}
-                                            value={ inputData[field.name]?.value }
-                                            onChange={ e => setInputData({ ...inputData, [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
+                                            value={ inputData?.[field.name]?.value }
+                                            onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
                                         />
                                         {
                                             field.multiple && (
@@ -145,7 +145,6 @@ const Content = ({ workflow }) => {
                                     key={ item.app_type }
                                     onClick={ () => {
                                         if (item.configured) {
-                                            setInputData({});
                                             setSelectedItem(item.app_type);
                                         }
                                     }}
@@ -194,10 +193,7 @@ const Content = ({ workflow }) => {
                                                     fontSize: 14,
                                                     cursor: "pointer",
                                                 }}
-                                                onClick={ () => {
-                                                    setInputData({});
-                                                    setSelectedItem(item.app_type);
-                                                }}
+                                                onClick={ () => setSelectedItem(item.app_type) }
                                             >
                                                 Connect
                                             </button>
@@ -244,10 +240,7 @@ const Content = ({ workflow }) => {
                                                 fontSize: 14,
                                                 cursor: "pointer",
                                             }}
-                                            onClick={ () => {
-                                                setInputData({});
-                                                setSelectedItem(item?.node_id);
-                                            }}
+                                            onClick={ () => setSelectedItem(item?.node_id) }
                                         >
                                             Configure
                                         </button>
