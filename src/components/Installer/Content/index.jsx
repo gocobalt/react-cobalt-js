@@ -92,6 +92,7 @@ const Content = ({ workflow }) => {
                                                     value={ workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier }
                                                     style={{
                                                         width: "100%",
+                                                        marginTop: 20,
                                                         padding: 15,
                                                         border: "none",
                                                         backgroundColor: "#f9fafb",
