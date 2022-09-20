@@ -136,40 +136,96 @@ const Content = ({ workflow }) => {
                                             { !field.required && <span style={{ marginLeft: 5, color: "#919eab", fontSize: 12 }}>(optional)</span> }
                                         </div>
                                         {
-                                            field.type === "select"
-                                            ?   <select
-                                                    name={ field.name }
-                                                    placeholder={ field.placeholder }
-                                                    required={ field.required }
-                                                    multiple={ field.multiple }
-                                                    onChange={ e => {
-                                                        if (field.isDynamic) {
-                                                            getNodeConfiguration(field.name, e.target.value);
-                                                        } else {
-                                                            setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
-                                                        }
-                                                    }}
-                                                    style={{
-                                                        width: "100%",
-                                                        marginBottom: field.multiple ? 2 : 0,
-                                                        padding: 15,
-                                                        border: "none",
-                                                        backgroundColor: "#f9fafb",
-                                                        borderRadius: 8,
-                                                    }}
-                                                >
-                                                    <option hidden disabled selected value={ null }>Select</option>
+                                            field.type === "map"
+                                            ?   <React.Fragment>
                                                     {
-                                                        field.options?.map(o =>
-                                                            <option key={ o.value } value={ o.value } selected={ o.value === inputData?.[field.name]?.value }>{ o.name }</option>
+                                                        inputData?.[field.name]?.value?.map((row, rowIndex) =>
+                                                            <div key={ rowIndex } style={{
+                                                                display: "flex",
+                                                                gap: 8,
+                                                                marginBottom: 8,
+                                                            }}>
+                                                                {
+                                                                    field.columns?.map(column =>
+                                                                        <input
+                                                                            key={ column.name }
+                                                                            type={ column.type }
+                                                                            placeholder={ column.placeholder }
+                                                                            required={ column.required }
+                                                                            label={ column.placeholder }
+                                                                            value={ row?.[column.name] || "" }
+                                                                            onChange={ e => {
+                                                                                // update cell value
+                                                                                const newRow = row || {};
+                                                                                newRow[column.name] = e.target.value;
+
+                                                                                // update input data value
+                                                                                const newValue = [ ...inputData?.[field.name]?.value ];
+                                                                                newValue.splice(rowIndex, 1, newRow);
+
+                                                                                // update input data
+                                                                                setInputData({
+                                                                                    [field.name]: {
+                                                                                        ...inputData?.[field.name],
+                                                                                        value: newValue,
+                                                                                    },
+                                                                                });
+                                                                            }}
+                                                                            style={{
+                                                                                width: "100%",
+                                                                                marginBottom: field.multiple ? 2 : 0,
+                                                                                padding: 8,
+                                                                                border: "none",
+                                                                                backgroundColor: "#f9fafb",
+                                                                                borderRadius: 8,
+                                                                            }}
+                                                                        />
+                                                                    )
+                                                                }
+                                                            </div>
                                                         )
                                                     }
-                                                </select>
-                                            :   <React.Fragment>
-                                                    <input
-                                                        type={ field.type }
+                                                    <button
+                                                        onClick={ () => {
+                                                            const newField = Object.fromEntries(field.columns?.map(column => ([column.name, ""])));
+                                                            const oldValue = inputData?.[field.name]?.value;
+                                                            const newValue = oldValue instanceof Array ? oldValue.concat(newField) : [ newField ];
+
+                                                            setInputData({
+                                                                [field.name]: {
+                                                                    ...inputData?.[field.name],
+                                                                    value: newValue,
+                                                                },
+                                                            });
+                                                        }}
+                                                        style={{
+                                                            padding: 5,
+                                                            border: "none",
+                                                            borderRadius: 8,
+                                                            backgroundColor: "transparent",
+                                                            color: "black",
+                                                            fontWeight: 600,
+                                                            fontSize: 14,
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        + Map Fields
+                                                    </button>
+                                                </React.Fragment>
+                                            :   field.type === "select"
+                                                ?   <select
+                                                        name={ field.name }
                                                         placeholder={ field.placeholder }
                                                         required={ field.required }
+                                                        multiple={ field.multiple }
+                                                        value={ inputData?.[field.name]?.value || "" }
+                                                        onChange={ e => {
+                                                            if (field.isDynamic) {
+                                                                getNodeConfiguration(field.name, e.target.value);
+                                                            } else {
+                                                                setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
+                                                            }
+                                                        }}
                                                         style={{
                                                             width: "100%",
                                                             marginBottom: field.multiple ? 2 : 0,
@@ -178,20 +234,41 @@ const Content = ({ workflow }) => {
                                                             backgroundColor: "#f9fafb",
                                                             borderRadius: 8,
                                                         }}
-                                                        value={ inputData?.[field.name]?.value }
-                                                        onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
-                                                    />
-                                                    {
-                                                        field.multiple && (
-                                                            <div style={{
-                                                                color: "#919eab",
-                                                                fontSize: 12,
-                                                            }}>
-                                                                Accepts comma separated values.
-                                                            </div>
-                                                        )
-                                                    }
-                                                </React.Fragment>
+                                                    >
+                                                        <option hidden disabled value={ "" }>Select</option>
+                                                        {
+                                                            field.options?.map(o =>
+                                                                <option key={ o.value } value={ o.value }>{ o.name }</option>
+                                                            )
+                                                        }
+                                                    </select>
+                                                :   <React.Fragment>
+                                                        <input
+                                                            type={ field.type }
+                                                            placeholder={ field.placeholder }
+                                                            required={ field.required }
+                                                            style={{
+                                                                width: "100%",
+                                                                marginBottom: field.multiple ? 2 : 0,
+                                                                padding: 15,
+                                                                border: "none",
+                                                                backgroundColor: "#f9fafb",
+                                                                borderRadius: 8,
+                                                            }}
+                                                            value={ inputData?.[field.name]?.value }
+                                                            onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
+                                                        />
+                                                        {
+                                                            field.multiple && (
+                                                                <div style={{
+                                                                    color: "#919eab",
+                                                                    fontSize: 12,
+                                                                }}>
+                                                                    Accepts comma separated values.
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </React.Fragment>
                                         }
                                     </div>
                                 )
