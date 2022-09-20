@@ -4,21 +4,14 @@ import { Context as SessionContext } from "../../Provider";
 import { Context, STEPS } from "../Provider";
 
 const Content = ({ workflow }) => {
-    const { sessionToken } = useContext(SessionContext);
+    const { cobalt } = useContext(SessionContext);
     const { step, steps, setSteps, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
-    const getNodeConfiguration = (workflowId, nodeId, payload) => {
-        // TODO: move this to cobalt-js after testing
-        fetch(`https://embedapi.gocobalt.io/api/v1/workflow/${workflowId}/node/${nodeId}/configuration`, {
-            method: "POST",
-            headers: {
-                authorization: `Bearer ${sessionToken}`,
-                "content-type": "application/json",
-                "accept": "application/json",
-            },
-            body: JSON.stringify(payload),
+    const getNodeConfiguration = (fieldName, fieldValue) => {
+        cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, fieldName, {
+            ...inputData,
+            [fieldName]: fieldValue,
         })
-        .then(res => res.json())
         .then(data => {
             const nodeIndex = workflow?.configure?.findIndex(n => n.node_id === selectedItem);
             if (nodeIndex > -1) {
@@ -28,7 +21,7 @@ const Content = ({ workflow }) => {
             }
         })
         .catch(console.error);
-    }
+    };
 
     useEffect(() => {
         setWorkflow(workflow);
@@ -37,10 +30,7 @@ const Content = ({ workflow }) => {
 
     useEffect(() => {
         if (workflow?.configure?.find(n => n.node_id === selectedItem)) {
-            getNodeConfiguration(workflow?.workflow_id, selectedItem, {
-                fieldName: workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic)?.[0]?.name,
-                selectedValues: {},
-            });
+            getNodeConfiguration(workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic)?.[0]?.name);
         }
     }, [ selectedItem ]);
 
@@ -154,15 +144,9 @@ const Content = ({ workflow }) => {
                                                     multiple={ field.multiple }
                                                     onChange={ e => {
                                                         if (field.isDynamic) {
-                                                            getNodeConfiguration(workflow?.workflow_id, selectedItem, {
-                                                                fieldName: field.name,
-                                                                selectedValues: {
-                                                                    ...inputData,
-                                                                    [field.name]: e.target.value,
-                                                                },
-                                                            });
+                                                            getNodeConfiguration(field.name, e.target.value);
                                                         } else {
-                                                            setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }})
+                                                            setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
                                                         }
                                                     }}
                                                     style={{
