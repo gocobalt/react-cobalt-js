@@ -32,6 +32,7 @@ const Content = ({ defaultWorkflow }) => {
         if (workflow?.configure?.find(n => n.node_id === selectedItem)) {
             getNodeConfiguration(workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic)?.[0]?.name);
         }
+        setInputData(Object.fromEntries(workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.map(f => ([ f.name, f.value ])) || []));
     }, [ selectedItem ]);
 
     return (
