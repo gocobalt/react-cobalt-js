@@ -8,7 +8,10 @@ const Content = ({ defaultWorkflow }) => {
     const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
     const getNodeConfiguration = (nextFieldName, selectedField) => {
-        cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, Object.fromEntries(Object.entries({ ...inputData, ...selectedField }).map(([ k, v ]) => ([ k, { value: v } ]))))
+        cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, {
+            ...inputData,
+            ...selectedField,
+        })
         .then(data => {
             const nodeIndex = workflow?.configure?.findIndex(n => n.node_id === selectedItem);
             if (nodeIndex > -1) {
@@ -270,7 +273,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                 const currentFieldIndex = dynamicFields?.findIndex(f => f.name === field.name);
                                                                 const nextFieldName = dynamicFields?.[(currentFieldIndex + 1) % dynamicFields?.length]?.name
 
-                                                                getNodeConfiguration(nextFieldName, { [field.name]: e.target.value });
+                                                                getNodeConfiguration(nextFieldName, { [field.name]: { value: e.target.value }});
                                                             }
                                                         }}
                                                         style={{
