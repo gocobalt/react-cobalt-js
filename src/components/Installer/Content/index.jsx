@@ -220,10 +220,10 @@ const Content = ({ workflow }) => {
                                                         multiple={ field.multiple }
                                                         value={ inputData?.[field.name]?.value || "" }
                                                         onChange={ e => {
+                                                            // update input data
+                                                            setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
                                                             if (field.isDynamic) {
                                                                 getNodeConfiguration(field.name, e.target.value);
-                                                            } else {
-                                                                setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
                                                             }
                                                         }}
                                                         style={{
