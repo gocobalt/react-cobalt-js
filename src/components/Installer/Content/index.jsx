@@ -3,9 +3,9 @@ import React, { useContext, useEffect } from "react";
 import { Context as SessionContext } from "../../Provider";
 import { Context, STEPS } from "../Provider";
 
-const Content = ({ workflow }) => {
+const Content = ({ defaultWorkflow }) => {
     const { cobalt } = useContext(SessionContext);
-    const { step, steps, setSteps, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
+    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
     const getNodeConfiguration = (nextFieldName, selectedField) => {
         cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, Object.fromEntries(Object.entries({ ...inputData, ...selectedField }).map(([ k, v ]) => ([ k, { value: v } ]))))
@@ -21,9 +21,9 @@ const Content = ({ workflow }) => {
     };
 
     useEffect(() => {
-        setWorkflow(workflow);
-        setSteps(STEPS.filter(s => workflow?.[s.dataField]?.length));
-    }, [ workflow ]);
+        setWorkflow(defaultWorkflow);
+        setSteps(STEPS.filter(s => defaultWorkflow?.[s.dataField]?.length));
+    }, [ defaultWorkflow ]);
 
     useEffect(() => {
         if (workflow?.configure?.find(n => n.node_id === selectedItem)) {

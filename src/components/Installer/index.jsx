@@ -65,7 +65,7 @@ const Installer = ({ templateId, onInstall = () => {}, style }) => {
                 ...style,
             }}>
                 <Header />
-                <Content workflow={ workflow } />
+                <Content defaultWorkflow={ workflow } />
                 <Footer
                     disabled={ workflow?.applications?.some(app => !app.configured) }
                     onInstall={ onInstall }
