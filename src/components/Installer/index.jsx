@@ -7,7 +7,7 @@ import ErrorComponent from "./Error";
 import Footer from "./Footer";
 import Header from "./Header";
 
-const Installer = ({ templateId, onInstall = () => {}, style }) => {
+const Installer = ({ workflowId, templateId, onInstall = () => {}, style }) => {
     const { cobalt, sessionToken } = useContext(SessionContext);
     const [ workflow, setWorkflow ] = useState(null);
     const [ loading, setLoading ] = useState(false);
@@ -17,18 +17,33 @@ const Installer = ({ templateId, onInstall = () => {}, style }) => {
         setLoading(true);
         cobalt.token = sessionToken;
 
-        cobalt.installTemplate(templateId)
-        .then(data => setWorkflow(data))
-        .catch(e => {
-            console.error(e);
-            setError({
-                title: "Install Error",
-                message: "Error when trying to install the workflow. Please try again.",
+        if (workflowId) {
+            cobalt.getWorkflowConfiguration(workflowId)
+            .then(data => setWorkflow(data))
+            .catch(e => {
+                console.error(e);
+                setError({
+                    title: "Workflow Error",
+                    message: "Error when trying to request the workflow. Please try again.",
+                });
+            })
+            .finally(() => {
+                setLoading(false);
             });
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+        } else if (templateId) {
+            cobalt.installTemplate(templateId)
+            .then(data => setWorkflow(data))
+            .catch(e => {
+                console.error(e);
+                setError({
+                    title: "Install Error",
+                    message: "Error when trying to install the workflow. Please try again.",
+                });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        }
     }, [ sessionToken ]);
 
     if (error) {
