@@ -7,11 +7,8 @@ const Content = ({ workflow }) => {
     const { cobalt } = useContext(SessionContext);
     const { step, steps, setSteps, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
 
-    const getNodeConfiguration = (fieldName, fieldValue) => {
-        cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, fieldName, {
-            ...inputData,
-            [fieldName]: fieldValue,
-        })
+    const getNodeConfiguration = (nextFieldName, selectedField) => {
+        cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, Object.fromEntries(Object.entries({ ...inputData, ...selectedField }).map(([ k, v ]) => ([ k, { value: v } ]))))
         .then(data => {
             const nodeIndex = workflow?.configure?.findIndex(n => n.node_id === selectedItem);
             if (nodeIndex > -1) {
@@ -222,8 +219,14 @@ const Content = ({ workflow }) => {
                                                         onChange={ e => {
                                                             // update input data
                                                             setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
+
+                                                            // get dynamic field data
                                                             if (field.isDynamic) {
-                                                                getNodeConfiguration(field.name, e.target.value);
+                                                                const dynamicFields = workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic);
+                                                                const currentFieldIndex = dynamicFields?.findIndex(f => f.name === field.name);
+                                                                const nextFieldName = dynamicFields?.[(currentFieldIndex + 1) % dynamicFields?.length]?.name
+
+                                                                getNodeConfiguration(nextFieldName, { [field.name]: e.target.value });
                                                             }
                                                         }}
                                                         style={{
