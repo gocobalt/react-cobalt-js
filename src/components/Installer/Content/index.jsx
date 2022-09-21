@@ -144,39 +144,83 @@ const Content = ({ defaultWorkflow }) => {
                                                             }}>
                                                                 {
                                                                     field.columns?.map(column =>
-                                                                        <input
-                                                                            key={ column.name }
-                                                                            type={ column.type }
-                                                                            placeholder={ column.placeholder }
-                                                                            required={ column.required }
-                                                                            label={ column.placeholder }
-                                                                            value={ row?.[column.name] || "" }
-                                                                            onChange={ e => {
-                                                                                // update cell value
-                                                                                const newRow = row || {};
-                                                                                newRow[column.name] = e.target.value;
+                                                                        column.type === "select" || column.type === "slot_list"
+                                                                        ?   <select
+                                                                                name={ column.name }
+                                                                                placeholder={ column.placeholder }
+                                                                                required={ column.required }
+                                                                                multiple={ column.multiple }
+                                                                                value={ row?.[column.name] || "" }
+                                                                                onChange={ e => {
+                                                                                    // update cell value
+                                                                                    const newRow = row || {};
+                                                                                    newRow[column.name] = e.target.value;
 
-                                                                                // update input data value
-                                                                                const newValue = [ ...inputData?.[field.name]?.value ];
-                                                                                newValue.splice(rowIndex, 1, newRow);
+                                                                                    // update input data value
+                                                                                    const newValue = inputData[field.name]?.value?.length ? [ ...inputData[field.name]?.value ] : [];
+                                                                                    newValue.splice(rowIndex, 1, newRow);
 
-                                                                                // update input data
-                                                                                setInputData({
-                                                                                    [field.name]: {
-                                                                                        ...inputData?.[field.name],
-                                                                                        value: newValue,
-                                                                                    },
-                                                                                });
-                                                                            }}
-                                                                            style={{
-                                                                                width: "100%",
-                                                                                marginBottom: field.multiple ? 2 : 0,
-                                                                                padding: 8,
-                                                                                border: "none",
-                                                                                backgroundColor: "#f9fafb",
-                                                                                borderRadius: 8,
-                                                                            }}
-                                                                        />
+                                                                                    // update input data
+                                                                                    setInputData({
+                                                                                        [field.name]: {
+                                                                                            ...inputData?.[field.name],
+                                                                                            value: newValue,
+                                                                                        },
+                                                                                    });
+                                                                                }}
+                                                                                style={{
+                                                                                    width: "100%",
+                                                                                    marginBottom: column.multiple ? 2 : 0,
+                                                                                    padding: 15,
+                                                                                    border: "none",
+                                                                                    backgroundColor: "#f9fafb",
+                                                                                    borderRadius: 8,
+                                                                                }}
+                                                                            >
+                                                                                <option hidden disabled value={ "" }>Select</option>
+                                                                                {
+                                                                                    column.type === "slot_list"
+                                                                                    ?   workflow?.data_slots?.map(ds =>
+                                                                                            <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
+                                                                                        )
+                                                                                    :   column.options?.map(o =>
+                                                                                            <option key={ o.value } value={ o.value }>{ o.name }</option>
+                                                                                        )
+                                                                                }
+                                                                            </select>
+                                                                        :   <input
+                                                                                key={ column.name }
+                                                                                type={ column.type }
+                                                                                placeholder={ column.placeholder }
+                                                                                required={ column.required }
+                                                                                label={ column.placeholder }
+                                                                                value={ row?.[column.name] || "" }
+                                                                                onChange={ e => {
+                                                                                    // update cell value
+                                                                                    const newRow = row || {};
+                                                                                    newRow[column.name] = e.target.value;
+
+                                                                                    // update input data value
+                                                                                    const newValue = inputData?.length ? [ ...inputData[field.name]?.value ] : [];
+                                                                                    newValue.splice(rowIndex, 1, newRow);
+
+                                                                                    // update input data
+                                                                                    setInputData({
+                                                                                        [field.name]: {
+                                                                                            ...inputData?.[field.name],
+                                                                                            value: newValue,
+                                                                                        },
+                                                                                    });
+                                                                                }}
+                                                                                style={{
+                                                                                    width: "100%",
+                                                                                    marginBottom: field.multiple ? 2 : 0,
+                                                                                    padding: 8,
+                                                                                    border: "none",
+                                                                                    backgroundColor: "#f9fafb",
+                                                                                    borderRadius: 8,
+                                                                                }}
+                                                                            />
                                                                     )
                                                                 }
                                                             </div>
@@ -209,7 +253,7 @@ const Content = ({ defaultWorkflow }) => {
                                                         + Map Fields
                                                     </button>
                                                 </React.Fragment>
-                                            :   field.type === "select"
+                                            :   field.type === "select" || field.type === "slot_list"
                                                 ?   <select
                                                         name={ field.name }
                                                         placeholder={ field.placeholder }
@@ -240,9 +284,13 @@ const Content = ({ defaultWorkflow }) => {
                                                     >
                                                         <option hidden disabled value={ "" }>Select</option>
                                                         {
-                                                            field.options?.map(o =>
-                                                                <option key={ o.value } value={ o.value }>{ o.name }</option>
-                                                            )
+                                                            field.type === "slot_list"
+                                                            ?   workflow?.data_slots?.map(ds =>
+                                                                    <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
+                                                                )
+                                                            :   field.options?.map(o =>
+                                                                    <option key={ o.value } value={ o.value }>{ o.name }</option>
+                                                                )
                                                         }
                                                     </select>
                                                 :   <React.Fragment>
