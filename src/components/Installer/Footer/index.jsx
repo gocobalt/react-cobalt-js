@@ -77,11 +77,14 @@ const Footer = ({ disabled, onInstall }) => {
     };
 
     const activateWorkflow = () => {
-        // TODO: use activate workflow api when available
-        console.log("ACTIVATE");
-        if (onInstall instanceof Function) {
-            onInstall(workflow?._id);
-        };
+        // TODO: handle error
+        cobalt.activateWorkflow(workflow?.workflow_id)
+        .then(() => {
+            if (onInstall instanceof Function) {
+                onInstall(workflow?._id);
+            }
+        })
+        .catch(console.error);
     };
 
     return (
