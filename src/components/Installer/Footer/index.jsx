@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { Context as SessionContext } from "../../Provider";
 import { Context as InstallerContext } from "../Provider";
 
-const Footer = ({ disabled, onInstall }) => {
+const Footer = ({ disabled, onInstall, onClose }) => {
     const { cobalt } = useContext(SessionContext);
     const { step, setStep, steps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
@@ -82,6 +82,9 @@ const Footer = ({ disabled, onInstall }) => {
         .then(() => {
             if (onInstall instanceof Function) {
                 onInstall(workflow?._id);
+            }
+            if (onClose instanceof Function) {
+                onClose(workflow?._id);
             }
         })
         .catch(console.error);
