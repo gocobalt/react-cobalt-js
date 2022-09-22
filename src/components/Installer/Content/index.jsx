@@ -29,7 +29,7 @@ const Content = ({ defaultWorkflow }) => {
     }, [ defaultWorkflow ]);
 
     useEffect(() => {
-        if (workflow?.configure?.find(n => n.node_id === selectedItem)) {
+        if (workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic)?.length) {
             getNodeConfiguration(workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => f.isDynamic)?.[0]?.name);
         }
         setInputData(Object.fromEntries(workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.map(f => ([ f.name, f.value ])) || []));
