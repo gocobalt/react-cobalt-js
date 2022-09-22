@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 import { Context as SessionContext } from "../../Provider";
 import { Context, STEPS } from "../Provider";
@@ -98,16 +99,22 @@ const Content = ({ defaultWorkflow }) => {
                             {
                                 workflow?.applications?.find(a => a.app_type === selectedItem)?.app_type && (
                                     <div>
-                                        <div style={{
-                                            padding: 15,
-                                            backgroundColor: "rgba(33, 43, 54, .1)",
-                                            border: "1px solid #212b36",
-                                            borderRadius: 8,
-                                            color: "#212b36",
-                                            fontSize: 14,
-                                        }}>
-                                            { workflow?.applications?.find(a => a.app_type === selectedItem)?.help }
-                                        </div>
+                                        {
+                                            workflow?.applications?.find(a => a.app_type === selectedItem)?.help && (
+                                                <div style={{
+                                                    padding: 15,
+                                                    backgroundColor: "rgba(33, 43, 54, .1)",
+                                                    border: "1px solid #212b36",
+                                                    borderRadius: 8,
+                                                    color: "#212b36",
+                                                    fontSize: 14,
+                                                }}>
+                                                    <ReactMarkdown>
+                                                        { workflow?.applications?.find(a => a.app_type === selectedItem)?.help }
+                                                    </ReactMarkdown>
+                                                </div>
+                                            )
+                                        }
 
                                         {
                                             workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier && (
