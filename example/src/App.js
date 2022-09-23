@@ -5,7 +5,9 @@ import { Provider as CobaltProvider, Installer as CobaltInstaller } from "@cobal
 const App = () => {
     const [ cobaltToken, setCobaltToken ] = useState(null);
     const [ templates, setTemplates ] = useState([]);
+    const [ workflows, setWorkflows ] = useState([]);
     const [ selectedTemplate, setSelectedTemplate ] = useState(null);
+    const [ selectedWorkflow, setSelectedWorkflow ] = useState(null);
 
     // generate cobalt session token using cobalt backend sdk
     const generateCobaltToken = () => {
@@ -29,6 +31,12 @@ const App = () => {
         .then(res => res.json())
         .then(setTemplates)
         .catch(console.error);
+
+        // get all installed workflows from Cobalt using the backend SDK
+        fetch("/api/workflows")
+        .then(res => res.json())
+        .then(setWorkflows)
+        .catch(console.error);
     }, []);
 
     return (
@@ -36,15 +44,39 @@ const App = () => {
         // wrap the Cobalt Provider component around the Cobalt Installer component
         <CobaltProvider sessionToken={ cobaltToken }>
             <div className="Page">
+                <div className="Header">Templates</div>
+                <div className="Templates">
+                    {
+                        // render the workflow templates you get from cobalt backend sdk
+                        templates.map(t =>
+                            <div className="">
+                                <div>{ t.name }</div>
+                                <div>{ t.description }</div>
+                                <button onClick={ () => {
+                                    setSelectedTemplate(t._id);
+                                    setSelectedWorkflow(null);
+                                }}>
+                                    Install
+                                </button>
+                            </div>
+                        )
+                    }
+                </div>
+
                 <div className="Header">Workflows</div>
                 <div className="Workflows">
                     {
-                        // render the workflow templates you get from
-                        templates.map(wf =>
+                        // render the installed workflows you get from cobalt backend sdk
+                        workflows.map(wf =>
                             <div className="">
                                 <div>{ wf.name }</div>
                                 <div>{ wf.description }</div>
-                                <button onClick={ () => setSelectedTemplate(wf._id) }>Install</button>
+                                <button onClick={ () => {
+                                    setSelectedTemplate(null);
+                                    setSelectedWorkflow(t._id);
+                                }}>
+                                    Edit
+                                </button>
                             </div>
                         )
                     }
@@ -58,6 +90,17 @@ const App = () => {
                     <CobaltInstaller
                         templateId={ selectedTemplate }
                         onInstall={ () => setSelectedTemplate(null) }
+                    />
+                </dialog>
+
+                { /*
+                   * render the workflow editor in a modal, inline or however you want
+                   * by passing the workflow id to the component
+                   */ }
+                <dialog open={ !!selectedWorkflow }>
+                    <CobaltInstaller
+                        workflowId={ selectedWorkflow }
+                        onClose={ () => setSelectedTemplate(null) }
                     />
                 </dialog>
             </div>
