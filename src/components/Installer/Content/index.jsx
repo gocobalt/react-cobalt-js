@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 import { Context as SessionContext } from "../../Provider";
@@ -7,6 +7,8 @@ import { Context, STEPS } from "../Provider";
 const Content = ({ defaultWorkflow }) => {
     const { cobalt } = useContext(SessionContext);
     const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, dynamicOptions } = useContext(Context);
+
+    const [ showOptionalFields, setShowOptionalFields ] = useState(false);
 
     const getNodeConfiguration = (nextFieldName, selectedField) => {
         cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, {
@@ -142,7 +144,7 @@ const Content = ({ defaultWorkflow }) => {
                                 )
                             }
                             {
-                                workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.map(field =>
+                                workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => showOptionalFields ? true : f.required)?.map(field =>
                                     <div key={ field.name }>
                                         <div style={{ marginBottom: 5 }}>
                                             <span>{ field.name }</span>
@@ -337,6 +339,21 @@ const Content = ({ defaultWorkflow }) => {
                                                         }
                                                     </React.Fragment>
                                         }
+                                    </div>
+                                )
+                            }
+                            {
+                                workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.some(f => !f.required) && (
+                                    <div
+                                        onClick={ () => setShowOptionalFields(!showOptionalFields) }
+                                        style={{
+                                            fontSize: 14,
+                                            fontWeight: 600,
+                                            opacity: .5,
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        { showOptionalFields ? "Hide" : "Show" } optional fields.
                                     </div>
                                 )
                             }
