@@ -73,7 +73,7 @@ const App = () => {
                                 <div>{ wf.description }</div>
                                 <button onClick={ () => {
                                     setSelectedTemplate(null);
-                                    setSelectedWorkflow(t._id);
+                                    setSelectedWorkflow(wf._id);
                                 }}>
                                     Edit
                                 </button>
