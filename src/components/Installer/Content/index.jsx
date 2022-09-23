@@ -6,7 +6,7 @@ import { Context, STEPS } from "../Provider";
 
 const Content = ({ defaultWorkflow }) => {
     const { cobalt } = useContext(SessionContext);
-    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData } = useContext(Context);
+    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, dynamicOptions } = useContext(Context);
 
     const getNodeConfiguration = (nextFieldName, selectedField) => {
         cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, {
@@ -14,11 +14,16 @@ const Content = ({ defaultWorkflow }) => {
             ...selectedField,
         })
         .then(data => {
-            const nodeIndex = workflow?.configure?.findIndex(n => n.node_id === selectedItem);
-            if (nodeIndex > -1) {
-                const newNodes = [ ...workflow?.configure ];
-                newNodes[nodeIndex].fields = data;
-                setWorkflow({ ...workflow, configure: newNodes });
+            // update dynamic fields' options
+            for (const field of data || []) {
+                if (field.options?.length) {
+                    dynamicOptions.set(field.name, field.options);
+                }
+                for (const column of field.columns?.filter(c => c.isDynamic) || []) {
+                    if (column.options?.length) {
+                        dynamicOptions.set(column.name, column.options);
+                    }
+                }
             }
         })
         .catch(console.error);
@@ -194,7 +199,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                                     ?   workflow?.data_slots?.map(ds =>
                                                                                             <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
                                                                                         )
-                                                                                    :   column.options?.map(o =>
+                                                                                    :   (column.options?.length ? column.options : dynamicOptions.get(column.name))?.map(o =>
                                                                                             <option key={ o.value } value={ o.value }>{ o.name }</option>
                                                                                         )
                                                                                 }
@@ -299,7 +304,7 @@ const Content = ({ defaultWorkflow }) => {
                                                             ?   workflow?.data_slots?.map(ds =>
                                                                     <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
                                                                 )
-                                                            :   field.options?.map(o =>
+                                                            :   (field.options?.length ? field.options : dynamicOptions.get(field.name))?.map(o =>
                                                                     <option key={ o.value } value={ o.value }>{ o.name }</option>
                                                                 )
                                                         }
