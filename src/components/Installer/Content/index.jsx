@@ -6,7 +6,7 @@ import { Context, STEPS } from "../Provider";
 
 const Content = ({ defaultWorkflow }) => {
     const { cobalt } = useContext(SessionContext);
-    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, dynamicOptions } = useContext(Context);
+    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, dynamicOptions, setDynamicOptions } = useContext(Context);
 
     const [ showOptionalFields, setShowOptionalFields ] = useState(false);
 
@@ -17,16 +17,18 @@ const Content = ({ defaultWorkflow }) => {
         })
         .then(data => {
             // update dynamic fields' options
+            const newDynamicOptions = new Map(dynamicOptions);
             for (const field of data || []) {
                 if (field.options?.length) {
-                    dynamicOptions.set(field.name, field.options);
+                    newDynamicOptions.set(field.name, field.options);
                 }
                 for (const column of field.columns?.filter(c => c.isDynamic) || []) {
                     if (column.options?.length) {
-                        dynamicOptions.set(column.name, column.options);
+                        newDynamicOptions.set(column.name, column.options);
                     }
                 }
             }
+            setDynamicOptions(newDynamicOptions);
         })
         .catch(console.error);
     };
