@@ -311,33 +311,49 @@ const Content = ({ defaultWorkflow }) => {
                                                                 )
                                                         }
                                                     </select>
-                                                :   <React.Fragment>
-                                                        <input
-                                                            type={ field.type }
+                                                :   field.type === "textarea"
+                                                    ?   <textarea
                                                             placeholder={ field.placeholder }
                                                             required={ field.required }
                                                             style={{
+                                                                resize: "vertical",
                                                                 width: "100%",
-                                                                marginBottom: field.multiple ? 2 : 0,
                                                                 padding: 15,
                                                                 border: "none",
                                                                 backgroundColor: "#f9fafb",
                                                                 borderRadius: 8,
                                                             }}
-                                                            value={ inputData?.[field.name]?.value }
                                                             onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
-                                                        />
-                                                        {
-                                                            field.multiple && (
-                                                                <div style={{
-                                                                    color: "#919eab",
-                                                                    fontSize: 12,
-                                                                }}>
-                                                                    Accepts comma separated values.
-                                                                </div>
-                                                            )
-                                                        }
-                                                    </React.Fragment>
+                                                        >
+                                                            { inputData?.[field.name]?.value }
+                                                        </textarea>
+                                                    :   <React.Fragment>
+                                                            <input
+                                                                type={ field.type }
+                                                                placeholder={ field.placeholder }
+                                                                required={ field.required }
+                                                                style={{
+                                                                    width: "100%",
+                                                                    marginBottom: field.multiple ? 2 : 0,
+                                                                    padding: 15,
+                                                                    border: "none",
+                                                                    backgroundColor: "#f9fafb",
+                                                                    borderRadius: 8,
+                                                                }}
+                                                                value={ inputData?.[field.name]?.value }
+                                                                onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
+                                                            />
+                                                            {
+                                                                field.multiple && (
+                                                                    <div style={{
+                                                                        color: "#919eab",
+                                                                        fontSize: 12,
+                                                                    }}>
+                                                                        Accepts comma separated values.
+                                                                    </div>
+                                                                )
+                                                            }
+                                                        </React.Fragment>
                                         }
                                     </div>
                                 )
