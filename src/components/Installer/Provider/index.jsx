@@ -20,6 +20,7 @@ export const Provider = ({ children }) => {
     const [ selectedItem, setSelectedItem ] = useState(null);
     const [ connectWindow, setConnectWindow ] = useState(null);
     const [ connectTimer, setConnectTimer ] = useState(null);
+    const [ dynamicOptions, setDynamicOptions ] = useState(new Map());
 
     const selectItem = (item) => {
         setSelectedItem(item);
@@ -64,6 +65,8 @@ export const Provider = ({ children }) => {
             setConnectWindow,
             connectTimer,
             setConnectTimer,
+            dynamicOptions,
+            setDynamicOptions,
         }}>
             { children }
         </Context.Provider>
