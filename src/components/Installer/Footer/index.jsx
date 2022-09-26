@@ -97,7 +97,7 @@ const Footer = ({ disabled, onInstall, onClose }) => {
             borderTop: "1px solid #dfe3e8",
         }}>
             <button
-                disabled={ !selectedItem && disabled }
+                disabled={ !selectedItem && workflow?.applications?.some(app => !app.configured) }
                 onClick={
                     selectedItem
                     ?   workflow?.configure?.some(n => n.node_id === selectedItem)
@@ -114,12 +114,12 @@ const Footer = ({ disabled, onInstall, onClose }) => {
                     padding: 15,
                     border: "none",
                     borderRadius: 8,
-                    backgroundColor: !selectedItem && disabled ? "#c4cdd5" : "#212b36",
+                    backgroundColor: !selectedItem && workflow?.applications?.some(app => !app.configured) ? "#c4cdd5" : "#212b36",
                     color: "white",
                     fontWeight: "bold",
                     fontSize: 15,
                     boxShadow: "0 8px 16px 0 rgba(154, 154, 154, 0.24)",
-                    cursor: !selectedItem && disabled ? "not-allowed" : "pointer",
+                    cursor: !selectedItem && workflow?.applications?.some(app => !app.configured) ? "not-allowed" : "pointer",
                 }}
             >
                 {

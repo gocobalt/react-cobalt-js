@@ -82,7 +82,6 @@ const Installer = ({ workflowId, templateId, onInstall = () => {}, onClose = () 
                 <Header />
                 <Content defaultWorkflow={ workflow } />
                 <Footer
-                    disabled={ workflow?.applications?.some(app => !app.configured) }
                     onInstall={ onInstall }
                     onClose={ onClose }
                 />
