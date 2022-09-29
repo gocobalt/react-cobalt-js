@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 import Cobalt from "@cobaltio/cobalt-js";
 
-const cobalt = new Cobalt({ baseUrl: "https://api.gocobalt.io" });
+const cobalt = new Cobalt({ baseUrl: "https://embedapi.gocobalt.io" });
 
 export const Context = createContext();
 
