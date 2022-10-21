@@ -149,7 +149,7 @@ const Content = ({ defaultWorkflow }) => {
                                 workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => showOptionalFields ? true : f.required)?.map(field =>
                                     <div key={ field.name }>
                                         <div style={{ marginBottom: 5 }}>
-                                            <span>{ field.name }</span>
+                                            <span>{ field.label || field.name }</span>
                                             { !field.required && <span style={{ marginLeft: 5, color: "#919eab", fontSize: 12 }}>(optional)</span> }
                                         </div>
                                         {
