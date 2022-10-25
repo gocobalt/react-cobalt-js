@@ -28,7 +28,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "@cobaltio/cobalt-js": "~0.0.15",
+    "@cobaltio/cobalt-js": "~0.0.16",
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
