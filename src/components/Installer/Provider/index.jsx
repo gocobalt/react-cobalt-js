@@ -48,6 +48,24 @@ export const Provider = ({ children }) => {
         }
     };
 
+    const setAuthData = (data) => {
+        const appIndex = workflow?.applications?.findIndex(n => n.app_type === selectedItem);
+
+        if (appIndex > -1) {
+            const newApp = Object.assign({}, workflow?.applications?.find(n => n.app_type === selectedItem));
+
+            newApp.input_data = {
+                ...newApp.input_data,
+                ...data,
+            };
+
+            const newWorkflow = Object.assign({}, workflow);
+            newWorkflow?.applications?.splice(appIndex, 1, newApp);
+
+            setWorkflow(newWorkflow);
+        }
+    };
+
     return (
         <Context.Provider value={{
             step,
@@ -61,6 +79,8 @@ export const Provider = ({ children }) => {
             setSelectedItem: selectItem,
             inputData: workflow?.configure?.find(n => n.node_id === selectedItem)?.input_data,
             setInputData,
+            authData: workflow?.applications?.find(n => n.app_type === selectedItem)?.input_data,
+            setAuthData,
             connectWindow,
             setConnectWindow,
             connectTimer,

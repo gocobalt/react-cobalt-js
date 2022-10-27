@@ -6,7 +6,7 @@ import { Context, STEPS } from "../Provider";
 
 const Content = ({ defaultWorkflow }) => {
     const { cobalt } = useContext(SessionContext);
-    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, dynamicOptions, setDynamicOptions } = useContext(Context);
+    const { step, steps, setSteps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, setInputData, authData, setAuthData, dynamicOptions, setDynamicOptions } = useContext(Context);
 
     const [ showOptionalFields, setShowOptionalFields ] = useState(false);
 
@@ -145,6 +145,33 @@ const Content = ({ defaultWorkflow }) => {
                                     </div>
                                 )
                             }
+
+                            {
+                                workflow?.applications?.find(a => a.app_type === selectedItem)?.auth_input_map?.map(field =>
+                                    <div key={ field.name }>
+                                        <div style={{ marginBottom: 5 }}>
+                                            <span>{ field.label || field.name }</span>
+                                            { !field.required && <span style={{ marginLeft: 5, color: "#919eab", fontSize: 12 }}>(optional)</span> }
+                                        </div>
+                                        <input
+                                            type={ field.type }
+                                            placeholder={ field.placeholder }
+                                            required={ field.required }
+                                            style={{
+                                                width: "100%",
+                                                marginBottom: field.multiple ? 2 : 0,
+                                                padding: 15,
+                                                border: "none",
+                                                backgroundColor: "#f9fafb",
+                                                borderRadius: 8,
+                                            }}
+                                            value={ authData?.[field.name] }
+                                            onChange={ e => setAuthData({ [field.name]: field.multiple ? e.target.value?.split(",") : e.target.value }) }
+                                        />
+                                    </div>
+                                )
+                            }
+
                             {
                                 workflow?.configure?.find(n => n.node_id === selectedItem)?.fields?.filter(f => showOptionalFields ? true : f.required)?.map(field =>
                                     <div key={ field.name }>
