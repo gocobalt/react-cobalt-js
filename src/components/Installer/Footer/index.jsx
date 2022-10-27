@@ -5,7 +5,7 @@ import { Context as InstallerContext } from "../Provider";
 
 const Footer = ({ disabled, onInstall, onClose }) => {
     const { cobalt } = useContext(SessionContext);
-    const { step, setStep, steps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
+    const { step, setStep, steps, workflow, setWorkflow, selectedItem, setSelectedItem, inputData, authData, connectWindow, setConnectWindow, connectTimer, setConnectTimer } = useContext(InstallerContext);
 
     const setConnected = (appType, status = true) => {
         const appIndex = workflow?.applications?.findIndex(a => a.app_type === appType);
@@ -19,6 +19,15 @@ const Footer = ({ disabled, onInstall, onClose }) => {
 
             setWorkflow({ ...workflow, applications: newApps });
         }
+    };
+
+    const saveAuth = () => {
+        cobalt.setAppAuthData(selectedItem, authData)
+        .then(() => {
+            setConnected(selectedItem);
+            setSelectedItem(null);
+        })
+        .catch(console.error);
     };
 
     const connectApp = () => {
@@ -104,7 +113,9 @@ const Footer = ({ disabled, onInstall, onClose }) => {
                         ?   saveNode
                         :   workflow?.applications?.find(a => a.app_type === selectedItem)?.configured
                             ?   removeApp
-                            :   connectApp
+                            :   workflow?.applications?.find(a => a.app_type === selectedItem)?.auth_type === "oauth"
+                                ?   connectApp
+                                :   saveAuth
                     :  step + 1 < steps.length
                         ?   () => setStep(step + 1)
                         :   activateWorkflow
