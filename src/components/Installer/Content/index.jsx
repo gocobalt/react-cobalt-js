@@ -147,7 +147,7 @@ const Content = ({ defaultWorkflow }) => {
                             }
 
                             {
-                                workflow?.applications?.find(a => a.app_type === selectedItem)?.auth_input_map?.map(field =>
+                                !workflow?.applications?.find(a => a.app_type === selectedItem)?.configured && workflow?.applications?.find(a => a.app_type === selectedItem)?.auth_input_map?.map(field =>
                                     <div key={ field.name }>
                                         <div style={{ marginBottom: 5 }}>
                                             <span>{ field.label || field.name }</span>
