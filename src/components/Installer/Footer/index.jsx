@@ -22,7 +22,7 @@ const Footer = ({ disabled, onInstall, onClose }) => {
     };
 
     const saveAuth = () => {
-        cobalt.setAppAuthData(selectedItem, authData)
+        cobalt.setAppAuthData(selectedItem, authData, workflow?.applications?.find(a => a.app_type === selectedItem)?.app_id)
         .then(() => {
             setConnected(selectedItem);
             setSelectedItem(null);
@@ -71,7 +71,7 @@ const Footer = ({ disabled, onInstall, onClose }) => {
     };
 
     const removeApp = () => {
-        cobalt.removeAppAuth(selectedItem)
+        cobalt.removeAppAuth(selectedItem, workflow?.applications?.find(a => a.app_type === selectedItem)?.app_id)
         .then(() => setConnected(selectedItem, false))
         .catch(console.error);
     };
