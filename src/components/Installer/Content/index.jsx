@@ -237,7 +237,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                             </select>
                                                                         :   <input
                                                                                 key={ column.name }
-                                                                                type={ column.type }
+                                                                                type={ column.type === "datetime" ? "datetime-local" : column.type }
                                                                                 placeholder={ column.placeholder }
                                                                                 required={ column.required }
                                                                                 label={ column.placeholder }
