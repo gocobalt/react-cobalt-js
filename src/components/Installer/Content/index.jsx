@@ -358,7 +358,7 @@ const Content = ({ defaultWorkflow }) => {
                                                         </textarea>
                                                     :   <React.Fragment>
                                                             <input
-                                                                type={ field.type }
+                                                                type={ field.type === "datetime" ? "datetime-local" : field.type }
                                                                 placeholder={ field.placeholder }
                                                                 required={ field.required }
                                                                 style={{
