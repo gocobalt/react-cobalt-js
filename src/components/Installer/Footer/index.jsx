@@ -86,17 +86,21 @@ const Footer = ({ disabled, onInstall, onClose }) => {
     };
 
     const activateWorkflow = () => {
-        // TODO: handle error
-        cobalt.activateWorkflow(workflow?.workflow_id)
-        .then(() => {
-            if (onInstall instanceof Function) {
+        if (onInstall instanceof Function) {
+            // TODO: handle error
+            cobalt.activateWorkflow(workflow?.workflow_id)
+            .then(() => {
                 onInstall(workflow?._id);
-            }
-            if (onClose instanceof Function) {
+            })
+            .catch(console.error);
+        } else if (onClose instanceof Function) {
+            // TODO: handle error
+            cobalt.toggleWorkflowStatus(workflow?.workflow_id)
+            .then(() => {
                 onClose(workflow?._id);
-            }
-        })
-        .catch(console.error);
+            })
+            .catch(console.error);
+        }
     };
 
     return (
