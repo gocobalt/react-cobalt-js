@@ -370,7 +370,10 @@ const Content = ({ defaultWorkflow }) => {
                                                                     borderRadius: 8,
                                                                 }}
                                                                 value={ inputData?.[field.name]?.value }
-                                                                onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
+                                                                onChange={ e => setInputData({
+                                                                    [field.name]: {
+                                                                        value: field.multiple ? e.target.value?.split(",") : field.type.startsWith("date") ? new Date(e.target.value).toISOString() : e.target.value,
+                                                                }}) }
                                                             />
                                                             {
                                                                 field.multiple && (
