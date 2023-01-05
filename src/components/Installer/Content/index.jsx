@@ -378,7 +378,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                     backgroundColor: "#f9fafb",
                                                                     borderRadius: 8,
                                                                 }}
-                                                                value={ inputData?.[field.name]?.value ? getLocalDateString(inputData[field.name].value) : inputData?.[field.name]?.value }
+                                                                value={ inputData?.[field.name]?.value ? field.type.startsWith("date") ? getLocalDateString(inputData[field.name].value) : inputData?.[field.name]?.value : "" }
                                                                 onChange={ e => setInputData({
                                                                     [field.name]: {
                                                                         value: field.multiple ? e.target.value?.split(",") : field.type.startsWith("date") ? new Date(e.target.value).toISOString() : e.target.value,
