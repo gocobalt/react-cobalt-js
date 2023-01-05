@@ -11,8 +11,8 @@ const Content = ({ defaultWorkflow }) => {
     const [ showOptionalFields, setShowOptionalFields ] = useState(false);
 
     const getLocalDateString = (date = new Date()) => {
-        if (date) {
-            const datetime = new Date(date);
+        const datetime = new Date(date);
+        if (datetime.getTime()) {
             datetime.setMinutes(datetime.getMinutes() - datetime.getTimezoneOffset());
             return datetime.toISOString().slice(0, -1);
         }
