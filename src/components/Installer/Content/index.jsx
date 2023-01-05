@@ -10,6 +10,15 @@ const Content = ({ defaultWorkflow }) => {
 
     const [ showOptionalFields, setShowOptionalFields ] = useState(false);
 
+    const getLocalDateString = (date = new Date()) => {
+        if (date) {
+            const datetime = new Date(date);
+            datetime.setMinutes(datetime.getMinutes() - datetime.getTimezoneOffset());
+            return datetime.toISOString().slice(0, -1);
+        }
+        return "";
+    };
+
     const getNodeConfiguration = (nextFieldName, selectedField) => {
         cobalt.getNodeConfiguration(workflow?.workflow_id, selectedItem, nextFieldName, {
             ...inputData,
@@ -369,7 +378,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                     backgroundColor: "#f9fafb",
                                                                     borderRadius: 8,
                                                                 }}
-                                                                value={ inputData?.[field.name]?.value }
+                                                                value={ inputData?.[field.name]?.value ? getLocalDateString(inputData[field.name].value) : inputData?.[field.name]?.value }
                                                                 onChange={ e => setInputData({
                                                                     [field.name]: {
                                                                         value: field.multiple ? e.target.value?.split(",") : field.type.startsWith("date") ? new Date(e.target.value).toISOString() : e.target.value,
