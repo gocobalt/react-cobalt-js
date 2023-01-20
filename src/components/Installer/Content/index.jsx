@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import { Input, Option, Select, Textarea } from "@mui/joy";
 import ReactMarkdown from "react-markdown";
 
 import { Context as SessionContext } from "../../Provider";
@@ -136,18 +137,11 @@ const Content = ({ defaultWorkflow }) => {
 
                                         {
                                             workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier && (
-                                                <input
+                                                <Input
+                                                    fullWidth
                                                     readOnly
                                                     disabled
                                                     value={ workflow?.applications?.find(a => a.app_type === selectedItem)?.identifier }
-                                                    style={{
-                                                        width: "100%",
-                                                        marginTop: 20,
-                                                        padding: 15,
-                                                        border: "none",
-                                                        backgroundColor: "#f9fafb",
-                                                        borderRadius: 8,
-                                                    }}
                                                 />
                                             )
                                         }
@@ -162,18 +156,10 @@ const Content = ({ defaultWorkflow }) => {
                                             <span>{ field.label || field.name }</span>
                                             { !field.required && <span style={{ marginLeft: 5, color: "#919eab", fontSize: 12 }}>(optional)</span> }
                                         </div>
-                                        <input
+                                        <Input
                                             type={ field.type }
                                             placeholder={ field.placeholder }
                                             required={ field.required }
-                                            style={{
-                                                width: "100%",
-                                                marginBottom: field.multiple ? 2 : 0,
-                                                padding: 15,
-                                                border: "none",
-                                                backgroundColor: "#f9fafb",
-                                                borderRadius: 8,
-                                            }}
                                             value={ authData?.[field.name] }
                                             onChange={ e => setAuthData({ [field.name]: field.multiple ? e.target.value?.split(",") : e.target.value }) }
                                         />
@@ -201,16 +187,16 @@ const Content = ({ defaultWorkflow }) => {
                                                                 {
                                                                     field.columns?.map(column =>
                                                                         column.type === "select" || column.type === "slot_list"
-                                                                        ?   <select
+                                                                        ?   <Select
                                                                                 name={ column.name }
                                                                                 placeholder={ column.placeholder }
                                                                                 required={ column.required }
-                                                                                multiple={ column.multiple }
+                                                                                // multiple={ column.multiple }
                                                                                 value={ row?.[column.name] || "" }
-                                                                                onChange={ e => {
+                                                                                onChange={ (_, value) => {
                                                                                     // update cell value
                                                                                     const newRow = row || {};
-                                                                                    newRow[column.name] = e.target.value;
+                                                                                    newRow[column.name] = value;
 
                                                                                     // update input data value
                                                                                     const newValue = inputData[field.name]?.value?.length ? [ ...inputData[field.name]?.value ] : [];
@@ -224,32 +210,32 @@ const Content = ({ defaultWorkflow }) => {
                                                                                         },
                                                                                     });
                                                                                 }}
-                                                                                style={{
-                                                                                    width: "100%",
-                                                                                    marginBottom: column.multiple ? 2 : 0,
-                                                                                    padding: 15,
-                                                                                    border: "none",
-                                                                                    backgroundColor: "#f9fafb",
-                                                                                    borderRadius: 8,
+                                                                                slotProps={{
+                                                                                    listbox: {
+                                                                                        sx: {
+                                                                                            maxHeight: 200,
+                                                                                            overflow: "auto",
+                                                                                        },
+                                                                                    },
                                                                                 }}
                                                                             >
-                                                                                <option hidden disabled value={ "" }>Select</option>
                                                                                 {
                                                                                     column.type === "slot_list"
                                                                                     ?   workflow?.data_slots?.map(ds =>
-                                                                                            <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
+                                                                                            <Option key={ ds._id } value={ ds._id }>{ ds.name }</Option>
                                                                                         )
                                                                                     :   (column.options?.length ? column.options : dynamicOptions.get(column.name))?.map(o =>
-                                                                                            <option key={ o.value } value={ o.value }>{ o.name }</option>
+                                                                                            <Option key={ o.value } value={ o.value }>{ o.name }</Option>
                                                                                         )
                                                                                 }
-                                                                            </select>
-                                                                        :   <input
+                                                                            </Select>
+                                                                        :   <Input
+                                                                                fullWidth
                                                                                 key={ column.name }
+                                                                                variant="outlined"
                                                                                 type={ column.type === "datetime" ? "datetime-local" : column.type }
                                                                                 placeholder={ column.placeholder }
                                                                                 required={ column.required }
-                                                                                label={ column.placeholder }
                                                                                 value={ row?.[column.name] || "" }
                                                                                 onChange={ e => {
                                                                                     // update cell value
@@ -267,14 +253,6 @@ const Content = ({ defaultWorkflow }) => {
                                                                                             value: newValue,
                                                                                         },
                                                                                     });
-                                                                                }}
-                                                                                style={{
-                                                                                    width: "100%",
-                                                                                    marginBottom: field.multiple ? 2 : 0,
-                                                                                    padding: 8,
-                                                                                    border: "none",
-                                                                                    backgroundColor: "#f9fafb",
-                                                                                    borderRadius: 8,
                                                                                 }}
                                                                             />
                                                                     )
@@ -310,15 +288,15 @@ const Content = ({ defaultWorkflow }) => {
                                                     </button>
                                                 </React.Fragment>
                                             :   field.type === "select" || field.type === "slot_list"
-                                                ?   <select
+                                                ?   <Select
                                                         name={ field.name }
-                                                        placeholder={ field.placeholder }
+                                                        placeholder={ field.placeholder || "Select" }
                                                         required={ field.required }
-                                                        multiple={ field.multiple }
-                                                        value={ inputData?.[field.name]?.value || "" }
-                                                        onChange={ e => {
+                                                        // multiple={ field.multiple }
+                                                        value={ inputData?.[field.name]?.value }
+                                                        onChange={ (_, value) => {
                                                             // update input data
-                                                            setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }});
+                                                            setInputData({ [field.name]: { value: field.multiple ? value?.split(",") : value }});
 
                                                             // get dynamic field data
                                                             if (field.isDynamic) {
@@ -326,58 +304,42 @@ const Content = ({ defaultWorkflow }) => {
                                                                 const currentFieldIndex = dynamicFields?.findIndex(f => f.name === field.name);
                                                                 const nextFieldName = dynamicFields?.[(currentFieldIndex + 1) % dynamicFields?.length]?.name
 
-                                                                getNodeConfiguration(nextFieldName, { [field.name]: { value: e.target.value }});
+                                                                getNodeConfiguration(nextFieldName, { [field.name]: { value: value }});
                                                             }
                                                         }}
-                                                        style={{
-                                                            width: "100%",
-                                                            marginBottom: field.multiple ? 2 : 0,
-                                                            padding: 15,
-                                                            border: "none",
-                                                            backgroundColor: "#f9fafb",
-                                                            borderRadius: 8,
+                                                        slotProps={{
+                                                            listbox: {
+                                                                sx: {
+                                                                    maxHeight: 200,
+                                                                    overflow: "auto",
+                                                                },
+                                                            },
                                                         }}
                                                     >
-                                                        <option hidden disabled value={ "" }>Select</option>
                                                         {
                                                             field.type === "slot_list"
                                                             ?   workflow?.data_slots?.map(ds =>
-                                                                    <option key={ ds._id } value={ ds._id }>{ ds.name }</option>
+                                                                    <Option key={ ds._id } value={ ds._id }>{ ds.name }</Option>
                                                                 )
                                                             :   (field.options?.length ? field.options : dynamicOptions.get(field.name))?.map(o =>
-                                                                    <option key={ o.value } value={ o.value }>{ o.name }</option>
+                                                                    <Option key={ o.value } value={ o.value }>{ o.name }</Option>
                                                                 )
                                                         }
-                                                    </select>
+                                                    </Select>
                                                 :   field.type === "textarea"
-                                                    ?   <textarea
+                                                    ?   <Textarea
                                                             placeholder={ field.placeholder }
                                                             required={ field.required }
-                                                            style={{
-                                                                resize: "vertical",
-                                                                width: "100%",
-                                                                padding: 15,
-                                                                border: "none",
-                                                                backgroundColor: "#f9fafb",
-                                                                borderRadius: 8,
-                                                            }}
+                                                            value={ inputData?.[field.name]?.value }
                                                             onChange={ e => setInputData({ [field.name]: { value: field.multiple ? e.target.value?.split(",") : e.target.value }}) }
-                                                        >
-                                                            { inputData?.[field.name]?.value }
-                                                        </textarea>
+                                                        />
                                                     :   <React.Fragment>
-                                                            <input
+                                                            <Input
+                                                                fullWidth
+                                                                variant="outlined"
                                                                 type={ field.type === "datetime" ? "datetime-local" : field.type }
                                                                 placeholder={ field.placeholder }
                                                                 required={ field.required }
-                                                                style={{
-                                                                    width: "100%",
-                                                                    marginBottom: field.multiple ? 2 : 0,
-                                                                    padding: 15,
-                                                                    border: "none",
-                                                                    backgroundColor: "#f9fafb",
-                                                                    borderRadius: 8,
-                                                                }}
                                                                 value={ inputData?.[field.name]?.value ? field.type.startsWith("date") ? getLocalDateString(inputData[field.name].value) : inputData?.[field.name]?.value : "" }
                                                                 onChange={ e => setInputData({
                                                                     [field.name]: {
@@ -389,6 +351,7 @@ const Content = ({ defaultWorkflow }) => {
                                                                     <div style={{
                                                                         color: "#919eab",
                                                                         fontSize: 12,
+                                                                        marginTop: 2,
                                                                     }}>
                                                                         Accepts comma separated values.
                                                                     </div>
