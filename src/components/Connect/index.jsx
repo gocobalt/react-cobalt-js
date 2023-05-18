@@ -4,6 +4,7 @@ import { Alert, Avatar, Button, Divider, Input, Sheet, Stack, Typography } from 
 import { Context as CobaltContext, Provider } from "../Provider";
 import ErrorComponent from "../Error";
 import Loader from "../Loader";
+import Field from "../Field";
 
 /**
  * @param {Object} props
@@ -122,16 +123,17 @@ const Connect = ({
                                 <React.Fragment>
                                     {
                                         application.auth_input_map?.map(field =>
-                                            <Stack key={ field.name } spacing={ 1 }>
-                                                <Typography>{ field.label }</Typography>
-                                                <Input
-                                                    name={ field.name }
-                                                    type={ field.type }
-                                                    placeholder={ field.placeholder }
-                                                    value={ inputData?.[field.name] || "" }
-                                                    onChange={ e => setInputData({ ...inputData, [field.name]: e.target.value })}
-                                                />
-                                            </Stack>
+                                            <Field
+                                                key={ field.name }
+                                                type={ field.type }
+                                                required={ field.required }
+                                                name={ field.label }
+                                                description={ field.help_text }
+                                                placeholder={ field.placeholder }
+                                                options={ field.options }
+                                                value={ inputData?.[field.name] || "" }
+                                                onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
+                                            />
                                         )
                                     }
                                     <Divider />

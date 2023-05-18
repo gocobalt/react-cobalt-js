@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, Avatar, Button, Divider, Input, Option, Select, Sheet, Stack, Switch, Tab, TabList, TabPanel, Tabs, Textarea, Typography } from "@mui/joy";
+import { Alert, Avatar, Button, Divider, Sheet, Stack, Switch, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
 
 import { Context as CobaltContext, Provider } from "../Provider";
 import ErrorComponent from "../Error";
 import Loader from "../Loader";
+import Field from "../Field";
 
 /**
  * @param {Object} props
@@ -225,17 +226,17 @@ const Config = ({
                                             <React.Fragment>
                                                 {
                                                     application.auth_input_map?.map(field =>
-                                                        <Stack key={ field.name } spacing={ 1 }>
-                                                            <Typography>{ field.label }</Typography>
-                                                            <Typography color="neutral">{ field.help_text }</Typography>
-                                                            <Input
-                                                                name={ field.name }
-                                                                type={ field.type }
-                                                                placeholder={ field.placeholder }
-                                                                value={ inputData?.[field.name] || "" }
-                                                                onChange={ e => setInputData({ ...inputData, [field.name]: e.target.value })}
-                                                            />
-                                                        </Stack>
+                                                        <Field
+                                                            key={ field.name }
+                                                            type={ field.type }
+                                                            required={ field.required }
+                                                            name={ field.label }
+                                                            description={ field.help_text }
+                                                            placeholder={ field.placeholder }
+                                                            options={ field.options }
+                                                            value={ inputData?.[field.name] || "" }
+                                                            onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
+                                                        />
                                                     )
                                                 }
                                                 <Divider />
@@ -267,73 +268,18 @@ const Config = ({
                                             <React.Fragment>
                                                 {
                                                     config.application_data_slots?.map(dataslot =>
-                                                        <Stack key={ dataslot.id } spacing={ 1 }>
-                                                            <Stack direction="row" alignItems="center" gap={ 1 }>
-                                                                <Typography fontWeight="md">{ dataslot.name }</Typography>
-                                                                { !dataslot.required && <Typography fontSize="sm" color="neutral">(optional)</Typography> }
-                                                            </Stack>
-                                                            {
-                                                                dataslot.field_type === "map"
-                                                                ?   <Stack spacing={ 1 }>
-                                                                        {
-                                                                            dataslot.labels?.map(label =>
-                                                                                <Stack key={ label.value } direction="row" alignItems="center" spacing={ 1 }>
-                                                                                    <Typography flex={ 1 }>{ label.name }</Typography>
-                                                                                    <Select
-                                                                                        name={ dataslot.name }
-                                                                                        placeholder={ dataslot.placeholder || "Select" }
-                                                                                        value={ typeof appInputData[dataslot.id]?.[label.value] !== "undefined" ? appInputData[dataslot.id]?.[label.value] : "" }
-                                                                                        onChange={ (_, v) => {
-                                                                                            setAppInputData({
-                                                                                                ...appInputData,
-                                                                                                [dataslot.id]: {
-                                                                                                    ...appInputData[dataslot.id],
-                                                                                                    [label.value]: v,
-                                                                                                },
-                                                                                            });
-                                                                                        }}
-                                                                                        sx={{ flex: 1 }}
-                                                                                    >
-                                                                                        {
-                                                                                            dataslot.options?.map(option =>
-                                                                                                <Option key={ option.value } value={ option.value }>{ option.name }</Option>
-                                                                                            )
-                                                                                        }
-                                                                                    </Select>
-                                                                                </Stack>
-                                                                            )
-                                                                        }
-                                                                    </Stack>
-                                                                :   dataslot.field_type === "select"
-                                                                    ?   <Select
-                                                                            name={ dataslot.id }
-                                                                            placeholder={ dataslot.placeholder }
-                                                                            value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
-                                                                            onChange={ (_, v) => setAppInputData({ ...appInputData, [dataslot.id]: v }) }
-                                                                        >
-                                                                            {
-                                                                                dataslot.options?.map(option =>
-                                                                                    <Option key={ option.value } value={ option.value }>{ option.name }</Option>
-                                                                                )
-                                                                            }
-                                                                        </Select>
-                                                                    :   dataslot.field_type === "textarea"
-                                                                        ?   <Textarea
-                                                                                minRows={ 3 }
-                                                                                name={ dataslot.id }
-                                                                                placeholder={ dataslot.placeholder }
-                                                                                value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
-                                                                                onChange={ e => setAppInputData({ ...appInputData, [dataslot.id]: e.target.value }) }
-                                                                            />
-                                                                        :   <Input
-                                                                                name={ dataslot.id }
-                                                                                type={ dataslot.field_type }
-                                                                                placeholder={ dataslot.placeholder }
-                                                                                value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
-                                                                                onChange={ e => setAppInputData({ ...appInputData, [dataslot.id]: e.target.value }) }
-                                                                            />
-                                                            }
-                                                        </Stack>
+                                                        <Field
+                                                            key={ dataslot.id }
+                                                            type={ dataslot.field_type }
+                                                            name={ dataslot.name }
+                                                            description={ dataslot.help_text }
+                                                            required={ dataslot.required }
+                                                            placeholder={ dataslot.placeholder }
+                                                            options={ dataslot.options }
+                                                            labels={ dataslot.labels }
+                                                            value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
+                                                            onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
+                                                        />
                                                     )
                                                 }
                                                 <Divider />
@@ -356,100 +302,26 @@ const Config = ({
                                                         </Stack>
                                                         {
                                                             enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
-                                                                <Stack key={ dataslot.id } spacing={ 1 }>
-                                                                    <Stack direction="row" alignItems="center" gap={ 1 }>
-                                                                        <Typography fontWeight="md">{ dataslot.name }</Typography>
-                                                                        { !dataslot.required && <Typography fontSize="sm" color="neutral">(optional)</Typography> }
-                                                                    </Stack>
-                                                                    {
-                                                                        dataslot.field_type === "map"
-                                                                        ?   <Stack spacing={ 1 }>
-                                                                                {
-                                                                                    dataslot.labels?.map(label =>
-                                                                                        <Stack key={ label.value } direction="row" alignItems="center" spacing={ 1 }>
-                                                                                            <Typography flex={ 1 }>{ label.name }</Typography>
-                                                                                            <Select
-                                                                                                name={ dataslot.name }
-                                                                                                placeholder={ dataslot.placeholder || "Select" }
-                                                                                                value={ typeof workflowsInputData[workflow.id]?.[dataslot.id]?.[label.value] !== "undefined" ? workflowsInputData[workflow.id]?.[dataslot.id]?.[label.value] : "" }
-                                                                                                onChange={ (_, v) => {
-                                                                                                    setWorkflowsInputData({
-                                                                                                        ...workflowsInputData,
-                                                                                                        [workflow.id]: {
-                                                                                                            ...workflowsInputData?.[workflow.id],
-                                                                                                            [dataslot.id]: {
-                                                                                                                ...workflowsInputData?.[workflow.id]?.[dataslot.id],
-                                                                                                                [label.value]: v,
-                                                                                                            },
-                                                                                                        },
-                                                                                                    });
-                                                                                                }}
-                                                                                                sx={{ flex: 1 }}
-                                                                                            >
-                                                                                                {
-                                                                                                    dataslot.options?.map(option =>
-                                                                                                        <Option key={ option.value } value={ option.value }>{ option.name }</Option>
-                                                                                                    )
-                                                                                                }
-                                                                                            </Select>
-                                                                                        </Stack>
-                                                                                    )
-                                                                                }
-                                                                            </Stack>
-                                                                        :   dataslot.field_type === "select"
-                                                                            ?   <Select
-                                                                                    name={ dataslot.id }
-                                                                                    placeholder={ dataslot.placeholder }
-                                                                                    value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
-                                                                                    onChange={ (_, v) => {
-                                                                                        setWorkflowsInputData({
-                                                                                            ...workflowsInputData,
-                                                                                            [workflow.id]: {
-                                                                                                ...workflowsInputData?.[workflow.id],
-                                                                                                [dataslot.id]: v,
-                                                                                            },
-                                                                                        });
-                                                                                    }}
-                                                                                >
-                                                                                    {
-                                                                                        dataslot.options?.map(option =>
-                                                                                            <Option key={ option.value } value={ option.value }>{ option.name }</Option>
-                                                                                        )
-                                                                                    }
-                                                                                </Select>
-                                                                            :   dataslot.field_type === "textarea"
-                                                                                ?   <Textarea
-                                                                                        minRows={ 3 }
-                                                                                        name={ dataslot.id }
-                                                                                        placeholder={ dataslot.placeholder }
-                                                                                        value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
-                                                                                        onChange={ e => {
-                                                                                            setWorkflowsInputData({
-                                                                                                ...workflowsInputData,
-                                                                                                [workflow.id]: {
-                                                                                                    ...workflowsInputData?.[workflow.id],
-                                                                                                    [dataslot.id]: e.target.value,
-                                                                                                },
-                                                                                            });
-                                                                                        }}
-                                                                                    />
-                                                                                :   <Input
-                                                                                        name={ dataslot.id }
-                                                                                        type={ dataslot.field_type }
-                                                                                        placeholder={ dataslot.placeholder }
-                                                                                        value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
-                                                                                        onChange={ e => {
-                                                                                            setWorkflowsInputData({
-                                                                                                ...workflowsInputData,
-                                                                                                [workflow.id]: {
-                                                                                                    ...workflowsInputData?.[workflow.id],
-                                                                                                    [dataslot.id]: e.target.value,
-                                                                                                },
-                                                                                            });
-                                                                                        }}
-                                                                                    />
-                                                                    }
-                                                                </Stack>
+                                                                <Field
+                                                                    key={ dataslot.id }
+                                                                    type={ dataslot.field_type }
+                                                                    name={ dataslot.name }
+                                                                    description={ dataslot.help_text }
+                                                                    required={ dataslot.required }
+                                                                    placeholder={ dataslot.placeholder }
+                                                                    options={ dataslot.options }
+                                                                    labels={ dataslot.labels }
+                                                                    value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
+                                                                    onChange={ value => {
+                                                                        setWorkflowsInputData({
+                                                                            ...workflowsInputData,
+                                                                            [workflow.id]: {
+                                                                                ...workflowsInputData?.[workflow.id],
+                                                                                [dataslot.id]: value,
+                                                                            },
+                                                                        });
+                                                                    }}
+                                                                />
                                                             )
                                                         }
                                                     </Stack>
