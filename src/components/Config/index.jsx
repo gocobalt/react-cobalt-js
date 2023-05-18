@@ -340,7 +340,7 @@ const Config = ({
                                             <Button onClick={ handleUpdate }>
                                                 Save
                                             </Button>
-                                            <Button color="danger" onClick={ handleDelete }>
+                                            <Button color="danger" variant="plain" onClick={ handleDelete }>
                                                 Delete
                                             </Button>
                                         </Stack>
