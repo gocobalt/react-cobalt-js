@@ -1,4 +1,5 @@
-import Installer from "./components/Installer";
+import Connect from "./components/Connect";
+import Config from "./components/Config";
 import { Context, Provider } from "./components/Provider";
 
-export { Context, Installer, Provider };
+export { Context, Connect, Config, Provider };

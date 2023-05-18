@@ -1,23 +1,17 @@
 import React from "react";
+import { Stack, Typography } from "@mui/joy";
 
 const ErrorComponent = ({ title, message }) => (
-    <div style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 25,
-    }}>
+    <Stack flexDirection="column" alignItems="center" justifyContent="center" p={ 3 }>
         <img
             src="https://img.icons8.com/color/96/000000/cancel--v1.png"
             width={ 70 }
             height={ 70 }
             style={{ marginBottom: 10 }}
         />
-        <h4>{ title }</h4>
-        <p>{ message }</p>
-    </div>
+        <Typography fontWeight="lg" gutterBottom>{ title }</Typography>
+        <Typography color="neutral">{ message }</Typography>
+    </Stack>
 );
 
 export default ErrorComponent;

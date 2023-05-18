@@ -1,6 +1,6 @@
 {
   "name": "@cobaltio/react-cobalt-js",
-  "version": "0.4.0",
+  "version": "1.0.0-alpha.1",
   "description": "React components for Cobalt frontend SDK",
   "author": "iamtraction",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "@cobaltio/cobalt-js": "~0.0.19",
+    "@cobaltio/cobalt-js": "^3.0.4",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
@@ -57,9 +57,8 @@
     "dist"
   ],
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@mui/joy": "^5.0.0-alpha.63",
-    "react-markdown": "^6.0.3"
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/joy": "5.0.0-alpha.80"
   }
 }
