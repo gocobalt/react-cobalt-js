@@ -265,69 +265,67 @@ const Config = ({
                                 <Stack spacing={ 3 }>
                                     {
                                         !!config?.application_data_slots?.length && (
-                                            <React.Fragment>
-                                                {
-                                                    config.application_data_slots?.map(dataslot =>
-                                                        <Field
-                                                            key={ dataslot.id }
-                                                            type={ dataslot.field_type }
-                                                            name={ dataslot.name }
-                                                            description={ dataslot.help_text }
-                                                            required={ dataslot.required }
-                                                            placeholder={ dataslot.placeholder }
-                                                            options={ dataslot.options }
-                                                            labels={ dataslot.labels }
-                                                            value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
-                                                            onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
-                                                        />
-                                                    )
-                                                }
-                                                <Divider />
-                                            </React.Fragment>
+                                            <Sheet variant="outlined" sx={{ p: 2, borderRadius: 8 }}>
+                                                <Stack spacing={ 3 }>
+                                                    {
+                                                        config.application_data_slots.map(dataslot =>
+                                                            <Field
+                                                                key={ dataslot.id }
+                                                                type={ dataslot.field_type }
+                                                                name={ dataslot.name }
+                                                                description={ dataslot.help_text }
+                                                                required={ dataslot.required }
+                                                                placeholder={ dataslot.placeholder }
+                                                                options={ dataslot.options }
+                                                                labels={ dataslot.labels }
+                                                                value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
+                                                                onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
+                                                            />
+                                                        )
+                                                    }
+                                                </Stack>
+                                            </Sheet>
                                         )
                                     }
 
                                     {
-                                        !!config?.workflows?.length && (
-                                            config?.workflows?.map(workflow =>
-                                                <React.Fragment key={ workflow.id }>
-                                                    <Stack spacing={ 2 }>
-                                                        <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                                            <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
-                                                            <Switch
-                                                                size="sm"
-                                                                checked={ enabledWorkflows.includes(workflow.id) }
-                                                                onChange={ () => toggleWorkflow(workflow.id) }
-                                                            />
-                                                        </Stack>
-                                                        {
-                                                            enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
-                                                                <Field
-                                                                    key={ dataslot.id }
-                                                                    type={ dataslot.field_type }
-                                                                    name={ dataslot.name }
-                                                                    description={ dataslot.help_text }
-                                                                    required={ dataslot.required }
-                                                                    placeholder={ dataslot.placeholder }
-                                                                    options={ dataslot.options }
-                                                                    labels={ dataslot.labels }
-                                                                    value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
-                                                                    onChange={ value => {
-                                                                        setWorkflowsInputData({
-                                                                            ...workflowsInputData,
-                                                                            [workflow.id]: {
-                                                                                ...workflowsInputData?.[workflow.id],
-                                                                                [dataslot.id]: value,
-                                                                            },
-                                                                        });
-                                                                    }}
-                                                                />
-                                                            )
-                                                        }
+                                        config?.workflows?.map(workflow =>
+                                            <Sheet variant="outlined" sx={{ p: 2, borderRadius: 8 }}>
+                                                <Stack spacing={ 3 }>
+                                                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                                        <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
+                                                        <Switch
+                                                            size="sm"
+                                                            checked={ enabledWorkflows.includes(workflow.id) }
+                                                            onChange={ () => toggleWorkflow(workflow.id) }
+                                                        />
                                                     </Stack>
-                                                    <Divider />
-                                                </React.Fragment>
-                                            )
+                                                    {
+                                                        enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
+                                                            <Field
+                                                                key={ dataslot.id }
+                                                                type={ dataslot.field_type }
+                                                                name={ dataslot.name }
+                                                                description={ dataslot.help_text }
+                                                                required={ dataslot.required }
+                                                                placeholder={ dataslot.placeholder }
+                                                                options={ dataslot.options }
+                                                                labels={ dataslot.labels }
+                                                                value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
+                                                                onChange={ value => {
+                                                                    setWorkflowsInputData({
+                                                                        ...workflowsInputData,
+                                                                        [workflow.id]: {
+                                                                            ...workflowsInputData?.[workflow.id],
+                                                                            [dataslot.id]: value,
+                                                                        },
+                                                                    });
+                                                                }}
+                                                            />
+                                                        )
+                                                    }
+                                                </Stack>
+                                            </Sheet>
                                         )
                                     }
 
