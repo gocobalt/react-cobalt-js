@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, Avatar, Button, Divider, Sheet, Stack, Switch, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
+import { Alert, AspectRatio, Button, Divider, Sheet, Stack, Switch, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
 
 import { Context as CobaltContext, Provider } from "../Provider";
 import ErrorComponent from "../Error";
@@ -213,14 +213,12 @@ const Config = ({
                 <Sheet sx={{ ...styles.container, ...style }}>
                     <Stack spacing={ 3 }>
                         <Stack direction="row" alignItems="center" spacing={ 2 }>
-                            <Avatar
-                                variant="rounded"
-                                src={ application.icon }
-                                sx={{ height: 50, width: 50 }}
-                            />
-                            <Stack>
-                                <Typography fontSize="xl" fontWeight="lg">{ application.name }</Typography>
-                                <Typography color="neutral">{ application.description }</Typography>
+                            <AspectRatio variant="plain" ratio="1/1" sx={{ width: 50, borderRadius: 8 }}>
+                                <img src={ application.icon } />
+                            </AspectRatio>
+                            <Stack flex={ 1 }>
+                                <Typography fontSize="lg" fontWeight="lg">{ application.name }</Typography>
+                                <Typography color="neutral" fontSize="sm">{ application.description?.length > 100 ? application.description.slice(0, 100) + "..." : application.description  }</Typography>
                             </Stack>
                         </Stack>
 
