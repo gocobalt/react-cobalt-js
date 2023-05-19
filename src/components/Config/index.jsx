@@ -311,6 +311,7 @@ const Config = ({
                                                                     <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
                                                                     <Switch
                                                                         size="sm"
+                                                                        variant="outlined"
                                                                         checked={ enabledWorkflows.includes(workflow.id) }
                                                                         onChange={ () => toggleWorkflow(workflow.id) }
                                                                     />
