@@ -225,9 +225,9 @@ const Config = ({
                         <Divider />
 
                         <Tabs value={ tab } onChange={ (_, tab) => setTab(tab) }>
-                            <TabList>
-                                <Tab value={ 0 }>Connect</Tab>
-                                <Tab value={ 1 } disabled={ !application.connected }>Configure</Tab>
+                            <TabList variant="outlined">
+                                <Tab value={ 0 } color={ tab === 0 ? "primary" : "neutral" }>Connect</Tab>
+                                <Tab value={ 1 } disabled={ !application.connected } color={ tab === 1 ? "primary" : "neutral" }>Configure</Tab>
                             </TabList>
 
                             <TabPanel value={ 0 } sx={{ mt: 3 }}>
