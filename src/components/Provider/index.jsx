@@ -14,6 +14,13 @@ import { CssVarsProvider } from "@mui/joy";
  */
 export const Context = createContext();
 
+/**
+ * @param {Object} props
+ * @param {import("react").ReactNode} children
+ * @param {String} [props.baseApi] Base URL for Cobalt
+ * @param {String} props.sessionToken Session Token
+ * @param {"dark"|"light"|"system"} props.theme
+ */
 export const Provider = ({ children, baseApi, sessionToken, theme }) => {
     const cobalt = new Cobalt({ baseUrl: baseApi || "https://api.gocobalt.io" });
 
