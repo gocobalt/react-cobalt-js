@@ -47,7 +47,7 @@ const Config = ({
     };
 
     const handleUpdate = () => {
-        cobalt.updateConfig(slug, id, {
+        cobalt.updateConfig(slug, {
             config_id: id,
             application_data_slots: appInputData,
             workflows: config?.workflows?.map(workflow => ({
