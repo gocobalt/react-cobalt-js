@@ -142,7 +142,10 @@ const Config = ({
             setLoadingConfig(true);
             setErrorMessage(null);
 
-            cobalt.config(slug, id, fields)
+            cobalt.config(slug, {
+                config_id: id,
+                ...fields,
+            })
             .then(config => {
                 setConfig(config);
 
