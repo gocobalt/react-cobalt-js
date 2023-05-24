@@ -33,7 +33,7 @@ const Field = ({
     <Stack spacing={ 1 }>
         <Stack>
             <Stack direction="row" spacing={ 1 }>
-                <Typography fontWeight="md">{ name }</Typography>
+                <Typography color="neutral" fontWeight="lg">{ name }</Typography>
                 <Typography color="neutral" fontSize="sm">{ !required && "(optional)" }</Typography>
             </Stack>
             <Typography color="neutral" fontSize="sm">{ description }</Typography>
