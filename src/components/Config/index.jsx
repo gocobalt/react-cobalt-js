@@ -138,7 +138,7 @@ const Config = ({
 
         cobalt.token = sessionToken;
 
-        if (id && slug) {
+        if (slug) {
             setLoadingConfig(true);
             setErrorMessage(null);
 
