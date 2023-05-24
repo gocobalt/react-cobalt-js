@@ -228,33 +228,54 @@ const Config = ({
                         <Divider />
 
                         <Tabs value={ tab } onChange={ (_, tab) => setTab(tab) }>
-                            <TabList variant="outlined">
-                                <Tab value={ 0 } color={ tab === 0 ? "primary" : "neutral" }>Connect</Tab>
-                                <Tab value={ 1 } disabled={ !application.connected } color={ tab === 1 ? "primary" : "neutral" }>Configure</Tab>
+                            <TabList sx={{ alignItems: "center", gap: 1, backgroundColor: "#f9fafb" }}>
+                                <Tab
+                                    value={ 0 }
+                                    variant="plain"
+                                    sx={{
+                                        flex: "unset",
+                                        color: tab === 0 ? "rgb(97, 41, 255)" : "neutral",
+                                        boxShadow: "none",
+                                    }}
+                                >
+                                    Connect
+                                </Tab>
+                                <img
+                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApElEQVR4nGNgoDbIzZ3InlTUlJRc3OhLlgFpRfUiyUUNb5KLG/8nFjckk2VISmmjbXJR48+k4oZfiYWN9uQZUtSQDXJFUnHDi4SiZlmyDEkqbpwBNqSo8XxMcTc3yQakpc1kTSpq3A8yJLm4YQ0Dw39Gkg3JKK4XSy5qeAB1SQl9DUhLm8maXNxwgGwvJFESiMnFjTlkR2MKJQmJ4qRMcWYiFQAANnRo+5wyvUgAAAAASUVORK5CYII="
+                                    width={ 12 }
+                                    height={ 12 }
+                                />
+                                <Tab
+                                    value={ 1 }
+                                    disabled={ !application.connected }
+                                    variant="plain"
+                                    sx={{
+                                        flex: "unset",
+                                        color: tab === 1 ? "rgb(97, 41, 255)" : "neutral",
+                                        boxShadow: "none",
+                                    }}
+                                >
+                                    Configure
+                                </Tab>
                             </TabList>
 
                             <TabPanel value={ 0 } sx={{ mt: 3 }}>
                                 <Stack spacing={ 3 }>
                                     {
                                         !application.connected && !!application.auth_input_map?.length && (
-                                            <React.Fragment>
-                                                {
-                                                    application.auth_input_map?.map(field =>
-                                                        <Field
-                                                            key={ field.name }
-                                                            type={ field.type }
-                                                            required={ field.required }
-                                                            name={ field.label }
-                                                            description={ field.help_text }
-                                                            placeholder={ field.placeholder }
-                                                            options={ field.options }
-                                                            value={ inputData?.[field.name] || "" }
-                                                            onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
-                                                        />
-                                                    )
-                                                }
-                                                <Divider />
-                                            </React.Fragment>
+                                            application.auth_input_map?.map(field =>
+                                                <Field
+                                                    key={ field.name }
+                                                    type={ field.type }
+                                                    required={ field.required }
+                                                    name={ field.label }
+                                                    description={ field.help_text }
+                                                    placeholder={ field.placeholder }
+                                                    options={ field.options }
+                                                    value={ inputData?.[field.name] || "" }
+                                                    onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
+                                                />
+                                            )
                                         )
                                     }
 
@@ -265,8 +286,11 @@ const Config = ({
                                             )
                                         }
 
+                                        <Divider />
+
                                         <Button
-                                            color={ application.connected ? "danger" : "success" }
+                                            size="lg"
+                                            color={ application.connected ? "danger" : "primary" }
                                             onClick={ application.connected ? handleDisconnect : handleConnect }
                                         >
                                             { application.connected ? "Disconnect" : "Connect" }
@@ -283,7 +307,7 @@ const Config = ({
                                         :   <React.Fragment>
                                                 {
                                                     !!config?.application_data_slots?.length && (
-                                                        <Sheet variant="outlined" sx={{ p: 2, borderRadius: 8 }}>
+                                                        <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
                                                             <Stack spacing={ 3 }>
                                                                 {
                                                                     config.application_data_slots.map(dataslot =>
@@ -308,13 +332,13 @@ const Config = ({
 
                                                 {
                                                     config?.workflows?.map(workflow =>
-                                                        <Sheet variant="outlined" sx={{ p: 2, borderRadius: 8 }}>
+                                                        <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
                                                             <Stack spacing={ 3 }>
                                                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                                                     <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
                                                                     <Switch
                                                                         size="sm"
-                                                                        variant="outlined"
+                                                                        variant="solid"
                                                                         checked={ enabledWorkflows.includes(workflow.id) }
                                                                         onChange={ () => toggleWorkflow(workflow.id) }
                                                                     />
@@ -355,11 +379,13 @@ const Config = ({
                                                         )
                                                     }
 
+                                                    <Divider />
+
                                                     <Stack spacing={ 1 }>
-                                                        <Button onClick={ handleUpdate }>
+                                                        <Button size="lg" onClick={ handleUpdate }>
                                                             Save
                                                         </Button>
-                                                        <Button color="danger" variant="plain" onClick={ handleDelete }>
+                                                        <Button color="danger" size="lg" variant="plain" onClick={ handleDelete }>
                                                             Delete
                                                         </Button>
                                                     </Stack>
