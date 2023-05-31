@@ -332,7 +332,7 @@ const Config = ({
 
                                                 {
                                                     config?.workflows?.map(workflow =>
-                                                        <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
+                                                        <Sheet key={ workflow.id } variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
                                                             <Stack spacing={ 3 }>
                                                                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                                                                     <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
