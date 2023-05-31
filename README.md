@@ -24,7 +24,7 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
         // the component only gets rendered when `slug` is passed.
         <Config
             id="SOME_UNIQUE_CONFIG_ID"  // Optional
-            slug="APP_SLUG" // application slug
+            slug="APP_SLUG" // application type / slug
             // dynamic fields payload
             fields={{ /* PAYLOAD */ }}
             // you can override the component's container style if you want
