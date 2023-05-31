@@ -23,9 +23,9 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
         // ideally you'd render the Config component inside a modal.
         // the component only gets rendered when `slug` is passed.
         <Config
-            id="SOME_UNIQUE_CONFIG_ID"  // Optional
+            id="SOME_UNIQUE_CONFIG_ID" // Optional
             slug="APP_SLUG" // application type / slug
-            // dynamic fields payload
+            // dynamic fields payload (optional)
             fields={{ /* PAYLOAD */ }}
             // you can override the component's container style if you want
             style={{
