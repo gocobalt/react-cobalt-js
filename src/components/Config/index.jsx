@@ -22,7 +22,6 @@ const Config = ({
     onConnect = () => {},
     onDisconnect = () => {},
     onSave = () => {},
-    onDelete = () => {},
     style = {},
 }) => {
     const { cobalt, sessionToken } = useContext(CobaltContext);
@@ -64,18 +63,6 @@ const Config = ({
             typeof onSave === "function" && onSave();
         })
         .catch(() => setErrorMessage("Unable to save the data. Please try again later."));
-    };
-
-    const handleDelete = () => {
-        cobalt.deleteConfig(slug, id)
-        .then(() => {
-            setConfig(null);
-            // clear previous error message
-            setErrorMessage("Data has been deleted.");
-            // call the `onDelete` callback function
-            typeof onDelete === "function" && onDelete();
-        })
-        .catch(() => setErrorMessage("Unable to delete the data. Please try again later."));
     };
 
     const handleConnect = () => {
@@ -388,9 +375,6 @@ const Config = ({
                                                     <Stack spacing={ 1 }>
                                                         <Button size="lg" onClick={ handleUpdate }>
                                                             Save
-                                                        </Button>
-                                                        <Button color="danger" size="lg" variant="plain" onClick={ handleDelete }>
-                                                            Delete
                                                         </Button>
                                                     </Stack>
                                                 </Stack>
