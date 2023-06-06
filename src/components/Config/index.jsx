@@ -261,23 +261,27 @@ const Config = ({
 
                             <TabPanel value={ 0 } sx={{ mt: 3 }}>
                                 <Stack spacing={ 3 }>
-                                    {
-                                        !application.connected && !!application.auth_input_map?.length && (
-                                            application.auth_input_map?.map(field =>
-                                                <Field
-                                                    key={ field.name }
-                                                    type={ field.type }
-                                                    required={ field.required }
-                                                    name={ field.label }
-                                                    description={ field.help_text }
-                                                    placeholder={ field.placeholder }
-                                                    options={ field.options }
-                                                    value={ inputData?.[field.name] || "" }
-                                                    onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
-                                                />
-                                            )
-                                        )
-                                    }
+                                    <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
+                                        <Stack spacing={ 3 }>
+                                            {
+                                                !application.connected && !!application.auth_input_map?.length && (
+                                                    application.auth_input_map?.map(field =>
+                                                        <Field
+                                                            key={ field.name }
+                                                            type={ field.type }
+                                                            required={ field.required }
+                                                            name={ field.label }
+                                                            description={ field.help_text }
+                                                            placeholder={ field.placeholder }
+                                                            options={ field.options }
+                                                            value={ inputData?.[field.name] || "" }
+                                                            onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
+                                                        />
+                                                    )
+                                                )
+                                            }
+                                        </Stack>
+                                    </Sheet>
 
                                     <Stack spacing={ 2 }>
                                         {
