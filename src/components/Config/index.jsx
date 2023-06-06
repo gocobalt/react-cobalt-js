@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, AspectRatio, Button, Divider, Sheet, Stack, Switch, Tab, TabList, TabPanel, Tabs, Typography } from "@mui/joy";
+import { Alert, AspectRatio, Button, Divider, Sheet, Stack, Switch, Typography } from "@mui/joy";
 
 import { Context as CobaltContext, Provider } from "../Provider";
 import ErrorComponent from "../Error";
@@ -25,7 +25,6 @@ const Config = ({
     style = {},
 }) => {
     const { cobalt, sessionToken } = useContext(CobaltContext);
-    const [ tab, setTab ] = useState(0);
     const [ config, setConfig ] = useState(null);
     const [ application, setApplication ] = useState(null);
     const [ loading, setLoading ] = useState(false);
@@ -121,7 +120,7 @@ const Config = ({
 
     useEffect(() => {
         if (!sessionToken) return;
-        if (tab !== 1) return;
+        if (!application?.connected) return;
 
         cobalt.token = sessionToken;
 
@@ -176,7 +175,7 @@ const Config = ({
                 setLoadingConfig(false);
             });
         }
-    }, [ sessionToken, id, slug, tab ]);
+    }, [ sessionToken, id, slug, application?.connected ]);
 
     if (error) {
         return (
@@ -214,175 +213,161 @@ const Config = ({
 
                         <Divider />
 
-                        <Tabs value={ tab } onChange={ (_, tab) => setTab(tab) }>
-                            <TabList sx={{ alignItems: "center", gap: 1, backgroundColor: "#f9fafb" }}>
-                                <Tab
-                                    value={ 0 }
-                                    variant="plain"
-                                    sx={{
-                                        flex: "unset",
-                                        color: tab === 0 ? "rgb(97, 41, 255)" : "neutral",
-                                        boxShadow: "none",
-                                    }}
-                                >
-                                    Connect
-                                </Tab>
-                                <img
-                                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAsTAAALEwEAmpwYAAAApElEQVR4nGNgoDbIzZ3InlTUlJRc3OhLlgFpRfUiyUUNb5KLG/8nFjckk2VISmmjbXJR48+k4oZfiYWN9uQZUtSQDXJFUnHDi4SiZlmyDEkqbpwBNqSo8XxMcTc3yQakpc1kTSpq3A8yJLm4YQ0Dw39Gkg3JKK4XSy5qeAB1SQl9DUhLm8maXNxwgGwvJFESiMnFjTlkR2MKJQmJ4qRMcWYiFQAANnRo+5wyvUgAAAAASUVORK5CYII="
-                                    width={ 12 }
-                                    height={ 12 }
-                                />
-                                <Tab
-                                    value={ 1 }
-                                    disabled={ !application.connected }
-                                    variant="plain"
-                                    sx={{
-                                        flex: "unset",
-                                        color: tab === 1 ? "rgb(97, 41, 255)" : "neutral",
-                                        boxShadow: "none",
-                                    }}
-                                >
-                                    Configure
-                                </Tab>
-                            </TabList>
+                        <Stack spacing={ 3 }>
+                            {
+                                application.connected
+                                ?   loadingConfig
+                                    ?   <Loader />
+                                    :   <React.Fragment>
+                                            <Alert color="success" variant="outlined">
+                                                <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
+                                                    <Typography fontSize="sm" fontWeight="lg" color="success">Connected</Typography>
+                                                    <Button
+                                                        variant="plain"
+                                                        color="danger"
+                                                        onClick={ handleDisconnect }
+                                                    >
+                                                        Disconnect
+                                                    </Button>
+                                                </Stack>
+                                            </Alert>
 
-                            <TabPanel value={ 0 } sx={{ mt: 3 }}>
-                                <Stack spacing={ 3 }>
-                                    <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
-                                        <Stack spacing={ 3 }>
                                             {
-                                                !application.connected && !!application.auth_input_map?.length && (
-                                                    application.auth_input_map?.map(field =>
-                                                        <Field
-                                                            key={ field.name }
-                                                            type={ field.type }
-                                                            required={ field.required }
-                                                            name={ field.label }
-                                                            description={ field.help_text }
-                                                            placeholder={ field.placeholder }
-                                                            options={ field.options }
-                                                            value={ inputData?.[field.name] || "" }
-                                                            onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
-                                                        />
-                                                    )
+                                                !!config?.application_data_slots?.length && (
+                                                    <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
+                                                        <Stack spacing={ 3 }>
+                                                            {
+                                                                config.application_data_slots.map(dataslot =>
+                                                                    <Field
+                                                                        key={ dataslot.id }
+                                                                        type={ dataslot.field_type }
+                                                                        name={ dataslot.name }
+                                                                        description={ dataslot.help_text }
+                                                                        required={ dataslot.required }
+                                                                        placeholder={ dataslot.placeholder }
+                                                                        options={ dataslot.options }
+                                                                        labels={ dataslot.labels }
+                                                                        value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
+                                                                        onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Stack>
+                                                    </Sheet>
                                                 )
                                             }
-                                        </Stack>
-                                    </Sheet>
 
-                                    <Stack spacing={ 2 }>
+                                            {
+                                                config?.workflows?.map(workflow =>
+                                                    <Sheet key={ workflow.id } variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
+                                                        <Stack spacing={ 3 }>
+                                                            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                                                                <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
+                                                                <Switch
+                                                                    size="sm"
+                                                                    variant="solid"
+                                                                    checked={ enabledWorkflows.includes(workflow.id) }
+                                                                    onChange={ () => toggleWorkflow(workflow.id) }
+                                                                />
+                                                            </Stack>
+                                                            {
+                                                                enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
+                                                                    <Field
+                                                                        key={ dataslot.id }
+                                                                        type={ dataslot.field_type }
+                                                                        name={ dataslot.name }
+                                                                        description={ dataslot.help_text }
+                                                                        required={ dataslot.required }
+                                                                        placeholder={ dataslot.placeholder }
+                                                                        options={ dataslot.options }
+                                                                        labels={ dataslot.labels }
+                                                                        value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
+                                                                        onChange={ value => {
+                                                                            setWorkflowsInputData({
+                                                                                ...workflowsInputData,
+                                                                                [workflow.id]: {
+                                                                                    ...workflowsInputData?.[workflow.id],
+                                                                                    [dataslot.id]: value,
+                                                                                },
+                                                                            });
+                                                                        }}
+                                                                    />
+                                                                )
+                                                            }
+                                                        </Stack>
+                                                    </Sheet>
+                                                )
+                                            }
+
+                                            <Stack spacing={ 2 }>
+                                                {
+                                                    errorMessage && (
+                                                        <Alert color="danger">{ errorMessage }</Alert>
+                                                    )
+                                                }
+
+                                                <Divider />
+
+                                                <Stack spacing={ 1 }>
+                                                    <Button size="lg" onClick={ handleUpdate }>
+                                                        Save
+                                                    </Button>
+                                                </Stack>
+                                            </Stack>
+                                        </React.Fragment>
+                                :   <React.Fragment>
                                         {
-                                            errorMessage && (
-                                                <Alert color="danger">{ errorMessage }</Alert>
+                                            application.help_text && (
+                                                <Alert>
+                                                    { application.help_text }
+                                                </Alert>
                                             )
                                         }
 
-                                        <Divider />
-
-                                        <Button
-                                            size="lg"
-                                            color={ application.connected ? "danger" : "primary" }
-                                            onClick={ application.connected ? handleDisconnect : handleConnect }
-                                        >
-                                            { application.connected ? "Disconnect" : "Connect" }
-                                        </Button>
-                                    </Stack>
-                                </Stack>
-                            </TabPanel>
-
-                            <TabPanel value={ 1 } sx={{ mt: 3 }}>
-                                <Stack spacing={ 3 }>
-                                    {
-                                        loadingConfig
-                                        ?   <Loader />
-                                        :   <React.Fragment>
-                                                {
-                                                    !!config?.application_data_slots?.length && (
-                                                        <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
-                                                            <Stack spacing={ 3 }>
-                                                                {
-                                                                    config.application_data_slots.map(dataslot =>
-                                                                        <Field
-                                                                            key={ dataslot.id }
-                                                                            type={ dataslot.field_type }
-                                                                            name={ dataslot.name }
-                                                                            description={ dataslot.help_text }
-                                                                            required={ dataslot.required }
-                                                                            placeholder={ dataslot.placeholder }
-                                                                            options={ dataslot.options }
-                                                                            labels={ dataslot.labels }
-                                                                            value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
-                                                                            onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
-                                                                        />
-                                                                    )
-                                                                }
-                                                            </Stack>
-                                                        </Sheet>
-                                                    )
-                                                }
-
-                                                {
-                                                    config?.workflows?.map(workflow =>
-                                                        <Sheet key={ workflow.id } variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
-                                                            <Stack spacing={ 3 }>
-                                                                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                                                    <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
-                                                                    <Switch
-                                                                        size="sm"
-                                                                        variant="solid"
-                                                                        checked={ enabledWorkflows.includes(workflow.id) }
-                                                                        onChange={ () => toggleWorkflow(workflow.id) }
-                                                                    />
-                                                                </Stack>
-                                                                {
-                                                                    enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
-                                                                        <Field
-                                                                            key={ dataslot.id }
-                                                                            type={ dataslot.field_type }
-                                                                            name={ dataslot.name }
-                                                                            description={ dataslot.help_text }
-                                                                            required={ dataslot.required }
-                                                                            placeholder={ dataslot.placeholder }
-                                                                            options={ dataslot.options }
-                                                                            labels={ dataslot.labels }
-                                                                            value={ typeof workflowsInputData?.[workflow.id]?.[dataslot.id] !== "undefined" ? workflowsInputData?.[workflow.id]?.[dataslot.id] : "" }
-                                                                            onChange={ value => {
-                                                                                setWorkflowsInputData({
-                                                                                    ...workflowsInputData,
-                                                                                    [workflow.id]: {
-                                                                                        ...workflowsInputData?.[workflow.id],
-                                                                                        [dataslot.id]: value,
-                                                                                    },
-                                                                                });
-                                                                            }}
-                                                                        />
-                                                                    )
-                                                                }
-                                                            </Stack>
-                                                        </Sheet>
-                                                    )
-                                                }
-
-                                                <Stack spacing={ 2 }>
-                                                    {
-                                                        errorMessage && (
-                                                            <Alert color="danger">{ errorMessage }</Alert>
-                                                        )
-                                                    }
-
-                                                    <Divider />
-
-                                                    <Stack spacing={ 1 }>
-                                                        <Button size="lg" onClick={ handleUpdate }>
-                                                            Save
-                                                        </Button>
+                                        {
+                                            !!application.auth_input_map?.length && (
+                                                <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
+                                                    <Stack spacing={ 3 }>
+                                                        {
+                                                            application.auth_input_map?.map(field =>
+                                                                <Field
+                                                                    key={ field.name }
+                                                                    type={ field.type }
+                                                                    required={ field.required }
+                                                                    name={ field.label }
+                                                                    description={ field.help_text }
+                                                                    placeholder={ field.placeholder }
+                                                                    options={ field.options }
+                                                                    value={ inputData?.[field.name] || "" }
+                                                                    onChange={ value => setInputData({ ...inputData, [field.name]: value }) }
+                                                                />
+                                                            )
+                                                        }
                                                     </Stack>
-                                                </Stack>
-                                            </React.Fragment>
-                                    }
-                                </Stack>
-                            </TabPanel>
-                        </Tabs>
+                                                </Sheet>
+                                            )
+                                        }
+
+                                        <Stack spacing={ 2 }>
+                                            {
+                                                errorMessage && (
+                                                    <Alert color="danger">{ errorMessage }</Alert>
+                                                )
+                                            }
+
+                                            <Divider />
+
+                                            <Button
+                                                size="lg"
+                                                color={ application.connected ? "danger" : "primary" }
+                                                onClick={ application.connected ? handleDisconnect : handleConnect }
+                                            >
+                                                { application.connected ? "Disconnect" : "Connect" }
+                                            </Button>
+                                        </Stack>
+                                    </React.Fragment>
+                            }
+                        </Stack>
 
                         <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
                             <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
