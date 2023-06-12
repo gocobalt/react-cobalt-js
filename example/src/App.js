@@ -7,7 +7,6 @@ import {
 
 const App = () => {
     const [ sessionToken, setSessionToken ] = useState(null);
-    const [ apps, setApps ] = useState([]);
     const [ selectedApp, setSelectedApp ] = useState(null);
 
     // get Cobalt session token from Cobalt backend SDK
