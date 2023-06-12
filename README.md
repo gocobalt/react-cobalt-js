@@ -36,3 +36,8 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
     }
 </Provider>
 ```
+
+### Example
+
+For an example implementation, you can check out the [`App.js` file](/example/src/App.js)
+in the [`example`](/example/) directory.
