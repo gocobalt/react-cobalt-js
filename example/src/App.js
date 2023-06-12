@@ -52,6 +52,8 @@ const App = () => {
                     <CobaltConfig
                         id="CONFIG_ID" // Optional.
                         slug={ selectedApp }
+                        // dynamic fields payload (optional, only required when you're using dynamic labels)
+                        fields={{ /* PAYLOAD */ }}
                         style={{
                             borderRadius: 8,
                             maxWidth: 450,
