@@ -45,6 +45,8 @@ const Config = ({
     };
 
     const handleUpdate = () => {
+        cobalt.token = sessionToken;
+
         cobalt.updateConfig(slug, {
             config_id: id,
             application_data_slots: appInputData,
@@ -65,6 +67,8 @@ const Config = ({
     };
 
     const handleConnect = () => {
+        cobalt.token = sessionToken;
+
         cobalt.connect(slug, application.auth_type?.startsWith("oauth") ? undefined : inputData)
         .then(connected => {
             if (connected) {
@@ -82,6 +86,8 @@ const Config = ({
     };
 
     const handleDisconnect = () => {
+        cobalt.token = sessionToken;
+
         cobalt.disconnect(slug)
         .then(() => {
             // update connection status
