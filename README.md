@@ -25,8 +25,8 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
         <Config
             id="SOME_UNIQUE_CONFIG_ID" // Optional
             slug="APP_SLUG" // application type / slug
-            // dynamic fields payload (optional)
-            fields={{ /* PAYLOAD */ }}
+            // dynamic labels payload (optional)
+            labels={{ /* PAYLOAD */ }}
             // you can override the component's container style if you want
             style={{
                 borderRadius: 8,
