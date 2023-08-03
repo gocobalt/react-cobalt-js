@@ -10,7 +10,7 @@ import Field from "../Field";
  * @param {Object} props
  * @param {String} props.slug Application Slug
  * @param {String} props.id Config ID
- * @param {Object} props.fields Dynamic Fields
+ * @param {Object} props.labels Dynamic Labels
  * @param {Function} props.onConnect
  * @param {Function} props.onClose
  * @param {Record.<string, unknown>} props.style
@@ -18,7 +18,7 @@ import Field from "../Field";
 const Config = ({
     slug,
     id,
-    fields,
+    labels,
     onConnect = () => {},
     onDisconnect = () => {},
     onSave = () => {},
@@ -47,13 +47,14 @@ const Config = ({
     const handleUpdate = () => {
         cobalt.token = sessionToken;
 
-        cobalt.updateConfig(slug, {
+        cobalt.updateConfig({
+            slug,
             config_id: id,
-            application_data_slots: appInputData,
+            fields: appInputData,
             workflows: config?.workflows?.map(workflow => ({
                 id: workflow.id,
                 enabled: enabledWorkflows.includes(workflow.id),
-                data_slots: workflowsInputData[workflow.id] || [],
+                fields: workflowsInputData[workflow.id] || [],
             })) || [],
         })
         .then(config => {
@@ -134,16 +135,17 @@ const Config = ({
             setLoadingConfig(true);
             setErrorMessage(null);
 
-            cobalt.config(slug, {
+            cobalt.config({
+                slug,
                 config_id: id,
-                ...fields,
+                labels,
             })
             .then(config => {
                 setConfig(config);
 
                 // populate input fields
                 const appDataSlots = {};
-                for (const ds of config?.application_data_slots || []) {
+                for (const ds of config?.fields || []) {
                     if (typeof ds.value !== "undefined") {
                         appDataSlots[ds.id] = ds.value;
                     }
@@ -161,7 +163,7 @@ const Config = ({
                         enabledWorkflows.push(workflow.id);
                     }
 
-                    for (const ds of workflow.data_slots) {
+                    for (const ds of workflow.fields) {
                         if (typeof ds.value !== "undefined") {
                             workflowDataSlots[workflow.id][ds.id] = ds.value;
                         }
@@ -239,11 +241,11 @@ const Config = ({
                                             </Alert>
 
                                             {
-                                                !!config?.application_data_slots?.length && (
+                                                !!config?.fields?.length && (
                                                     <Sheet variant="outlined" sx={{ p: 3, borderRadius: 8 }}>
                                                         <Stack spacing={ 3 }>
                                                             {
-                                                                config.application_data_slots.map(dataslot =>
+                                                                config.fields.map(dataslot =>
                                                                     <Field
                                                                         key={ dataslot.id }
                                                                         type={ dataslot.field_type }
@@ -277,7 +279,7 @@ const Config = ({
                                                                 />
                                                             </Stack>
                                                             {
-                                                                enabledWorkflows.includes(workflow.id) && workflow?.data_slots.map(dataslot =>
+                                                                enabledWorkflows.includes(workflow.id) && workflow?.fields.map(dataslot =>
                                                                     <Field
                                                                         key={ dataslot.id }
                                                                         type={ dataslot.field_type }
