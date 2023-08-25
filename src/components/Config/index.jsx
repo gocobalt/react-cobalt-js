@@ -325,9 +325,9 @@ const Config = ({
                                         </React.Fragment>
                                 :   <React.Fragment>
                                         {
-                                            application.help_text && (
+                                            application.help && (
                                                 <Alert>
-                                                    { application.help_text }
+                                                    { application.help }
                                                 </Alert>
                                             )
                                         }
