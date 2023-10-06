@@ -270,7 +270,7 @@ const Config = ({
                                                     <Sheet key={ workflow.id } variant="outlined" sx={{ p: 3, borderRadius: 8, backgroundColor: "#f9fafb" }}>
                                                         <Stack spacing={ 3 }>
                                                             <Stack direction="row" alignItems="center" justifyContent="space-between">
-                                                                <Typography fontSize="md" fontWeight="lg">{ workflow.name }</Typography>
+                                                                <Typography fontSize="md" fontWeight="lg" sx={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{ workflow.name }</Typography>
                                                                 <Switch
                                                                     size="sm"
                                                                     variant="solid"
