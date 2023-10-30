@@ -15,7 +15,7 @@ const DataSlot = ({
                 {
                     labels?.map(label =>
                         <Stack key={ label.value } direction="row" alignItems="center" spacing={ 1 }>
-                            <Typography flex={ 1 }>{ label.name }</Typography>
+                            <Typography flex={ 1 } sx={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{ label.name }</Typography>
                             <Select
                                 name={ label.value }
                                 placeholder="Select"
