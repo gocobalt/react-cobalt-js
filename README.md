@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save @cobaltio/react-cobalt-js
+npm install --save @cobaltio/cobalt-js @cobaltio/react-cobalt-js
 ```
 
 ## Usage
