@@ -70,7 +70,7 @@ const Config = ({
     const handleConnect = () => {
         cobalt.token = sessionToken;
 
-        cobalt.connect(slug, application.auth_type?.startsWith("oauth") ? undefined : inputData)
+        cobalt.connect(slug, inputData)
         .then(connected => {
             if (connected) {
                 // update connection status
