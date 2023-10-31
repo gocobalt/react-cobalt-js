@@ -223,7 +223,7 @@ const Config = ({
 
                         <Stack spacing={ 3 }>
                             {
-                                application.connected
+                                application.connected && !application.refresh_token_expired
                                 ?   loadingConfig
                                     ?   <Loader />
                                     :   <React.Fragment>
@@ -367,10 +367,10 @@ const Config = ({
 
                                             <Button
                                                 size="lg"
-                                                color={ application.connected ? "danger" : "primary" }
-                                                onClick={ application.connected ? handleDisconnect : handleConnect }
+                                                color={ application.connected ? application.refresh_token_expired ? "warning" : "danger" : "primary" }
+                                                onClick={ application.connected && !application.refresh_token_expired ? handleDisconnect : handleConnect }
                                             >
-                                                { application.connected ? "Disconnect" : "Connect" }
+                                                { application.connected ? application.refresh_token_expired ? "Reconnect" : "Disconnect" : "Connect" }
                                             </Button>
                                         </Stack>
                                     </React.Fragment>
