@@ -74,7 +74,7 @@ const Config = ({
         .then(connected => {
             if (connected) {
                 // update connection status
-                setApplication({ ...application, connected: true });
+                setApplication({ ...application, connected: true, reauth_required: false });
                 // clear previous error message
                 setErrorMessage(null);
                 // call the `onConnect` callback function
@@ -92,7 +92,7 @@ const Config = ({
         cobalt.disconnect(slug)
         .then(() => {
             // update connection status
-            setApplication({ ...application, connected: false });
+            setApplication({ ...application, connected: false, reauth_required: undefined });
             // clear previous error message
             setErrorMessage(null);
             // call the `onDisconnect` callback function
