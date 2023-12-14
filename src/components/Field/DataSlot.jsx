@@ -29,6 +29,7 @@ const DataSlot = ({
                             <Select
                                 name={ label.value }
                                 placeholder="Select"
+                                multiple={ label.multiple }
                                 value={ handleSelectValue(value?.[label.value], label.multiple) }
                                 onChange={ (_, v) => onChange({ ...value, [label.value]: v }) }
                                 sx={{ flex: 1 }}
@@ -50,6 +51,7 @@ const DataSlot = ({
         return (
             <Select
                 placeholder={ placeholder || "Select" }
+                multiple={ multiple }
                 value={ handleSelectValue(value, multiple) }
                 onChange={ (_, value) => onChange(value) }
             >
