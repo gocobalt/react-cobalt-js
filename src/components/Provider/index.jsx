@@ -1,5 +1,5 @@
 import React, { createContext } from "react";
-import Cobalt from "@cobaltio/cobalt-js";
+import { Cobalt } from "@cobaltio/cobalt-js";
 import { CssVarsProvider, extendTheme } from "@mui/joy";
 
 /**
