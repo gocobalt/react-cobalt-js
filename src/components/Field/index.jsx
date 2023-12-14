@@ -27,6 +27,7 @@ const Field = ({
     options,
     labels,
     required,
+    multiple,
     value,
     onChange,
 }) => (
@@ -41,6 +42,7 @@ const Field = ({
         <DataSlot
             type={ type }
             placeholder={ placeholder }
+            multiple={ multiple }
             options={ options }
             labels={ labels }
             value={ value }

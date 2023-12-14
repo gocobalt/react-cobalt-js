@@ -1,9 +1,19 @@
 import React from "react";
 import { Input, Option, Select, Stack, Textarea, Typography } from "@mui/joy";
 
+const handleSelectValue = (value, isMultiple) => {
+    if (isMultiple) {
+        if (value instanceof Array) return value;
+        return [];
+    }
+    if (typeof value !== "undefined" && typeof value !== "object") return value;
+    return "";
+};
+
 const DataSlot = ({
     type,
     placeholder,
+    multiple,
     options,
     labels,
     value,
@@ -19,7 +29,7 @@ const DataSlot = ({
                             <Select
                                 name={ label.value }
                                 placeholder="Select"
-                                value={ typeof value?.[label.value] !== "undefined" ? value?.[label.value] : "" }
+                                value={ handleSelectValue(value?.[label.value], label.multiple) }
                                 onChange={ (_, v) => onChange({ ...value, [label.value]: v }) }
                                 sx={{ flex: 1 }}
                             >
@@ -40,7 +50,7 @@ const DataSlot = ({
         return (
             <Select
                 placeholder={ placeholder || "Select" }
-                value={ value || "" }
+                value={ handleSelectValue(value, multiple) }
                 onChange={ (_, value) => onChange(value) }
             >
                 {
