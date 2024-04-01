@@ -13,6 +13,7 @@ import Field from "../Field";
  * @param {Object} props.labels Dynamic Labels
  * @param {Function} props.onConnect
  * @param {Function} props.onClose
+ * @param {boolean} props.removeBranding
  * @param {Record.<string, unknown>} props.style
  */
 const Config = ({
@@ -23,6 +24,7 @@ const Config = ({
     onDisconnect = () => {},
     onSave = () => {},
     style = {},
+    removeBranding,
 }) => {
     const { cobalt, sessionToken } = useContext(CobaltContext);
     const [ config, setConfig ] = useState(null);
@@ -380,12 +382,16 @@ const Config = ({
                             }
                         </Stack>
 
-                        <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
-                            <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
-                                <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
-                                <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
-                            </Stack>
-                        </a>
+                        {
+                            !removeBranding && (
+                                <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
+                                    <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
+                                        <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
+                                        <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
+                                    </Stack>
+                                </a>
+                            )
+                        }
                     </Stack>
                 </Sheet>
             </Provider>
