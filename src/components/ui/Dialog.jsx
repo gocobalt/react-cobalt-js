@@ -87,20 +87,19 @@ const DialogHeader = styled.div({
 });
 
 const DialogIcon = styled.img({
-    width: 55,
-    height: 55,
+    width: 50,
+    height: 50,
     borderRadius: 8,
 });
 
 const DialogTitle = styled(Dialog.DialogTitle)({
     margin: 0,
     color: gray.gray12,
-    fontSize: 20,
+    fontSize: 18,
 });
 
 const DialogDescription = styled(Dialog.DialogDescription)({
     margin: 0,
-    marginTop: 4,
     color: gray.gray11,
     fontSize: 16,
     whiteSpace: "nowrap",
