@@ -6,9 +6,12 @@ import Button from "./Button";
 
 const DialogComponent = ({
     trigger,
-    header,
+    title,
+    description,
+    icon,
     children,
-    onSave,
+    action = "Save",
+    onAction,
 }) => (
     <Dialog.Root>
         <Dialog.Trigger asChild>
@@ -18,15 +21,25 @@ const DialogComponent = ({
         <DialogOverlay />
         <DialogContentContainer>
             {
-                header && (
+                title && (
                     <DialogHeader>
-                        { header }
+                        {
+                            icon && <DialogIcon src={ icon } />
+                        }
+                        <div style={{ flex: 1, overflow: "hidden" }}>
+                            <DialogTitle>{ title }</DialogTitle>
+                            <DialogDescription>{ description }</DialogDescription>
+                        </div>
                     </DialogHeader>
                 )
             }
-            <DialogContent>
-                { children }
-            </DialogContent>
+            {
+                children && (
+                    <DialogContent>
+                        { children }
+                    </DialogContent>
+                )
+            }
             <DialogActions>
                 <DialogBranding href="https://gocobalt.io" target="_blank">Powered by Cobalt</DialogBranding>
                 <DialogActionButtons>
@@ -34,7 +47,7 @@ const DialogComponent = ({
                         <Button>Cancel</Button>
                     </Dialog.Close>
                     <Dialog.Close asChild>
-                        <Button color="primary" onClick={ onSave }>Save</Button>
+                        <Button color="primary" onClick={ onAction }>{ action }</Button>
                     </Dialog.Close>
                 </DialogActionButtons>
             </DialogActions>
@@ -71,6 +84,28 @@ const DialogHeader = styled.div({
     borderColor: gray.gray4,
     backgroundColor: gray.gray2,
     padding: 16,
+});
+
+const DialogIcon = styled.img({
+    width: 55,
+    height: 55,
+    borderRadius: 8,
+});
+
+const DialogTitle = styled(Dialog.DialogTitle)({
+    margin: 0,
+    color: gray.gray12,
+    fontSize: 20,
+});
+
+const DialogDescription = styled(Dialog.DialogDescription)({
+    margin: 0,
+    marginTop: 4,
+    color: gray.gray11,
+    fontSize: 16,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
 });
 
 const DialogContentContainer = styled(Dialog.Content)({
