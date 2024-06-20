@@ -1,8 +1,10 @@
-import React from "react";
+import React, { Children } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { styled, keyframes, css } from "styled-components";
 import { blackA, gray } from "@radix-ui/colors";
+
 import Button from "./Button";
+import { TabsList, TabsRoot, TabsTrigger } from "./Tabs";
 
 const DialogComponent = ({
     trigger,
@@ -12,49 +14,71 @@ const DialogComponent = ({
     children,
     action = "Save",
     onAction,
-}) => (
-    <Dialog.Root>
-        <Dialog.Trigger asChild>
-            { trigger }
-        </Dialog.Trigger>
-        <Dialog.Portal>
-        <DialogOverlay />
-        <DialogContentContainer>
-            {
-                title && (
-                    <DialogHeader>
-                        {
-                            icon && <DialogIcon src={ icon } />
-                        }
-                        <div style={{ flex: 1, overflow: "hidden" }}>
-                            <DialogTitle>{ title }</DialogTitle>
-                            <DialogDescription>{ description }</DialogDescription>
-                        </div>
-                    </DialogHeader>
-                )
-            }
-            {
-                children && (
-                    <DialogContent>
-                        { children }
-                    </DialogContent>
-                )
-            }
-            <DialogActions>
-                <DialogBranding href="https://gocobalt.io" target="_blank">Powered by Cobalt</DialogBranding>
-                <DialogActionButtons>
-                    <Dialog.Close asChild>
-                        <Button>Cancel</Button>
-                    </Dialog.Close>
-                    <Dialog.Close asChild>
-                        <Button color="primary" onClick={ onAction }>{ action }</Button>
-                    </Dialog.Close>
-                </DialogActionButtons>
-            </DialogActions>
-        </DialogContentContainer>
-        </Dialog.Portal>
-    </Dialog.Root>
-);
+}) => {
+    const tabs = Children.map(children, child => {
+        if (React.isValidElement(child) && (child.type.displayName === "Tab" || child.type.displayName === "Styled(Tab)")) {
+            return child.props.value;
+        }
+        return null;
+    })?.filter(Boolean);
+
+    return (
+        <Dialog.Root>
+            <Dialog.Trigger asChild>
+                { trigger }
+            </Dialog.Trigger>
+            <Dialog.Portal>
+            <DialogOverlay />
+            <DialogContentContainer>
+                {
+                    title && (
+                        <DialogHeader>
+                            {
+                                icon && <DialogIcon src={ icon } />
+                            }
+                            <div style={{ flex: 1, overflow: "hidden" }}>
+                                <DialogTitle>{ title }</DialogTitle>
+                                <DialogDescription>{ description }</DialogDescription>
+                            </div>
+                        </DialogHeader>
+                    )
+                }
+                {
+                    children && (
+                        <DialogContent padding={ tabs?.length ? 0 : 16 }>
+                            {
+                                !!tabs?.length
+                                ?   <TabsRoot>
+                                        <TabsList>
+                                            {
+                                                tabs.map(tab =>
+                                                    <TabsTrigger value={ tab }>{ tab }</TabsTrigger>
+                                                )
+                                            }
+                                        </TabsList>
+                                        { children }
+                                    </TabsRoot>
+                                :   children
+                            }
+                        </DialogContent>
+                    )
+                }
+                <DialogActions>
+                    <DialogBranding href="https://gocobalt.io" target="_blank">Powered by Cobalt</DialogBranding>
+                    <DialogActionButtons>
+                        <Dialog.Close asChild>
+                            <Button>Cancel</Button>
+                        </Dialog.Close>
+                        <Dialog.Close asChild>
+                            <Button color="primary" onClick={ onAction }>{ action }</Button>
+                        </Dialog.Close>
+                    </DialogActionButtons>
+                </DialogActions>
+            </DialogContentContainer>
+            </Dialog.Portal>
+        </Dialog.Root>
+    );
+};
 
 const overlayShow = keyframes({
     "0%": { opacity: 0 },
@@ -122,13 +146,13 @@ const DialogContentContainer = styled(Dialog.Content)({
     animation: css`${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
 });
 
-const DialogContent = styled.div({
+const DialogContent = styled.div(props => ({
     display: "flex",
     flexDirection: "column",
     gap: 16,
-    padding: 16,
+    padding: typeof props.padding === "undefined" ? 16 : props.padding,
     overflowY: "auto",
-});
+}));
 
 const DialogActions = styled.div({
     display: "flex",
