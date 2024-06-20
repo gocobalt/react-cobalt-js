@@ -5,6 +5,7 @@ import Select from "./components/ui/Select";
 import SelectItem from "./components/ui/SelectItem";
 import Textarea from "./components/ui/Textarea";
 import Label from "./components/ui/Label";
+import Tab from "./components/ui/Tab";
 
 import Config from "./components/Config";
 import Field from "./components/Field";
@@ -18,6 +19,7 @@ export {
     SelectItem,
     Textarea,
     Label,
+    Tab,
 
     Context,
     Config,
