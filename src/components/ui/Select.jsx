@@ -7,8 +7,9 @@ import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 const SelectComponent = ({
     placeholder,
     children,
+    ...props
 }) => (
-    <Select.Root>
+    <Select.Root { ...props }>
         <SelectTrigger aria-label="Food">
             <Select.Value placeholder={ placeholder || "Select" } />
             <Select.Icon>
