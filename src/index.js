@@ -4,6 +4,7 @@ import Input from "./components/ui/Input";
 import Select from "./components/ui/Select";
 import SelectItem from "./components/ui/SelectItem";
 import Textarea from "./components/ui/Textarea";
+import Fieldset from "./components/ui/Fieldset";
 import Label from "./components/ui/Label";
 import Tab from "./components/ui/Tab";
 
@@ -18,6 +19,7 @@ export {
     Select,
     SelectItem,
     Textarea,
+    Fieldset,
     Label,
     Tab,
 
