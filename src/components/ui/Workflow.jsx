@@ -24,8 +24,7 @@ const Flex = styled.div({
 const Container = styled.div({
     display: "flex",
     flexDirection: "column",
-    border: "1px solid",
-    borderColor: gray.gray5,
+    boxShadow: `0 0 0 1px ${gray.gray5}`,
     borderRadius: 4,
 });
 
