@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { gray } from "@radix-ui/colors";
 
-const Flex = styled.label({
+const Row = styled.label({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -29,14 +29,14 @@ const Fieldset = React.forwardRef(({
     children,
     ...props
 }, ref) => (
-    <Flex ref={ ref } { ...props }>
+    <Row ref={ ref } { ...props }>
         <Title>
             { title }
         </Title>
         <Content>
             { children }
         </Content>
-    </Flex>
+    </Row>
 ));
 
 export default Fieldset;

@@ -10,11 +10,13 @@ const SwitchRoot = styled(Switch.Root)({
     backgroundColor: gray.gray7,
     borderRadius: "9999px",
     position: "relative",
-    "&:hover": {
+    "&:hover, &:focus": {
         backgroundColor: gray.gray8,
     },
-    "&[data-state=\"checked\"]": { backgroundColor: gray.gray12 },
-  });
+    "&[data-state=\"checked\"]": {
+        backgroundColor: gray.gray12,
+    },
+});
 
 const SwitchThumb = styled(Switch.Thumb)({
     display: "block",
@@ -27,7 +29,6 @@ const SwitchThumb = styled(Switch.Thumb)({
     willChange: "transform",
     "&[data-state=\"checked\"]": { transform: "translateX(19px)" },
 });
-
 
 const SwitchComponent = React.forwardRef(({
     title,
