@@ -8,6 +8,7 @@ import Switch from "./components/ui/Switch";
 import Fieldset from "./components/ui/Fieldset";
 import Label from "./components/ui/Label";
 import Tab from "./components/ui/Tab";
+import Workflow from "./components/ui/Workflow";
 
 import Config from "./components/Config";
 import Field from "./components/Field";
@@ -24,6 +25,7 @@ export {
     Fieldset,
     Label,
     Tab,
+    Workflow,
 
     Context,
     Config,
