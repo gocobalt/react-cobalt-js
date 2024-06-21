@@ -15,11 +15,13 @@ const Description = styled.div({
     color: gray.gray10,
 });
 
-const Stack = styled.label({
+const Stack = styled.label(props => ({
     display: "flex",
-    flexDirection: "column",
+    flexDirection: props.horizontal ? "row" : "column",
+    justifyContent: props.horizontal ? "space-between" : "initial",
+    alignItems: props.horizontal ? "center" : "initial",
     gap: 8,
-});
+}));
 
 const Label = React.forwardRef(({
     title,
@@ -27,7 +29,7 @@ const Label = React.forwardRef(({
     children,
     ...props
 }, ref) => (
-    <Stack ref={ ref } { ...props }>
+    <Stack { ...props } ref={ ref }>
         <div>
             <Title>
                 { title }
