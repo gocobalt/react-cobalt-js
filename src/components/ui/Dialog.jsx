@@ -19,7 +19,11 @@ const DialogComponent = ({
 }) => {
     const tabs = Children.map(children, child => {
         if (React.isValidElement(child) && (child.type.displayName === "Tab" || child.type.displayName === "Styled(Tab)")) {
-            return child.props.value;
+            return {
+                name: child.props.name,
+                value: child.props.value,
+                disabled: child.props.disabled,
+            };
         }
         return null;
     })?.filter(Boolean);
@@ -58,7 +62,9 @@ const DialogComponent = ({
                                         <TabsList>
                                             {
                                                 tabs.map(tab =>
-                                                    <TabsTrigger value={ tab }>{ tab }</TabsTrigger>
+                                                    <TabsTrigger value={ tab.value } disabled={ tab.disabled }>
+                                                        { tab.name || tab.value }
+                                                    </TabsTrigger>
                                                 )
                                             }
                                         </TabsList>
