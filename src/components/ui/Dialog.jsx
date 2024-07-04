@@ -8,6 +8,8 @@ import { TabsList, TabsRoot, TabsTrigger } from "./Tabs";
 
 const DialogComponent = ({
     trigger,
+    open,
+    onOpenChange,
     title,
     description,
     icon,
@@ -23,10 +25,14 @@ const DialogComponent = ({
     })?.filter(Boolean);
 
     return (
-        <Dialog.Root>
-            <Dialog.Trigger asChild>
-                { trigger }
-            </Dialog.Trigger>
+        <Dialog.Root open={ open } onOpenChange={ onOpenChange }>
+            {
+                trigger && (
+                    <Dialog.Trigger asChild>
+                        { trigger }
+                    </Dialog.Trigger>
+                )
+            }
             <Dialog.Portal>
             <DialogOverlay />
             <DialogContentContainer>
