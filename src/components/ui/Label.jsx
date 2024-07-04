@@ -15,6 +15,12 @@ const Description = styled.div({
     color: gray.gray10,
 });
 
+const Tag = styled.span({
+    fontSize: 12,
+    lineHeight: 1,
+    color: gray.gray10,
+});
+
 const Stack = styled.label(props => ({
     display: "flex",
     flexDirection: props.horizontal ? "row" : "column",
@@ -26,13 +32,14 @@ const Stack = styled.label(props => ({
 const Label = React.forwardRef(({
     title,
     description,
+    required,
     children,
     ...props
 }, ref) => (
     <Stack { ...props } ref={ ref }>
         <div>
             <Title>
-                { title }
+                { title } <Tag>(optional)</Tag>
             </Title>
             <Description>
                 { description }
