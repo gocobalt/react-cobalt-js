@@ -10,7 +10,7 @@ const SelectComponent = ({
     ...props
 }) => (
     <Select.Root { ...props }>
-        <SelectTrigger aria-label="Food">
+        <SelectTrigger>
             <Select.Value placeholder={ placeholder || "Select" } />
             <Select.Icon>
                 <ChevronDownIcon color={ gray.gray10 } />
