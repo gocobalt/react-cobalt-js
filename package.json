@@ -67,6 +67,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
+    "react-select": "^5.8.0",
     "styled-components": "^6.1.11"
   }
 }
