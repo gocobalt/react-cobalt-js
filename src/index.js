@@ -1,4 +1,5 @@
 import ThemeProvider from "./components/ui/utils/ThemeProvider";
+import Combobox from "./components/ui/Combobox";
 import Dialog from "./components/ui/Dialog";
 import Input from "./components/ui/Input";
 import Select from "./components/ui/Select";
@@ -16,6 +17,7 @@ import { Context, Provider } from "./components/Provider";
 
 export {
     ThemeProvider,
+    Combobox,
     Dialog,
     Input,
     Select,
