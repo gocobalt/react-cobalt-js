@@ -1,7 +1,7 @@
 import React from "react";
-import { Stack, Typography } from "@mui/joy";
 
 import DataSlot from "./DataSlot";
+import Label from "../ui/Label";
 
 /**
  * @param {Object} props
@@ -31,14 +31,11 @@ const Field = ({
     value,
     onChange,
 }) => (
-    <Stack spacing={ 1 }>
-        <Stack>
-            <Stack direction="row" spacing={ 1 }>
-                <Typography color="neutral" fontWeight="lg">{ name }</Typography>
-                <Typography color="neutral" fontSize="sm">{ !required && "(optional)" }</Typography>
-            </Stack>
-            <Typography color="neutral" fontSize="sm">{ description }</Typography>
-        </Stack>
+    <Label
+        title={ name }
+        description={ description }
+        required={ required }
+    >
         <DataSlot
             type={ type }
             placeholder={ placeholder }
@@ -48,7 +45,7 @@ const Field = ({
             value={ value }
             onChange={ onChange }
         />
-    </Stack>
+    </Label>
 );
 
 export default Field;
