@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import { Cobalt } from "@cobaltio/cobalt-js";
-import { CssVarsProvider, extendTheme } from "@mui/joy";
+import ThemeProvider from "../ui/utils/ThemeProvider";
 
 /**
  * @typedef Context
@@ -22,75 +22,16 @@ export const Context = createContext();
  */
 export const Provider = ({ children, baseApi, sessionToken }) => {
     const cobalt = new Cobalt({ baseUrl: baseApi || "https://api.gocobalt.io" });
-    const customTheme = extendTheme({
-        components: {
-            JoyInput: {
-                defaultProps: {
-                    size: "lg",
-                },
-                styleOverrides: {
-                    root: {
-                        borderColor: "rgba(145, 158, 171, 0.24)",
-                    },
-                },
-            },
-            JoySelect: {
-                defaultProps: {
-                    size: "lg",
-                },
-                styleOverrides: {
-                    listbox: {
-                        boxShadow: `0 0 2px 0 rgba(145, 158, 171, 0.24), -20px 20px 40px -4px rgba(145, 158, 171, 0.24)`,
-                        borderColor: "rgba(145, 158, 171, 0.24)",
-                    },
-                    root: {
-                        borderColor: "rgba(145, 158, 171, 0.24)",
-                    },
-                },
-            },
-            JoyTextarea: {
-                defaultProps: {
-                    size: "lg",
-                },
-                styleOverrides: {
-                    root: {
-                        borderColor: "rgba(145, 158, 171, 0.24)",
-                    },
-                },
-            },
-            JoySheet: {
-                styleOverrides: {
-                    root: {
-                        borderColor: "rgba(145, 158, 171, 0.12)"
-                    },
-                },
-            },
-            JoyTab: {
-                styleOverrides: {
-                    root: {
-                        fontWeight: 600,
-                    },
-                },
-            },
-            JoyDivider: {
-                styleOverrides: {
-                    root: {
-                        backgroundColor: "rgba(145, 158, 171, 0.24)"
-                    },
-                },
-            },
-        },
-    });
 
     return (
-        <CssVarsProvider defaultColorScheme="light" theme={ customTheme }>
-            <Context.Provider value={{
-                cobalt,
-                sessionToken,
-                theme: "light",
-            }}>
+        <Context.Provider value={{
+            cobalt,
+            sessionToken,
+            theme: "light",
+        }}>
+            <ThemeProvider>
                 { children }
-            </Context.Provider>
-        </CssVarsProvider>
+            </ThemeProvider>
+        </Context.Provider>
     );
 };
