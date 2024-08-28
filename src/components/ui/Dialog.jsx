@@ -7,6 +7,7 @@ import Button from "./Button";
 import { TabsList, TabsRoot, TabsTrigger } from "./Tabs";
 
 const DialogComponent = ({
+    empty,
     trigger,
     open,
     onOpenChange,
@@ -16,6 +17,8 @@ const DialogComponent = ({
     children,
     action = "Save",
     onAction,
+    secondaryAction = "Disconnect",
+    onSecondaryAction,
 }) => {
     const tabs = Children.map(children, child => {
         if (React.isValidElement(child) && (child.type.displayName === "Tab" || child.type.displayName === "Styled(Tab)")) {
@@ -27,6 +30,28 @@ const DialogComponent = ({
         }
         return null;
     })?.filter(Boolean);
+
+    if (empty) {
+        return (
+            <Dialog.Root open={ open } onOpenChange={ onOpenChange }>
+                {
+                    trigger && (
+                        <Dialog.Trigger asChild>
+                            { trigger }
+                        </Dialog.Trigger>
+                    )
+                }
+                <Dialog.Portal>
+                    <DialogOverlay />
+                    <DialogContentContainer>
+                        <DialogContent padding={ 16 }>
+                            { children }
+                        </DialogContent>
+                    </DialogContentContainer>
+                </Dialog.Portal>
+            </Dialog.Root>
+        )
+    }
 
     return (
         <Dialog.Root open={ open } onOpenChange={ onOpenChange }>
@@ -75,17 +100,21 @@ const DialogComponent = ({
                         </DialogContent>
                     )
                 }
-                <DialogActions>
-                    <DialogBranding href="https://gocobalt.io" target="_blank">Powered by Cobalt</DialogBranding>
-                    <DialogActionButtons>
-                        <Dialog.Close asChild>
-                            <Button>Cancel</Button>
-                        </Dialog.Close>
-                        <Dialog.Close asChild>
+                <DialogFooter>
+                    <DialogActions>
+                        {
+                            onSecondaryAction
+                            ?   <Button color="primary" onClick={ onSecondaryAction }>{ secondaryAction }</Button>
+                            :   <DialogBranding href="https://gocobalt.io" target="_blank">Powered by Cobalt</DialogBranding>
+                        }
+                        <DialogActionButtons>
+                            <Dialog.Close asChild>
+                                <Button>Cancel</Button>
+                            </Dialog.Close>
                             <Button color="primary" onClick={ onAction }>{ action }</Button>
-                        </Dialog.Close>
-                    </DialogActionButtons>
-                </DialogActions>
+                        </DialogActionButtons>
+                    </DialogActions>
+                </DialogFooter>
             </DialogContentContainer>
             </Dialog.Portal>
         </Dialog.Root>
@@ -166,17 +195,23 @@ const DialogContent = styled.div(props => ({
     overflowY: "auto",
 }));
 
-const DialogActions = styled.div({
+const DialogFooter = styled.div({
     display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    gap: 8,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTop: "1px solid",
     borderColor: gray.gray4,
     backgroundColor: gray.gray2,
     padding: 16,
+});
+
+const DialogActions = styled.div({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
 });
 
 const DialogActionButtons = styled.div({
