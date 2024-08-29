@@ -1,5 +1,6 @@
 import React from "react";
 
+import Rules from "./Rules";
 import Input from "../ui/Input";
 import Select from "../ui/Select";
 import SelectItem from "../ui/SelectItem";
@@ -57,6 +58,17 @@ const DataSlot = ({
                 placeholder={ placeholder || "Type something..." }
                 value={ value || "" }
                 onChange={ e => onChange(e.target.value) }
+            />
+        );
+    }
+
+    if (type === "rule_engine") {
+        return (
+            <Rules
+                logic={ value?.logic }
+                conditions={ value?.conditions }
+                onChange={ (k, v) => onChange({ ...value, [k]: v }) }
+                options={ options }
             />
         );
     }
