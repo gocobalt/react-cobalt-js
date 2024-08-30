@@ -13,7 +13,8 @@ const Rules = ({
     logic,
     conditions,
     onChange,
-
+    ruleColumns,
+    onLHSChange,
     options,
 }) => {
     const addCondition = () => {
@@ -118,14 +119,19 @@ const Rules = ({
                                                 level={ level + 1 }
                                                 logic={ cond.logic }
                                                 conditions={ cond.conditions }
-                                                onChange={(k, v) => updateCondition(i, { ...cond, [k]: v })}
+                                                onChange={ (k, v) => updateCondition(i, { ...cond, [k]: v }) }
+                                                ruleColumns={ ruleColumns }
+                                                onLHSChange={ onLHSChange }
+                                                options={ options }
                                             />
                                         :   <Stack gap={ 8 }>
                                                 <Select
                                                     placeholder="Field"
                                                     value={ cond.lhs }
-                                                    onValueChange={ v => updateConditionField(i, "lhs", v) }
-                                                    // TODO: call the API/SDK onValueChange to get the operators & rhs options (if applicable)
+                                                    onValueChange={ v => {
+                                                        updateConditionField(i, "lhs", v);
+                                                        onLHSChange && onLHSChange(v);
+                                                    }}
                                                 >
                                                     {
                                                         options?.map(o =>
@@ -138,19 +144,35 @@ const Rules = ({
                                                     value={ cond.operator }
                                                     onValueChange={ v => updateConditionField(i, "operator", v) }
                                                 >
-                                                    {/* TODO: show operators from the API/SDK response */}
-                                                    <SelectItem value="eq">is equal to</SelectItem>
-                                                    <SelectItem value="neq">is not equal to</SelectItem>
-                                                    <SelectItem value="gt">greater than</SelectItem>
-                                                    <SelectItem value="lt">less than</SelectItem>
+                                                    {
+                                                        ruleColumns?.operator?.options?.map(o =>
+                                                            <SelectItem value={ o.value }>{ o.name }</SelectItem>
+                                                        )
+                                                    }
                                                 </Select>
-                                                <Input
-                                                    type={ cond.type || "text" }
-                                                    placeholder="Value"
-                                                    value={ cond.rhs }
-                                                    onChange={ e => updateConditionField(i, "rhs", e.target.value, cond.type) }
-                                                    style={{ flex: 1 }}
-                                                />
+                                                {
+                                                    (ruleColumns?.rhs?.type || cond.type) === "select"
+                                                    ?   <Select
+                                                            placeholder="Value"
+                                                            value={ cond.rhs }
+                                                            onValueChange={ v => {
+                                                                updateConditionField(i, "rhs", v, ruleColumns?.rhs?.type || cond.type || "select");
+                                                            }}
+                                                        >
+                                                            {
+                                                                ruleColumns?.rhs?.options?.map(o =>
+                                                                    <SelectItem value={ o.value }>{ o.name }</SelectItem>
+                                                                )
+                                                            }
+                                                        </Select>
+                                                    :   <Input
+                                                            type={ ruleColumns?.rhs?.type || cond.type || "text" }
+                                                            placeholder="Value"
+                                                            value={ cond.rhs }
+                                                            onChange={ e => updateConditionField(i, "rhs", e.target.value, ruleColumns?.rhs?.type || cond.type) }
+                                                            style={{ flex: 1 }}
+                                                        />
+                                                }
                                             </Stack>
                                     }
                                 </div>

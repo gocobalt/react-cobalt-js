@@ -16,6 +16,9 @@ const DataSlot = ({
     labels,
     value,
     onChange,
+    // rule props
+    ruleColumns,
+    onLHSChange,
 }) => {
     if (type === "map") {
         return (
@@ -69,6 +72,8 @@ const DataSlot = ({
                 conditions={ value?.conditions }
                 onChange={ (k, v) => onChange({ ...value, [k]: v }) }
                 options={ options }
+                ruleColumns={ ruleColumns }
+                onLHSChange={ onLHSChange }
             />
         );
     }

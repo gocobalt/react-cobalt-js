@@ -18,6 +18,7 @@ import Label from "../ui/Label";
  * @param {Boolean} props.required Is the field mandatory?
  * @param {String} props.value Value
  * @param {Function} props.onChange Field Type
+ * @param {Function} props.onLHSChange Field Type
  */
 const Field = ({
     type,
@@ -30,6 +31,9 @@ const Field = ({
     multiple,
     value,
     onChange,
+    // rule props
+    ruleColumns,
+    onLHSChange,
 }) => (
     <Label
         title={ name }
@@ -44,6 +48,8 @@ const Field = ({
             labels={ labels }
             value={ value }
             onChange={ onChange }
+            ruleColumns={ ruleColumns }
+            onLHSChange={ onLHSChange }
         />
     </Label>
 );
