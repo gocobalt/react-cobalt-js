@@ -147,9 +147,11 @@ const Rules = ({
                                                     onValueChange={ v => updateConditionField(i, "operator", v) }
                                                 >
                                                     {
-                                                        ruleColumns?.operator?.options?.map(o =>
-                                                            <SelectItem value={ o.value }>{ o.name }</SelectItem>
-                                                        )
+                                                        ruleColumns?.operator?.options?.length
+                                                        ?   ruleColumns?.operator?.options?.map(o =>
+                                                                <SelectItem value={ o.value }>{ o.name }</SelectItem>
+                                                            )
+                                                        :   <SelectItem value={ cond.operator }>{ cond.operator }</SelectItem>
                                                     }
                                                 </Select>
                                                 {
@@ -163,9 +165,11 @@ const Rules = ({
                                                             }}
                                                         >
                                                             {
-                                                                ruleColumns?.rhs?.options?.map(o =>
-                                                                    <SelectItem value={ o.value }>{ o.name }</SelectItem>
-                                                                )
+                                                                ruleColumns?.rhs?.options?.length
+                                                                ?   ruleColumns?.rhs?.options?.map(o =>
+                                                                        <SelectItem value={ o.value }>{ o.name }</SelectItem>
+                                                                    )
+                                                                :   <SelectItem value={ cond.rhs }>{ cond.rhs }</SelectItem>
                                                             }
                                                         </Select>
                                                     :   <Input
