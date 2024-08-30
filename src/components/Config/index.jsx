@@ -43,6 +43,36 @@ const Config = ({
     const [ workflowsInputData, setWorkflowsInputData ] = useState({});
     const [ enabledWorkflows, setEnabledWorkflows ] = useState([]);
 
+    const getRuleOptions = (lhs, fieldId, workflowId) => {
+        if (!lhs) return; // NOTE: maybe reset the options for the field id?
+        if (!fieldId) return;
+
+        cobalt.token = sessionToken;
+
+        cobalt.getRuleFieldOptions(lhs, slug, fieldId, workflowId)
+        .then(res => {
+            const newConfig = { ...config };
+
+            if (workflowId) {
+                const workflowIndex = newConfig.workflows?.findIndex(wf => wf.id === workflowId);
+                const fieldIndex = newConfig.workflows?.[workflowIndex]?.fields?.findIndex(f => f.id === fieldId);
+                newConfig.workflows[workflowIndex].fields[fieldIndex] = {
+                    ...newConfig.workflows?.[workflowIndex].fields?.[fieldIndex],
+                    rule_columns: res.rule_column,
+                };
+            } else {
+                const fieldIndex = newConfig.fields?.findIndex(f => f.id === fieldId);
+                newConfig.fields[fieldIndex] = {
+                    ...newConfig.fields?.[fieldIndex],
+                    rule_columns: res.rule_column,
+                };
+            }
+
+            setConfig(newConfig);
+        })
+        .catch(console.error);
+    };
+
     const toggleWorkflow = (workflowId) => {
         if (enabledWorkflows.includes(workflowId)) {
             setEnabledWorkflows(enabledWorkflows.filter(id => id !== workflowId));
@@ -254,6 +284,9 @@ const Config = ({
                                                 labels={ dataslot.labels }
                                                 value={ typeof appInputData?.[dataslot.id] !== "undefined" ? appInputData[dataslot.id] : "" }
                                                 onChange={ value => setAppInputData({ ...appInputData, [dataslot.id]: value }) }
+                                                // rule props
+                                                ruleColumns={ dataslot.rule_columns }
+                                                onLHSChange={ lhs => getRuleOptions(lhs, dataslot.id) }
                                             />
                                         )
                                     )
