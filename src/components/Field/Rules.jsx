@@ -128,6 +128,7 @@ const Rules = ({
                                                 <Select
                                                     placeholder="Field"
                                                     value={ cond.lhs }
+                                                    onOpenChange={ () => cond.lhs && onLHSChange && onLHSChange(cond.lhs) }
                                                     onValueChange={ v => {
                                                         updateConditionField(i, "lhs", v);
                                                         onLHSChange && onLHSChange(v);
@@ -142,6 +143,7 @@ const Rules = ({
                                                 <Select
                                                     placeholder="Operator"
                                                     value={ cond.operator }
+                                                    onOpenChange={ () => cond.lhs && onLHSChange && onLHSChange(cond.lhs) }
                                                     onValueChange={ v => updateConditionField(i, "operator", v) }
                                                 >
                                                     {
@@ -155,6 +157,7 @@ const Rules = ({
                                                     ?   <Select
                                                             placeholder="Value"
                                                             value={ cond.rhs }
+                                                            onOpenChange={ () => cond.lhs && onLHSChange && onLHSChange(cond.lhs) }
                                                             onValueChange={ v => {
                                                                 updateConditionField(i, "rhs", v, ruleColumns?.rhs?.type || cond.type || "select");
                                                             }}
