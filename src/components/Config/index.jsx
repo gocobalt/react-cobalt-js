@@ -64,7 +64,10 @@ const Config = ({
                 const fieldIndex = newConfig.fields?.findIndex(f => f.id === fieldId);
                 newConfig.fields[fieldIndex] = {
                     ...newConfig.fields?.[fieldIndex],
-                    rule_columns: res.rule_column,
+                    rule_columns: {
+                        ...newConfig.fields?.[fieldIndex]?.rule_columns,
+                        [lhs]: res.rule_column,
+                    },
                 };
             }
 

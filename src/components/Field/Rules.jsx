@@ -147,36 +147,36 @@ const Rules = ({
                                                     onValueChange={ v => updateConditionField(i, "operator", v) }
                                                 >
                                                     {
-                                                        ruleColumns?.operator?.options?.length
-                                                        ?   ruleColumns?.operator?.options?.map(o =>
+                                                        ruleColumns?.[cond.lhs]?.operator?.options?.length
+                                                        ?   ruleColumns?.[cond.lhs]?.operator?.options?.map(o =>
                                                                 <SelectItem value={ o.value }>{ o.name }</SelectItem>
                                                             )
                                                         :   <SelectItem value={ cond.operator }>{ cond.operator }</SelectItem>
                                                     }
                                                 </Select>
                                                 {
-                                                    (ruleColumns?.rhs?.type || cond.type) === "select"
+                                                    (ruleColumns?.[cond.lhs]?.rhs?.type || cond.type) === "select"
                                                     ?   <Select
                                                             placeholder="Value"
                                                             value={ cond.rhs }
                                                             onOpenChange={ () => cond.lhs && onLHSChange && onLHSChange(cond.lhs) }
                                                             onValueChange={ v => {
-                                                                updateConditionField(i, "rhs", v, ruleColumns?.rhs?.type || cond.type || "select");
+                                                                updateConditionField(i, "rhs", v, ruleColumns?.[cond.lhs]?.rhs?.type || cond.type || "select");
                                                             }}
                                                         >
                                                             {
-                                                                ruleColumns?.rhs?.options?.length
-                                                                ?   ruleColumns?.rhs?.options?.map(o =>
+                                                                ruleColumns?.[cond.lhs]?.rhs?.options?.length
+                                                                ?   ruleColumns?.[cond.lhs]?.rhs?.options?.map(o =>
                                                                         <SelectItem value={ o.value }>{ o.name }</SelectItem>
                                                                     )
                                                                 :   <SelectItem value={ cond.rhs }>{ cond.rhs }</SelectItem>
                                                             }
                                                         </Select>
                                                     :   <Input
-                                                            type={ ruleColumns?.rhs?.type || cond.type || "text" }
+                                                            type={ ruleColumns?.[cond.lhs]?.rhs?.type || cond.type || "text" }
                                                             placeholder="Value"
                                                             value={ cond.rhs }
-                                                            onChange={ e => updateConditionField(i, "rhs", e.target.value, ruleColumns?.rhs?.type || cond.type) }
+                                                            onChange={ e => updateConditionField(i, "rhs", e.target.value, ruleColumns?.[cond.lhs]?.rhs?.type || cond.type) }
                                                             style={{ flex: 1 }}
                                                         />
                                                 }
