@@ -14,7 +14,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
@@ -29,9 +29,9 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "@cobaltio/cobalt-js": "^8.0.0",
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
+    "@cobaltio/cobalt-js": "^8.5.1",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
@@ -50,8 +50,8 @@
     "microbundle-crl": "^0.13.10",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.4",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "react-scripts": "^5.0.1"
   },
   "files": [
@@ -60,13 +60,14 @@
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
-    "@mui/joy": "5.0.0-beta.18",
+    "@mui/joy": "5.0.0-beta.48",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-icons": "^1.3.0",
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-switch": "^1.0.3",
     "@radix-ui/react-tabs": "^1.0.4",
+    "@tanstack/react-query": "^5.52.2",
     "react-select": "^5.8.0",
     "styled-components": "^6.1.11"
   }
