@@ -44,12 +44,12 @@ const Config = ({
     const [ enabledWorkflows, setEnabledWorkflows ] = useState([]);
 
     const getRuleOptions = (lhs, fieldId, workflowId) => {
-        if (!lhs) return; // NOTE: maybe reset the options for the field id?
+        if (!lhs) return;
         if (!fieldId) return;
 
         cobalt.token = sessionToken;
 
-        cobalt.getRuleFieldOptions(lhs, slug, fieldId, workflowId)
+        cobalt.getFieldOptions(lhs, slug, fieldId, workflowId)
         .then(res => {
             const newConfig = { ...config };
 
