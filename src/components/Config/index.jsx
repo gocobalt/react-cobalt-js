@@ -58,7 +58,10 @@ const Config = ({
                 const fieldIndex = newConfig.workflows?.[workflowIndex]?.fields?.findIndex(f => f.id === fieldId);
                 newConfig.workflows[workflowIndex].fields[fieldIndex] = {
                     ...newConfig.workflows?.[workflowIndex].fields?.[fieldIndex],
-                    rule_columns: res.rule_column,
+                    rule_columns: {
+                        ...newConfig.workflows?.[workflowIndex].fields?.[fieldIndex]?.rule_columns,
+                        [lhs]: res.rule_column,
+                    },
                 };
             } else {
                 const fieldIndex = newConfig.fields?.findIndex(f => f.id === fieldId);
@@ -326,6 +329,9 @@ const Config = ({
                                                                 },
                                                             });
                                                         }}
+                                                        // rule props
+                                                        ruleColumns={ dataslot.rule_columns }
+                                                        onLHSChange={ lhs => getRuleOptions(lhs, dataslot.id, workflow.id) }
                                                     />
                                                 )
                                             }
