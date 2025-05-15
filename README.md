@@ -21,10 +21,10 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
 <Provider sessionToken={ cobaltToken }>
     {
         // ideally you'd render the Config component inside a modal.
-        // the component only gets rendered when `slug` is passed.
+        // if no `slug` is provided, it'll show a list of all the enabled applications.
         <Config
             id="SOME_UNIQUE_CONFIG_ID" // Optional
-            slug="APP_SLUG" // application type / slug
+            slug="APP_SLUG" // application type / slug (optional)
             // dynamic labels payload (optional)
             labels={{ /* PAYLOAD */ }}
             // you can override the component's container style if you want
