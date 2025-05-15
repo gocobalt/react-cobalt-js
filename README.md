@@ -27,8 +27,6 @@ import { Provider, Config } from "@cobaltio/react-cobalt-js";
             slug="APP_SLUG" // application type / slug (optional)
             // dynamic labels payload (optional)
             labels={{ /* PAYLOAD */ }}
-            // remove Cobalt branding
-            removeBranding
             // you can override the component's container style if you want
             style={{
                 borderRadius: 8,
