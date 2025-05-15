@@ -6,6 +6,17 @@ import ErrorComponent from "../Error";
 import Loader from "../Loader";
 import Field from "../Field";
 
+const Branding = () => (
+    <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
+        <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
+            <AspectRatio variant="plain" ratio="1/1" sx={{ width: 18, borderRadius: 2 }}>
+                <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
+            </AspectRatio>
+            <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
+        </Stack>
+    </a>
+);
+
 /**
  * @param {Object} props
  * @param {String} [props.slug] Application Slug
@@ -402,12 +413,7 @@ const Config = ({
 
                         {
                             !removeBranding && (
-                                <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
-                                    <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
-                                        <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
-                                        <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
-                                    </Stack>
-                                </a>
+                                <Branding />
                             )
                         }
                     </Stack>
@@ -460,12 +466,7 @@ const Config = ({
 
                     {
                         !removeBranding && (
-                            <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
-                                <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
-                                    <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
-                                    <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
-                                </Stack>
-                            </a>
+                            <Branding />
                         )
                     }
                 </Stack>
