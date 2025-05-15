@@ -116,6 +116,25 @@ const Config = ({
         .catch(() => setErrorMessage(`Unable to disconnect your ${ application.name } account. Please try again later.`));
     };
 
+    const sortApplications = (a, b) => {
+        const getPriority = (app) => {
+            if (app.connected && !app.reauth_required) return 1
+            if (app.connected && app.reauth_required) return 2;
+            if (!app.connected && !app.ecosystem) return 3;
+            if (app.ecosystem) return 4;
+            return 5;
+        };
+
+        const priorityA = getPriority(a);
+        const priorityB = getPriority(b);
+
+        if (priorityA !== priorityB) {
+            return priorityA - priorityB;
+        }
+
+        return a.name.localeCompare(b.name);
+    };
+
     useEffect(() => {
         if (!sessionToken) return;
 
@@ -438,7 +457,7 @@ const Config = ({
                     <Stack spacing={ 2 }>
                         {
                             applications?.filter(app => !app.ecosystem)?.length
-                            ?   applications.filter(app => !app.ecosystem).map(app =>
+                            ?   applications.filter(app => !app.ecosystem).sort(sortApplications).map(app =>
                                     <Sheet
                                         key={ app.slug || app.type }
                                         variant="outlined"
