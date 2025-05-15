@@ -8,7 +8,7 @@ import Field from "../Field";
 
 /**
  * @param {Object} props
- * @param {String} props.slug Application Slug
+ * @param {String} [props.slug] Application Slug
  * @param {String} props.id Config ID
  * @param {Object} props.labels Dynamic Labels
  * @param {Function} props.onConnect
@@ -17,7 +17,6 @@ import Field from "../Field";
  * @param {Record.<string, unknown>} props.style
  */
 const Config = ({
-    slug,
     id,
     labels,
     onConnect = () => {},
@@ -25,10 +24,13 @@ const Config = ({
     onSave = () => {},
     style = {},
     removeBranding,
+    ...props
 }) => {
     const { cobalt, sessionToken } = useContext(CobaltContext);
+    const [ slug, setSlug ] = useState(props.slug);
     const [ config, setConfig ] = useState(null);
-    const [ application, setApplication ] = useState(null);
+    const [ applications, setApplications ] = useState([]);
+    const [ application, setApplication ] = useState({});
     const [ loading, setLoading ] = useState(false);
     const [ loadingConfig, setLoadingConfig ] = useState(false);
     const [ error, setError ] = useState(null);
@@ -119,6 +121,22 @@ const Config = ({
                 setError({
                     title: "Application Error",
                     message: `Make sure the application "${ slug }" exists and is enabled.`,
+                });
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        } else {
+            setLoading(true);
+            setErrorMessage(null);
+
+            cobalt.getApps()
+            .then(apps => setApplications(apps))
+            .catch(e => {
+                console.error(e);
+                setError({
+                    title: "Application Error",
+                    message: `Unable to get the applications. Please try again later.`,
                 });
             })
             .finally(() => {
@@ -398,7 +416,62 @@ const Config = ({
         );
     }
 
-    return null;
+    return (
+        <Provider>
+            <Sheet sx={{ ...styles.container, ...style }}>
+                <Stack spacing={ 3 }>
+                    <Stack direction="row" alignItems="center" spacing={ 2 }>
+                        <Stack flex={ 1 }>
+                            <Typography fontSize="lg" fontWeight="lg">Applications</Typography>
+                            <Typography color="neutral" fontSize="sm">Select the application you want to integrate.</Typography>
+                        </Stack>
+                    </Stack>
+
+                    <Divider />
+
+                    <Stack spacing={ 2 }>
+                        {
+                            applications?.filter(app => !app.ecosystem)?.length
+                            ?   applications.filter(app => !app.ecosystem).map(app =>
+                                    <Sheet
+                                        key={ app.slug || app.type }
+                                        variant="outlined"
+                                        onClick={ () => setSlug(app.slug || app.type) }
+                                        sx={{
+                                            p: 1,
+                                            borderRadius: 8,
+                                            cursor: "pointer",
+                                            "&:hover": {
+                                                bgcolor: "neutral.100",
+                                            },
+                                        }}
+                                    >
+                                        <Stack direction="row" alignItems="center" spacing={ 1 }>
+                                            <AspectRatio variant="plain" ratio="1/1" sx={{ width: 40, borderRadius: 4 }}>
+                                                <img src={ app.icon } />
+                                            </AspectRatio>
+                                            <Typography fontSize="md" fontWeight="lg" sx={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{ app.name }</Typography>
+                                        </Stack>
+                                    </Sheet>
+                                )
+                            :   <Alert color="danger">No applications are currently available for integration.</Alert>
+                        }
+                    </Stack>
+
+                    {
+                        !removeBranding && (
+                            <a href="https://gocobalt.io" target="_blank" style={{ textDecoration: "none" }}>
+                                <Stack direction="row" alignItems="center" justifyContent="center" spacing={ 1 }>
+                                    <img src="https://app.gocobalt.io/favicon.png" height={ 18 } width={ 18 } />
+                                    <Typography fontSize="sm" color="neutral" fontWeight="md" lineHeight={ 1.5 }>Powered by Cobalt</Typography>
+                                </Stack>
+                            </a>
+                        )
+                    }
+                </Stack>
+            </Sheet>
+        </Provider>
+    );
 };
 
 const styles = {
