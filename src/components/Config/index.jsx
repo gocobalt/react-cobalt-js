@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Alert, AspectRatio, Button, Divider, Sheet, Stack, Switch, Typography } from "@mui/joy";
+import { Alert, AspectRatio, Button, Chip, Divider, Sheet, Stack, Switch, Typography } from "@mui/joy";
 
 import { Context as CobaltContext, Provider } from "../Provider";
 import ErrorComponent from "../Error";
@@ -452,11 +452,20 @@ const Config = ({
                                             },
                                         }}
                                     >
-                                        <Stack direction="row" alignItems="center" spacing={ 1 }>
-                                            <AspectRatio variant="plain" ratio="1/1" sx={{ width: 40, borderRadius: 4 }}>
-                                                <img src={ app.icon } />
-                                            </AspectRatio>
-                                            <Typography fontSize="md" fontWeight="lg" sx={{ wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{ app.name }</Typography>
+                                        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={ 1 }>
+                                            <Stack direction="row" alignItems="center" spacing={ 1 }>
+                                                <AspectRatio variant="plain" ratio="1/1" sx={{ width: 40, borderRadius: 4 }}>
+                                                    <img src={ app.icon } />
+                                                </AspectRatio>
+                                                <Typography fontSize="md" fontWeight="lg" sx={{ flex: 1, wordBreak: "break-word", whiteSpace: "pre-wrap" }}>{ app.name }</Typography>
+                                            </Stack>
+                                            {
+                                                app.connected && (
+                                                    app.reauth_required
+                                                    ?   <Chip size="sm" color="danger">Expired</Chip>
+                                                    :   <Chip size="sm" color="success">Connected</Chip>
+                                                )
+                                            }
                                         </Stack>
                                     </Sheet>
                                 )
